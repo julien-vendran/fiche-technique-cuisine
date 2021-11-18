@@ -1,10 +1,10 @@
 import { ConfigModule } from '@nestjs/config';
 
-import { HomeController } from './home.controller';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm'; 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RecipeModule } from './recipe/recipe.module';
 
 @Module({
   imports: [
@@ -12,18 +12,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       envFilePath: './process.env',
     }),
     TypeOrmModule.forRoot({
-      url: process.env.DATABASE_URL, 
+      url: process.env.DATABASE_URL,
       type: 'postgres',
       ssl: {
-        rejectUnauthorized: false,
-      }, 
+        rejectUnauthorized: false
+      },
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true, // This for development
-      autoLoadEntities: true,
+      autoLoadEntities: true
     }),
+    RecipeModule,
   ],
-  controllers: [
-    HomeController, AppController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }
