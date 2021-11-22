@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RecipeModule } from './recipe/recipe.module';
+import { IngredientsModule } from './ingredients/ingredients.module';
+import { IngredientsCategorieModule } from './ingredients-categorie/ingredients-categorie.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { RecipeModule } from './recipe/recipe.module';
       autoLoadEntities: true
     }),
     RecipeModule,
+    IngredientsModule,
+    IngredientsCategorieModule,
   ],
   controllers: [AppController],
   providers: [AppService],
