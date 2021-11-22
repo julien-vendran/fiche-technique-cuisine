@@ -61,6 +61,9 @@ $ npm run test:cov
 ```bash 
 #Generate CRUD 
 $ nest g resource <name>
+
+#Generate Angular component
+ng g component <name>
 ```
 
 ## Support
