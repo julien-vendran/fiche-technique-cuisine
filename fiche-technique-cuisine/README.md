@@ -57,6 +57,11 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## Usefull command 
+```bash 
+#Generate CRUD 
+$ nest g resource <name>
+```
 
 ## Support
 
