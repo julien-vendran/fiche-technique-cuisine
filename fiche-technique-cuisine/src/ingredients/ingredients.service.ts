@@ -9,7 +9,7 @@ export class IngredientsService {
   }
 
   findAll() {
-    return `This action returns all ingredients`;
+    return JSON.parse('{ "firstName":"John" , "lastName":"Doe" }'); 
   }
 
   findOne(id: number) {

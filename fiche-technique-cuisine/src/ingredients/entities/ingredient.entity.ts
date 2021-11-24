@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IngredientsCategorie } from 'src/ingredients-categorie/entities/ingredients-categorie.entity';
+import { getEnabledCategories } from 'trace_events';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 export class Ingredient {
     @PrimaryGeneratedColumn()
@@ -7,7 +9,7 @@ export class Ingredient {
     @Column()
     name: String;
 
-    //A voir si on fait pas une table enum ici
+    //A voir si on fait pas une table qui sert d'enum ici
     @Column()
     unit: String; 
 
@@ -20,4 +22,7 @@ export class Ingredient {
     //A changer et ajouter une table
     @Column({default : false})
     isAllergenic: boolean; 
+
+    @ManyToOne( () => IngredientsCategorie, ig => ig.ingredients)
+    categorie: IngredientsCategorie; 
 }
