@@ -1,7 +1,7 @@
 import { IngredientsCategorie } from 'src/ingredients-categorie/entities/ingredients-categorie.entity';
-import { getEnabledCategories } from 'trace_events';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 
+@Entity()
 export class Ingredient {
     @PrimaryGeneratedColumn()
     id: number; 
@@ -16,7 +16,7 @@ export class Ingredient {
     @Column()
     availableQuantity: number; 
 
-    @Column()
+    @Column("real")
     unitPrice: number; 
 
     //A changer et ajouter une table

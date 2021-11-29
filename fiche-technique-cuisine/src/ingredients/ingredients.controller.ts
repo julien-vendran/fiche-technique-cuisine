@@ -8,7 +8,8 @@ export class IngredientsController {
   constructor(private readonly ingredientsService: IngredientsService) {}
 
   @Post()
-  create(@Body() createIngredientDto: CreateIngredientDto) {
+  async create(@Body() createIngredientDto: CreateIngredientDto) {
+    console.log(JSON.stringify(createIngredientDto)); 
     return this.ingredientsService.create(createIngredientDto);
   }
 
