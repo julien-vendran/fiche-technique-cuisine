@@ -7,15 +7,23 @@ import {HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CreateIngredientComponent } from './component/ingredient/create-ingredient/create-ingredient.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { NavBarComponent } from './component/utile/nav-bar/nav-bar.component';
+import { FooterComponent } from './component/utile/footer/footer.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    CreateIngredientComponent
+    CreateIngredientComponent,
+    NavBarComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule, 
-    HttpClientModule
+    HttpClientModule, 
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
