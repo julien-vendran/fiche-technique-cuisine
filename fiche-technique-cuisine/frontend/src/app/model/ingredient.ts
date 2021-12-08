@@ -1,25 +1,23 @@
+import { Allergen } from "./allergen";
+
 export class Ingredient {
     name: String = "";
     unit: String = ""; 
-    availableQuantity: number = 0; 
-    unitPrice: number = 0; 
-    isAllergenic: boolean = false; 
+    availableQuantity: number | null = null; 
+    unitPrice: number | null = null; 
+    allergens: Allergen[] = []; 
 
     constructor (
-        name: String,
-        unit: String, 
-        availableQuantity: number, 
-        unitPrice: number, 
-        isAllergenic: boolean
+        name?: String,
+        unit?: String, 
+        availableQuantity?: number, 
+        unitPrice?: number, 
+        allergens?: Allergen[]
     ) {
-        this.name = name; 
-        this.unit = unit; 
-        this.availableQuantity = availableQuantity; 
-        this.unitPrice = unitPrice; 
-        this.isAllergenic = isAllergenic; 
-    }
-
-    toJSON (): JSON {
-        return JSON.parse(JSON.stringify(this));
+        this.name = name ? name : ""; 
+        this.unit = unit ? unit : ""; 
+        this.availableQuantity = availableQuantity ? availableQuantity : null; 
+        this.unitPrice = unitPrice ? unitPrice : null; 
+        this.allergens = allergens ? allergens : []; 
     }
 }
