@@ -2,18 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { CreateAllergenDto } from './dto/create-allergen.dto';
 import { UpdateAllergenDto } from './dto/update-allergen.dto';
 
+//TypeOrm 
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { Allergen } from './entities/allergen.entity';
+
 @Injectable()
 export class AllergenService {
+
+  constructor (
+    @InjectRepository(Allergen)
+    private allergenRepo: Repository<Allergen>
+  ) {}
+
   create(createAllergenDto: CreateAllergenDto) {
-    return 'This action adds a new allergen';
+    return this.allergenRepo.insert(this.allergenRepo.create(createAllergenDto));
   }
 
   findAll() {
-    return `This action returns all allergen`;
+    return this.allergenRepo.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} allergen`;
+    return this.allergenRepo.findOne(id);
   }
 
   update(id: number, updateAllergenDto: UpdateAllergenDto) {
