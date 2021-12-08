@@ -1,11 +1,46 @@
-<h2>Petit test</h2>
+<section class = "container">
+    <h2 class = "center-align">
+        Ajouter un ingrédient
+    </h2>
+    <div *ngIf = "this.ingredientGroup" class = "row">
+        <form [formGroup]="ingredientGroup" (ngSubmit) = "validate()" class = "col s12">
+            <div class="input-field col s6">
+                <input id="name" type="text" class="validate" formControlName = "name">
+                <label for="name">Nom </label>
+            </div>
 
-<form [formGroup]="ingredientGroup" (ngSubmit) = "validate()">
-    <div>
-        <label>Nom de l'ingrédient à ajouter:</label>
-        <input type="text" formControlName="name" value="Pomme de test"><br>
+            <div class="input-field col s6">
+                <input id="unit" type="text" class="validate" formControlName = "unit">
+                <label for="unit">Unité </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="availableQuantity" type="number" class="validate" formControlName = "availableQuantity">
+                <label for="availableQuantity">Quantité disponible </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="unitPrice" type="text" class="validate" formControlName = "unitPrice">
+                <label for="unitPrice">Prix unitaire </label> 
+            </div>
+
+
+            <div class="input-field col s12">
+                <select multiple formControlName = "allergens" (ngModelChange)="change($event)">
+                    <option value="" disabled selected>Choisissez vos allergènes</option>
+                    
+                    <option *ngFor="let al of allergens_list" [value]="al.id_Allergen">
+                        {{al.allergen_name}}
+                    </option>
+                </select>
+                <label>Les allergènes associés au produit</label>
+              </div>
+              
+            <div class="col s12 center-align">
+                <button type="submit" class="waves-effect waves-light btn">
+                    Valider
+                </button>
+            </div>
+        </form>
     </div>
-    <button type = "submit">
-        Submit
-    </button>
-  </form>
+</section>
