@@ -1,5 +1,6 @@
 import { IngredientsCategorie } from 'src/ingredients-categorie/entities/ingredients-categorie.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Allergen } from 'src/allergen/entities/allergen.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 export class Ingredient {
@@ -19,10 +20,10 @@ export class Ingredient {
     @Column("real")
     unitPrice: number; 
 
-    //A changer et ajouter une table
-    @Column({default : false})
-    isAllergenic: boolean; 
-
     @ManyToOne( () => IngredientsCategorie, ig => ig.ingredients)
-    categorie: IngredientsCategorie; 
+    categorie: IngredientsCategorie;
+
+    @ManyToMany(type => Allergen, all => all.ingredients)
+    @JoinTable()
+    associatedAllergen: Allergen[];
 }
