@@ -16,6 +16,6 @@ export class IngredientService {
 
   createIngredient (ingredient: Ingredient): void {
     console.log("Création de notre ingrédient initiée");
-    //this.http.post<Ingredient>(this.ingredient_url, ingredient).subscribe();
+    this.http.post<Ingredient>(this.ingredient_url, ingredient).subscribe();
   }
 }

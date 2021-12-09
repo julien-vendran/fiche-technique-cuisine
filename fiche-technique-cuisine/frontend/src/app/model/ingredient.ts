@@ -5,19 +5,19 @@ export class Ingredient {
     unit: String = ""; 
     availableQuantity: number | null = null; 
     unitPrice: number | null = null; 
-    allergens: Allergen[] = []; 
+    associatedAllergen: Allergen[] = []; 
 
     constructor (
         name?: String,
         unit?: String, 
         availableQuantity?: number, 
         unitPrice?: number, 
-        allergens?: Allergen[]
+        associatedAllergen?: Allergen[]
     ) {
         this.name = name ? name : ""; 
         this.unit = unit ? unit : ""; 
         this.availableQuantity = availableQuantity ? availableQuantity : null; 
         this.unitPrice = unitPrice ? unitPrice : null; 
-        this.allergens = allergens ? allergens : []; 
+        this.associatedAllergen = associatedAllergen ? associatedAllergen : []; 
     }
 }

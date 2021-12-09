@@ -24,35 +24,29 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
   constructor (
     private fb: FormBuilder,
     private ingredientService: IngredientService, 
-    private allergenService: AllergenService) {
-     
-  }
+    private allergenService: AllergenService) {}
 
   validate(): void {
-    console.log("Validation in progress ..."); 
+    let tab_allergens: Allergen[] = [];
 
     //On va créer un ingrédient avec les éléments qu'on a eu
     if (this.ingredientGroup) {
-      if (  this.ingredientGroup.get('allergens') != null) {
-        let tab_allergens: Allergen[] = []; 
-        this.ingredientGroup.get('allergens')?.value.array.forEach((all_id: any) => {
-          this.allergenService.getAllergen(all_id).subscribe( (data) => 
-            tab_allergens.push(new Allergen(data.id_Allergen, data.allergen_name))
-          ); 
-        });
+
+      let arr_allergen: number[] = this.ingredientGroup.get('allergens')?.value;
+
+      if (this.ingredientGroup.get('allergens')) { 
+        for (const all_id in arr_allergen) {
+          tab_allergens.push(this.allergens_list[all_id])
+        }
       }
+      
       this.ingredient = new Ingredient(
         this.ingredientGroup.get('name')?.value, 
         this.ingredientGroup.get('unit')?.value, 
         this.ingredientGroup.get('availableQuantity')?.value, 
-        this.ingredientGroup.get('unitPrice')?.value, 
-        this.ingredientGroup.get('allergens')?.value
+        this.ingredientGroup.get('unitPrice')?.value,
+        tab_allergens 
       );
-
-      console.log("C'est envoyé !");
-      console.log(JSON.stringify(this.ingredient));
-      console.log('-----------');
-
       //Envoie des données
       this.ingredientService.createIngredient(this.ingredient);
     }
@@ -66,7 +60,7 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
       unit: [this.ingredient?.unit], 
       availableQuantity: [this.ingredient?.availableQuantity], 
       unitPrice: [this.ingredient?.unitPrice], 
-      allergens: [this.ingredient?.allergens]
+      allergens: [this.ingredient?.associatedAllergen]
     });
 
     this.allergenService.getAllAlergen().subscribe(data => {

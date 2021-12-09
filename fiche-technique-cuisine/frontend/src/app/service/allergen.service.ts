@@ -23,7 +23,7 @@ export class AllergenService {
     ); 
   }
 
-  getAllergen(id: string): Observable<Allergen> { 
+  getAllergen(id: number): Observable<Allergen> { 
     return this.http.get<Allergen>(this.backend_url + "/" +id); 
   }
 
