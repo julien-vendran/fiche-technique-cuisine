@@ -13,6 +13,6 @@ export class Allergen {
     @Column()
     allergen_name: string;
 
-    @ManyToMany(type => Ingredient, ing => ing.associatedAllergen)
-    ingredients: Ingredient[];
+    /* @ManyToMany(type => Ingredient, ing => ing.associatedAllergen)
+    ingredients: Ingredient[]; */
 }

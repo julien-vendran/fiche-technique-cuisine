@@ -28,24 +28,22 @@ export class IngredientsService {
       isAllergenic: boolean; 
    */
   create(createIngredientDto: CreateIngredientDto) {
-    console.log("Received DTO : " + JSON.stringify(createIngredientDto));
-    return this.ingredientRepo.insert(this.ingredientRepo.create(createIngredientDto));
+    return this.ingredientRepo.save(this.ingredientRepo.create(createIngredientDto));
   }
 
   findAll(): Promise<Ingredient[]> {
-    console.log("Returning all Ingredients");
-    return this.ingredientRepo.find();
+    return this.ingredientRepo.find({ relations: ["associatedAllergen"] });
   }
 
   findOne(id: number) {
-    return this.ingredientRepo.findOne(id);
+    return this.ingredientRepo.findOne(id, { relations: ["associatedAllergen"] });
   }
 
   update(id: number, updateIngredientDto: UpdateIngredientDto) {
-    return `This action updates a #${id} ingredient`;
+    return this.ingredientRepo.update(id, updateIngredientDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} ingredient`;
+    return `Supression de la données #${id}`;
   }
 }

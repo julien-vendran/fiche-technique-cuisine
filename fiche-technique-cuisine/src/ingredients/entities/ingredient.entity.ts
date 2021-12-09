@@ -23,7 +23,7 @@ export class Ingredient {
     @ManyToOne( () => IngredientsCategorie, ig => ig.ingredients)
     categorie: IngredientsCategorie;
 
-    @ManyToMany(type => Allergen, all => all.ingredients)
+    @ManyToMany(type => Allergen)
     @JoinTable()
     associatedAllergen: Allergen[];
 }
