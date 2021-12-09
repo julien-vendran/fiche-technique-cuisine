@@ -10,6 +10,7 @@ import { CreateIngredientComponent } from './component/ingredient/create-ingredi
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from './component/utile/nav-bar/nav-bar.component';
 import { FooterComponent } from './component/utile/footer/footer.component';
+import { ListIngredientsComponent } from './component/ingredient/list-ingredients/list-ingredients.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { FooterComponent } from './component/utile/footer/footer.component';
     CreateIngredientComponent,
     NavBarComponent,
     FooterComponent,
+    ListIngredientsComponent,
   ],
   imports: [
     BrowserModule,

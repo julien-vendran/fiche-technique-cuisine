@@ -34,7 +34,6 @@ export class AllergenService {
     );
 
     console.log("Allergen : " + JSON.stringify(a));
-    return a; 
-    
+    return a;
   }
 }

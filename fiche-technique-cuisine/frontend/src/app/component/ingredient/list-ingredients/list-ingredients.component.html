@@ -1,0 +1,39 @@
+<section class="container">
+    <h2 class="center-align">
+        Vos ingrédients
+    </h2>
+
+    <table class = "striped highlight"> 
+        <!-- responsive-table -->
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Unité</th>
+                <th>Quantité disponible</th>
+                <th>Prix unitaire</th>
+                <th>Allèrges</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let ingre of (ingredients | async)">
+                <th>{{ ingre.name }}</th>
+                <th>{{ ingre.unit }}</th>
+                <th>{{ ingre.availableQuantity }}</th>
+                <th>{{ ingre.unitPrice }}</th>
+                <th>
+                    <span *ngFor = "let al of ingre.associatedAllergen">
+                        {{ al.allergen_name }} 
+                        <br>
+                    </span>
+                </th>
+                <th>
+                    <button class = "waves-effect waves-light btn-small" (click) = "addIngredientRedirect()">Voir</button>
+                    <br>
+                    <button class = "waves-effect waves-light btn-small red">Supprimer</button>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    <router-outlet></router-outlet>
+</section>
