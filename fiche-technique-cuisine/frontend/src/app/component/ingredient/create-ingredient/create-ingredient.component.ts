@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Ingredient } from '../../../model/ingredient'
 import { Allergen } from '../../../model/allergen';
 
-import * as M from 'materialize-css'; 
+import * as M from 'materialize-css';
 import { IngredientService } from '../../../service/ingredient.service';
 import { AllergenService } from '../../../service/allergen.service';
 
@@ -17,13 +17,13 @@ import { AllergenService } from '../../../service/allergen.service';
 })
 export class CreateIngredientComponent implements OnInit, AfterViewInit{
 
-  public ingredientGroup : FormGroup | null = null; 
+  public ingredientGroup : FormGroup | null = null;
   public ingredient: Ingredient = new Ingredient();
-  public allergens_list : Allergen[] = []; 
+  public allergens_list : Allergen[] = [];
 
   constructor (
     private fb: FormBuilder,
-    private ingredientService: IngredientService, 
+    private ingredientService: IngredientService,
     private allergenService: AllergenService) {}
 
   validate(): void {
@@ -34,18 +34,18 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
 
       let arr_allergen: number[] = this.ingredientGroup.get('allergens')?.value;
 
-      if (this.ingredientGroup.get('allergens')) { 
+      if (this.ingredientGroup.get('allergens')) {
         for (const all_id in arr_allergen) {
           tab_allergens.push(this.allergens_list[all_id])
         }
       }
-      
+
       this.ingredient = new Ingredient(
-        this.ingredientGroup.get('name')?.value, 
-        this.ingredientGroup.get('unit')?.value, 
-        this.ingredientGroup.get('availableQuantity')?.value, 
+        this.ingredientGroup.get('name')?.value,
+        this.ingredientGroup.get('unit')?.value,
+        this.ingredientGroup.get('availableQuantity')?.value,
         this.ingredientGroup.get('unitPrice')?.value,
-        tab_allergens 
+        tab_allergens
       );
       //Envoie des données
       this.ingredientService.createIngredient(this.ingredient);
@@ -56,15 +56,15 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
 
   ngOnInit (): void {
     this.ingredientGroup = this.fb.group({
-      name: [this.ingredient?.name], 
-      unit: [this.ingredient?.unit], 
-      availableQuantity: [this.ingredient?.availableQuantity], 
-      unitPrice: [this.ingredient?.unitPrice], 
+      name: [this.ingredient?.name],
+      unit: [this.ingredient?.unit],
+      availableQuantity: [this.ingredient?.availableQuantity],
+      unitPrice: [this.ingredient?.unitPrice],
       allergens: [this.ingredient?.associatedAllergen]
     });
 
-    this.allergenService.getAllAlergen().subscribe(data => {
-      this.allergens_list = data; 
+    this.allergenService.getAllAllergens().subscribe(data => {
+      this.allergens_list = data;
       setTimeout(this.initSelectMaterialize, 100);
     });
   }
@@ -74,7 +74,7 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
   }
 
   initSelectMaterialize (): void {
-    let options:any = {isMultiple: true}; 
+    let options:any = {isMultiple: true};
     M.FormSelect.init(document.querySelectorAll('select'), options);
   }
 

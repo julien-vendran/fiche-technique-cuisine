@@ -11,6 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from './component/utile/nav-bar/nav-bar.component';
 import { FooterComponent } from './component/utile/footer/footer.component';
 import { ListIngredientsComponent } from './component/ingredient/list-ingredients/list-ingredients.component';
+import { CreateAllergenComponent } from './component/allergen/create-allergen/create-allergen.component';
+import { ListAllergensComponent } from './component/allergen/list-allergens/list-allergens.component';
+
 
 
 @NgModule({
@@ -20,11 +23,13 @@ import { ListIngredientsComponent } from './component/ingredient/list-ingredient
     NavBarComponent,
     FooterComponent,
     ListIngredientsComponent,
+    CreateAllergenComponent,
+    ListAllergensComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, 
-    HttpClientModule, 
+    AppRoutingModule,
+    HttpClientModule,
     ReactiveFormsModule
   ],
   providers: [],

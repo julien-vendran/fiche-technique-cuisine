@@ -1,0 +1,19 @@
+<section class = "container">
+  <h2 class = "center-align">
+    Ajouter un allergen
+  </h2>
+  <div *ngIf = "this.allergenGroup" class = "row">
+    <form [formGroup]="allergenGroup" (ngSubmit) = "validate()" class = "col s12">
+      <div class="input-field col s6">
+        <input id="allergen_name" type="text" class="validate" formControlName = "allergen_name">
+        <label for="allergen_name">Nom </label>
+      </div>
+
+      <div class="col s12 center-align">
+        <button type="submit" class="waves-effect waves-light btn">
+          Valider
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

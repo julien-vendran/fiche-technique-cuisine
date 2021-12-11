@@ -17,7 +17,7 @@ export class AllergenService {
   ) {}
 
   create(createAllergenDto: CreateAllergenDto) {
-    return this.allergenRepo.insert(this.allergenRepo.create(createAllergenDto));
+    return this.allergenRepo.save(this.allergenRepo.create(createAllergenDto));
   }
 
   findAll() {

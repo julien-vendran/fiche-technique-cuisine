@@ -9,7 +9,7 @@ export class IngredientsController {
 
   @Post()
   async create(@Body() createIngredientDto: CreateIngredientDto) {
-    console.log("Create in progress ..."); 
+    console.log("Create ingredient in progress ...");
     return this.ingredientsService.create(createIngredientDto);
   }
 

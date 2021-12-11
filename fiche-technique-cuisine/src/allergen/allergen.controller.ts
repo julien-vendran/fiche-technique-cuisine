@@ -8,7 +8,8 @@ export class AllergenController {
   constructor(private readonly allergenService: AllergenService) {}
 
   @Post()
-  create(@Body() createAllergenDto: CreateAllergenDto) {
+   async create(@Body() createAllergenDto: CreateAllergenDto) {
+    console.log("Create allergen in progress ...");
     return this.allergenService.create(createAllergenDto);
   }
 
