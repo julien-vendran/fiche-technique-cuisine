@@ -18,7 +18,11 @@ export class ListIngredientsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      this.ingredients = this.getIngredients();
+    this.majIngredient();
+  }
+
+  majIngredient(): void {
+    this.ingredients = this.getIngredients();
   }
 
   getIngredients (): Observable<Ingredient[]> {
@@ -26,9 +30,16 @@ export class ListIngredientsComponent implements OnInit {
   }
 
   deleteIngredient(ingre: Ingredient): void {
-    console.log("Mon identifiant : " + ingre);
+    if (! ingre.id) {
+      console.log("L'ingrédient demandé n'existe pas");
+      return; 
+    }
+    console.log('##################');
     
+    console.log("Mon identifiant : " + ingre.id);
+    this.ingredientService.deleteIngredient(ingre.id);  
   }
+
 }
 
 //import { Router } from '@angular/router';

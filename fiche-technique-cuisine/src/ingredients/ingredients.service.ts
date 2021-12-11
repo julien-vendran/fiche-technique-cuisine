@@ -45,6 +45,6 @@ export class IngredientsService {
 
   remove(id: number) {
     //return `Supression de la données #${id}`;
-    return this.ingredientRepo.delete
+    return this.ingredientRepo.delete(id); 
   }
 }
