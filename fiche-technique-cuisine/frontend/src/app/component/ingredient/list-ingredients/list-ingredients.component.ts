@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 import { IngredientService } from '../../../service/ingredient.service';
 import { Ingredient } from '../../../model/ingredient';
@@ -15,8 +14,7 @@ export class ListIngredientsComponent implements OnInit {
 
   public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>(); 
   constructor(
-    private ingredientService: IngredientService, 
-    private router: Router
+    private ingredientService: IngredientService
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +25,12 @@ export class ListIngredientsComponent implements OnInit {
     return this.ingredientService.getAllIngredients();
   }
 
-  addIngredientRedirect(): void {
-    this.router.navigate(['/ingredients/add']);
+  deleteIngredient(ingre: Ingredient): void {
+    console.log("Mon identifiant : " + ingre);
+    
   }
 }
+
+//import { Router } from '@angular/router';
+//private router: Router
+//this.router.navigate(['/ingredients/add']);
