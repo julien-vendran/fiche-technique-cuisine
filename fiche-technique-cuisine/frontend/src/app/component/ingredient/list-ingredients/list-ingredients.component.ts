@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 
 import { IngredientService } from '../../../service/ingredient.service';
 import { Ingredient } from '../../../model/ingredient';
@@ -29,15 +29,20 @@ export class ListIngredientsComponent implements OnInit {
     return this.ingredientService.getAllIngredients();
   }
 
+  test(): void {
+    console.log("mlkjfdqlkfjslkdjflksdj");
+    
+  }
+
   deleteIngredient(ingre: Ingredient): void {
     if (! ingre.id) {
       console.log("L'ingrédient demandé n'existe pas");
       return; 
     }
-    console.log('##################');
-    
     console.log("Mon identifiant : " + ingre.id);
-    this.ingredientService.deleteIngredient(ingre.id);  
+    this.ingredientService.deleteIngredient(ingre.id).subscribe(
+      () => this.ingredients = this.getIngredients()
+    );
   }
 
 }

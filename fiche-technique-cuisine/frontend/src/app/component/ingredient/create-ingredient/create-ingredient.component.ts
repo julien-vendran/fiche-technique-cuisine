@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
+import {Router} from "@angular/router"
 
 import { Ingredient } from '../../../model/ingredient'
 import { Allergen } from '../../../model/allergen';
@@ -24,7 +25,8 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
   constructor (
     private fb: FormBuilder,
     private ingredientService: IngredientService,
-    private allergenService: AllergenService) {}
+    private allergenService: AllergenService,
+    private router: Router) {}
 
   validate(): void {
     let tab_allergens: Allergen[] = [];
@@ -48,10 +50,10 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
         tab_allergens
       );
       //Envoie des données
-      this.ingredientService.createIngredient(this.ingredient);
+      this.ingredientService.createIngredient(this.ingredient).subscribe(
+        () => this.router.navigate(['/ingredients'])
+      );
     }
-    //On remet à zéro notre ingrédient
-    this.ingredient = new Ingredient();
   }
 
   ngOnInit (): void {

@@ -17,9 +17,9 @@ export class IngredientService {
     private http: HttpClient
   ) {}
 
-  createIngredient (ingredient: Ingredient): void {
+  createIngredient (ingredient: Ingredient) {
     console.log("Création de notre ingrédient initiée");
-    this.http.post<Ingredient>(this.ingredient_url, ingredient).subscribe();
+    return this.http.post<Ingredient>(this.ingredient_url, ingredient); 
   }
 
   getAllIngredients (): Observable<Ingredient[]> {
@@ -34,9 +34,7 @@ export class IngredientService {
     console.log("------------ Delete Ingredient Service Angular ---------------");
     console.log("url : " + this.ingredient_url + '/' + id);
     
-    return this.http.delete(this.ingredient_url + '/' + id).subscribe(
-      () => ""
-    );
+    return this.http.delete(this.ingredient_url + '/' + id); 
   }
 
   jsonToIngredient(json: any): Ingredient {
