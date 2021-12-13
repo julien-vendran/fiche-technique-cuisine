@@ -12,7 +12,7 @@ import { Ingredient } from '../../../model/ingredient';
 })
 export class ListIngredientsComponent implements OnInit {
 
-  public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>(); 
+  public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>();
   constructor(
     private ingredientService: IngredientService
   ) {}
@@ -29,15 +29,16 @@ export class ListIngredientsComponent implements OnInit {
     return this.ingredientService.getAllIngredients();
   }
 
+  //TODO vire moi ça
   test(): void {
     console.log("mlkjfdqlkfjslkdjflksdj");
-    
+
   }
 
   deleteIngredient(ingre: Ingredient): void {
     if (! ingre.id) {
       console.log("L'ingrédient demandé n'existe pas");
-      return; 
+      return;
     }
     console.log("Mon identifiant : " + ingre.id);
     this.ingredientService.deleteIngredient(ingre.id).subscribe(

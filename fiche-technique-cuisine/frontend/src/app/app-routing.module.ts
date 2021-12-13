@@ -7,7 +7,7 @@ import {ListAllergensComponent} from "./component/allergen/list-allergens/list-a
 const routes: Routes = [
   { path: 'ingredients/add', component: CreateIngredientComponent },
   { path : 'ingredients', component: ListIngredientsComponent },
-  { path : 'allergen/add', component: CreateAllergenComponent },
+  { path : 'allergens/add', component: CreateAllergenComponent },
   { path : 'allergens', component: ListAllergensComponent },
 
 ];

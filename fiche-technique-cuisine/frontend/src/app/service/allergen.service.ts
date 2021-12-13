@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AllergenService {
 
-  private backend_url: string = "http://localhost:3000/Allergen"
+  private backend_url: string = "http://localhost:3000/allergen"
 
   constructor(
     private http: HttpClient
@@ -30,6 +30,13 @@ export class AllergenService {
 
   getAllergen(id: number): Observable<Allergen> {
     return this.http.get<Allergen>(this.backend_url + "/" +id);
+  }
+
+  deleteAllergen (id: number) {
+    console.log("------------ Delete Allergen Service Angular ---------------");
+    console.log("url : " + this.backend_url + '/' + id);
+
+    return this.http.delete(this.backend_url + '/' + id);
   }
 
   jsonToAllergen(json: any): Allergen {

@@ -33,6 +33,7 @@ export class AllergenService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} allergen`;
+    this.allergenRepo.delete(id)
+    console.log(`This action removes a #${id} allergen`);
   }
 }
