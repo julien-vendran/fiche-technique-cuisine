@@ -1,11 +1,30 @@
+<ul id="ingredients" class="dropdown-content margin-nav">
+    <li>
+        <a href="/ingredients">
+            Voir tout
+        </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+        <a href="/ingredients/add">
+            Ajouter
+        </a>
+    </li>
+</ul>
+
 <nav class = "purple">
     <div class="nav-wrapper">
         <a href="/" class="brand-logo">
             Les TOTOS
         </a>
         <ul class="right hide-on-med-and-down">
-            <li><a href="/ingredients/add">Ajouter un ingrédient</a></li>
+            <li>
+                <a class="dropdown-trigger" href="#!" data-target="ingredients">
+                    Ingrédients
+                </a>
+            </li>
             <li><a href="badges.html">Components</a></li>
+            <!-- <i class="material-icons right">arrow_drop_down</i> -->
         </ul>
     </div>
 </nav>

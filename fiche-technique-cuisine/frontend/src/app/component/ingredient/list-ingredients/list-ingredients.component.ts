@@ -18,7 +18,7 @@ export class ListIngredientsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      this.ingredients = this.getIngredients();
+    this.ingredients = this.getIngredients();
   }
 
   getIngredients (): Observable<Ingredient[]> {
