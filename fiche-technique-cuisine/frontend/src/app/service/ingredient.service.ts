@@ -30,13 +30,23 @@ export class IngredientService {
     ); 
   }
 
+  deleteIngredient (id: number) {
+    console.log("------------ Delete Ingredient Service Angular ---------------");
+    console.log("url : " + this.ingredient_url + '/' + id);
+    
+    return this.http.delete(this.ingredient_url + '/' + id).subscribe(
+      () => ""
+    );
+  }
+
   jsonToIngredient(json: any): Ingredient {
     return new Ingredient(
       json.name, 
       json.unit, 
       json.availableQuantity,
       json.unitPrice,
-      json.associatedAllergen
+      json.associatedAllergen, 
+      json.id
     );
   }
 }
