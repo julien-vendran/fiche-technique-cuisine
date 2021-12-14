@@ -13,6 +13,8 @@ import { FooterComponent } from './component/utile/footer/footer.component';
 import { ListIngredientsComponent } from './component/ingredient/list-ingredients/list-ingredients.component';
 import { CreateAllergenComponent } from './component/allergen/create-allergen/create-allergen.component';
 import { ListAllergensComponent } from './component/allergen/list-allergens/list-allergens.component';
+import { CreateRecipeComponent } from './component/recipe/create-recipe/create-recipe.component';
+import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.component';
 
 
 
@@ -25,6 +27,8 @@ import { ListAllergensComponent } from './component/allergen/list-allergens/list
     ListIngredientsComponent,
     CreateAllergenComponent,
     ListAllergensComponent,
+    CreateRecipeComponent,
+    RecipeListComponent,
   ],
   imports: [
     BrowserModule,

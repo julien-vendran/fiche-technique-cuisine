@@ -8,6 +8,7 @@ import { RecipeModule } from './recipe/recipe.module';
 import { IngredientsModule } from './ingredients/ingredients.module';
 import { IngredientsCategorieModule } from './ingredients-categorie/ingredients-categorie.module';
 import { AllergenModule } from './allergen/allergen.module';
+import { StepModule } from './step/step.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AllergenModule } from './allergen/allergen.module';
     IngredientsModule,
     IngredientsCategorieModule,
     AllergenModule,
+    StepModule,
   ],
   controllers: [AppController],
   providers: [AppService],
