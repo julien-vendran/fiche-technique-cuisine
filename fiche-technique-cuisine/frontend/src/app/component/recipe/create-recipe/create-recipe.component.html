@@ -1,1 +1,53 @@
-<p>create-recipe works!</p>
+<section class="container">
+  <h2 class="center-align">
+    Ajouter un ingrédient
+  </h2>
+  <div *ngIf="this.recipeGroup" class="row">
+    <form [formGroup]="recipeGroup" (ngSubmit)="validate()" class="col s12">
+      <div class="input-field col s6">
+        <input id="name" type="text" class="validate" formControlName="name">
+        <label for="name">Nom </label>
+      </div>
+
+      <div class="input-field col s6">
+        <input id="responsable" type="text" class="validate" formControlName="responsable">
+        <label for="responsable">Responsable </label>
+      </div>
+
+      <div class="input-field col s6">
+        <input id="nbOfCover" type="number" class="validate" formControlName="nbOfCover">
+        <label for="nbOfCover">Nombre de couvert </label>
+      </div>
+
+      <div class="input-field col s6">
+        <input id="category" type="number" class="validate" formControlName="category">
+        <label for="category">Prix unitaire </label>
+      </div>
+
+
+      <div class="input-field col s12">
+        <select multiple formControlName="recipeOrSteps" (ngModelChange)="change($event)">
+          <option value="" disabled selected>Choisissez vos étapes</option>
+          <optgroup label="Recettes">
+
+            <option *ngFor="let al of recipe_list" [value]="al.id">
+              {{al.name}}
+            </option>
+          </optgroup>
+          <optgroup label="Etapes">
+            <option *ngFor="let al of step_list" [value]="al.id">
+              {{al.name}}
+            </option>
+          </optgroup>
+        </select>
+        <label>Les étapes</label>
+      </div>
+
+      <div class="col s12 center-align">
+        <button type="submit" class="waves-effect waves-light btn">
+          Valider
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

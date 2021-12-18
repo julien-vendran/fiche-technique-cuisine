@@ -15,10 +15,6 @@ import {RecipeOrStep} from "../../recipe-or-step/entities/recipe-or-step.entity"
 @Tree("closure-table")
 export class Recipe extends RecipeOrStep{
 
-
-    @TreeChildren()
-    listOfSteps: RecipeOrStep[];
-
     @Column()
     responsable:String;
 
@@ -27,4 +23,7 @@ export class Recipe extends RecipeOrStep{
 
     @Column()
     category: String;
+
+    @TreeChildren()
+    listOfSteps: RecipeOrStep[];
 }

@@ -19,11 +19,11 @@ export class StepService {
   }
 
   findAll(): Promise<Step[]> {
-    return this.stepRepo.find(/*{ relations: ["associatedAllergen"] }*/);
+    return this.stepRepo.find({ relations: ["listIngredient"] });
   }
 
   findOne(id: number) {
-    return this.stepRepo.findOne(id/*, { relations: ["associatedAllergen"] }*/);
+    return this.stepRepo.findOne(id, { relations: ["listIngredient"] });
   }
 
   update(id: number, updateStepDto: UpdateStepDto) {

@@ -15,7 +15,7 @@ export class RecipeService {
   ) {}
 
   createRecipe (recipe: Recipe) {
-    console.log("Création de notre ingrédient initiée");
+    console.log("Création de notre ingrédient initiée", recipe);
     return this.http.post<Recipe>(this.recipe_url, recipe);
   }
 

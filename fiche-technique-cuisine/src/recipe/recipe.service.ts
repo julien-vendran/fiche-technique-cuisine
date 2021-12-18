@@ -15,6 +15,7 @@ export class RecipeService {
   ){}
 
   create(createRecipeDto: CreateRecipeDto) {
+    console.log("Log : recipeDTO ",createRecipeDto);
     return this.recipeRepo.save(this.recipeRepo.create(createRecipeDto));
   }
 
