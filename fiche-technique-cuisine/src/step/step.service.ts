@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStepDto } from './dto/create-step.dto';
 import { UpdateStepDto } from './dto/update-step.dto';
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
+import {Step} from "./entities/step.entity";
 
 @Injectable()
 export class StepService {
+
+  constructor(
+      @InjectRepository(Step)
+      private stepRepo:Repository<Step>
+  ){}
+
   create(createStepDto: CreateStepDto) {
-    return 'This action adds a new step';
+    return this.stepRepo.save(this.stepRepo.create(createStepDto));
   }
 
-  findAll() {
-    return `This action returns all step`;
+  findAll(): Promise<Step[]> {
+    return this.stepRepo.find(/*{ relations: ["associatedAllergen"] }*/);
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} step`;
+    return this.stepRepo.findOne(id/*, { relations: ["associatedAllergen"] }*/);
   }
 
   update(id: number, updateStepDto: UpdateStepDto) {
-    return `This action updates a #${id} step`;
+    return this.stepRepo.update(id, updateStepDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} step`;
+    //return `Supression de la données #${id}`;
+    return this.stepRepo.delete(id);
   }
 }

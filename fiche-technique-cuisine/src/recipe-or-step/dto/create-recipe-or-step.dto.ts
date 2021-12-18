@@ -1,1 +1,6 @@
-export class CreateRecipeOrStepDto {}
+export class CreateRecipeOrStepDto {
+
+    id: number;
+    name: string;
+
+}
