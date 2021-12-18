@@ -1,1 +1,48 @@
-<p>create-recipe works!</p>
+<section class="container">
+    <h2 class="center-align">
+        Création d'une recette 
+    </h2>
+
+    <div *ngIf = "this.recipeGroup" class = "row">
+        <form [formGroup] = "recipeGroup" (ngSubmit) = "validate">
+            <div class="input-field col s6">
+                <input id="name" type="text" class="validate" formControlName = "name">
+                <label for="name">Nom </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="responsable" type="text" class="validate" formControlName = "responsable">
+                <label for="responsable">Responsable </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="nbOfCover" type="number" class="validate" formControlName = "nbOfCover">
+                <label for="nbOfCover">Nombre de couvert </label>
+            </div>
+
+            <div class="input-field col s6">
+                <input id="category" type="number" class="validate" formControlName = "category">
+                <label for="category">Catégorie du plat </label>
+            </div>
+            
+            <div *ngFor = "let step of steps">
+                <!-- Je cale de comment l'afficher 
+                Est ce qu'il faudrait faire plusieurs forms ? 
+                Est ce qu'on met juste des champs en plus mais comment on fait pour le formControl dans ce cas
+                C'est tard pour moi je vais me coucher, je te push ça comme si tu as une idée vas y mais sinon j'essairai de regarder ça un peu plus tard -->
+            </div>
+
+            <div class="center-align">
+                <button class = "btn" (click) = "addStep()">
+                    Ajouter une étape
+                </button>
+            </div>
+
+            <div class="center-align">
+                <button class = "btn" type = "submit">
+                    Valider
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
