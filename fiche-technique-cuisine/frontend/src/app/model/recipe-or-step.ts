@@ -9,4 +9,7 @@ export abstract class RecipeOrStep {
     this.id = id;
     this.name = name ? name : "";
   }
+
+  abstract getSteps(): RecipeOrStep[];
+
 }

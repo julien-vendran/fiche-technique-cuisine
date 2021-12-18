@@ -20,4 +20,8 @@ export class Step extends RecipeOrStep{
     this.duration=duration ? duration : "";
   }
 
+  getSteps(): RecipeOrStep[] {
+    return [this];
+  }
+
 }
