@@ -15,6 +15,7 @@ import { CreateAllergenComponent } from './component/allergen/create-allergen/cr
 import { ListAllergensComponent } from './component/allergen/list-allergens/list-allergens.component';
 import { CreateRecipeComponent } from './component/recipe/create-recipe/create-recipe.component';
 import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.component';
+import { CreateStepComponent } from './component/step/create-step/create-step.component';
 
 
 
@@ -29,6 +30,7 @@ import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.
     ListAllergensComponent,
     CreateRecipeComponent,
     RecipeListComponent,
+    CreateStepComponent,
   ],
   imports: [
     BrowserModule,

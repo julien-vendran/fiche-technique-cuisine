@@ -1,0 +1,40 @@
+<section class = "container">
+  <h2 class = "center-align">
+    Ajouter un ingrédient
+  </h2>
+  <div *ngIf = "this.stepGroup" class = "row">
+    <form [formGroup]="stepGroup" (ngSubmit) = "validate()" class = "col s12">
+      <div class="input-field col s6">
+        <input id="name" type="text" class="validate" formControlName = "name">
+        <label for="name">Nom </label>
+      </div>
+
+      <div class="input-field col s6">
+        <input id="description" type="text" class="validate" formControlName = "description">
+        <label for="description">Description </label>
+      </div>
+
+      <div class="input-field col s6">
+        <input id="duration" type="number" class="validate" formControlName = "duration">
+        <label for="duration">duree </label>
+      </div>
+
+      <div class="input-field col s12">
+        <select multiple formControlName = "ingredients" (ngModelChange)="change($event)">
+          <option value="" disabled selected>Choisissez vos ingredients</option>
+
+          <option *ngFor="let al of ingredients_list" [value]="al.id">
+            {{al.name}}
+          </option>
+        </select>
+        <label>Les ingredients associés a l'etape</label>
+      </div>
+
+      <div class="col s12 center-align">
+        <button type="submit" class="waves-effect waves-light btn">
+          Valider
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

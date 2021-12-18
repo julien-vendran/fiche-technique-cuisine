@@ -7,14 +7,17 @@ import { ListAllergensComponent } from "./component/allergen/list-allergens/list
 
 import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.component';
 import { CreateRecipeComponent } from './component/recipe/create-recipe/create-recipe.component';
+import {CreateStepComponent} from "./component/step/create-step/create-step.component";
 
 const routes: Routes = [
   { path: 'ingredients/add', component: CreateIngredientComponent },
   { path: 'ingredients', component: ListIngredientsComponent },
   { path: 'allergens/add', component: CreateAllergenComponent },
   { path: 'allergens', component: ListAllergensComponent },
-  { path: 'recipe', component: RecipeListComponent }, 
-  { path: 'recipe/add', component: CreateRecipeComponent }
+  { path: 'recipe', component: RecipeListComponent },
+  { path: 'recipe/add', component: CreateRecipeComponent },
+  { path: 'step/add', component: CreateStepComponent },
+
 ];
 
 @NgModule({

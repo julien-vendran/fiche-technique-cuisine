@@ -14,6 +14,7 @@ export class StepService {
   ){}
 
   create(createStepDto: CreateStepDto) {
+    console.log("On crée une étape");
     return this.stepRepo.save(this.stepRepo.create(createStepDto));
   }
 
