@@ -9,6 +9,7 @@ import { IngredientsModule } from './ingredients/ingredients.module';
 import { IngredientsCategorieModule } from './ingredients-categorie/ingredients-categorie.module';
 import { AllergenModule } from './allergen/allergen.module';
 import { StepModule } from './step/step.module';
+import { RecipeOrStepModule } from './recipe-or-step/recipe-or-step.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { StepModule } from './step/step.module';
     IngredientsCategorieModule,
     AllergenModule,
     StepModule,
+    RecipeOrStepModule,
   ],
   controllers: [AppController],
   providers: [AppService],
