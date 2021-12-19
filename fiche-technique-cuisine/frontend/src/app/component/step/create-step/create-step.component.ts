@@ -37,15 +37,19 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
 
       let arr_ingredient: number[] = this.stepGroup.get('ingredients')?.value;
 
+
       if (this.stepGroup.get('ingredients')) {
         for (const all_id in arr_ingredient) {
           tab_ingredients.push(this.ingredients_list[all_id])
         }
       }
+      console.log("ingredient list",this.ingredients_list);
+      console.log("id selected",arr_ingredient);
+      console.log("ingredent push",tab_ingredients);
 
-      this.step = new Step(
-        this.stepGroup.get('name')?.value,
-        this.stepGroup.get('description')?.value,
+        this.step = new Step(
+          this.stepGroup.get('name')?.value,
+          this.stepGroup.get('description')?.value,
         this.stepGroup.get('duration')?.value,
         tab_ingredients
       );

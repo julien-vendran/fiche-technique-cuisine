@@ -37,11 +37,10 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
       let arr_allergen: number[] = this.ingredientGroup.get('allergens')?.value;
 
       if (this.ingredientGroup.get('allergens')) {
-        for (const all_id in arr_allergen) {
-          tab_allergens.push(this.allergens_list[all_id])
-        }
+       tab_allergens=this.allergens_list.filter(el => arr_allergen.includes(el.id_Allergen))
       }
-
+      console.log("ids",arr_allergen);
+      console.log("tab",tab_allergens);
       this.ingredient = new Ingredient(
         this.ingredientGroup.get('name')?.value,
         this.ingredientGroup.get('unit')?.value,
