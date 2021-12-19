@@ -39,9 +39,7 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
 
 
       if (this.stepGroup.get('ingredients')) {
-        for (const all_id in arr_ingredient) {
-          tab_ingredients.push(this.ingredients_list[all_id])
-        }
+        tab_ingredients=this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
       }
       console.log("ingredient list",this.ingredients_list);
       console.log("id selected",arr_ingredient);
