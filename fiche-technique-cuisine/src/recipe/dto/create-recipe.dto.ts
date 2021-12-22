@@ -6,5 +6,4 @@ export class CreateRecipeDto extends CreateRecipeOrStepDto{
     nbOfCover: number;
     category: String;
 
-    listOfSteps: CreateRecipeOrStepDto[];
 }

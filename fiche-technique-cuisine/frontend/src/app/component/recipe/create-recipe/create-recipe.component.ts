@@ -51,12 +51,12 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     if (this.recipeGroup) {
 
       let arr_recipeOrStep: number[] = this.recipeGroup.get('recipeOrSteps')?.value;
-      console.log("Id des etapes",arr_recipeOrStep);
-      console.log("recipeOrStep",this.recipeOrSteps_list);
+
       if (this.recipeGroup.get('recipeOrSteps')) {
-        for (const all_id in arr_recipeOrStep) {
+       /* for (const all_id in arr_recipeOrStep) {
           tab_recipeOrSteps.push(this.recipeOrSteps_list[all_id])
-        }
+        }*/
+        tab_recipeOrSteps=this.recipeOrSteps_list.filter(el => arr_recipeOrStep.includes(el.id!))
       }
       console.log("idSteps",tab_recipeOrSteps);
       this.recipe = new Recipe(

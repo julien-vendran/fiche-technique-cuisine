@@ -7,12 +7,11 @@ import {
     JoinTable,
     ChildEntity,
     Tree,
-    TreeChildren
+    TreeChildren, TreeParent, OneToMany
 } from 'typeorm';
 import {RecipeOrStep} from "../../recipe-or-step/entities/recipe-or-step.entity";
 
-@Entity()
-@Tree("closure-table")
+@ChildEntity()
 export class Recipe extends RecipeOrStep{
 
     @Column()
@@ -24,6 +23,5 @@ export class Recipe extends RecipeOrStep{
     @Column()
     category: String;
 
-    @TreeChildren()
-    listOfSteps: RecipeOrStep[];
+
 }

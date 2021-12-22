@@ -15,12 +15,16 @@ export class RecipeService {
   ){}
 
   create(createRecipeDto: CreateRecipeDto) {
+
     console.log("Log : recipeDTO ",createRecipeDto);
-    return this.recipeRepo.save(this.recipeRepo.create(createRecipeDto));
+    let temp=this.recipeRepo.create(createRecipeDto);
+    console.log("temp",temp);
+  //  temp.parents=null;
+    return this.recipeRepo.manager.save(temp);
   }
 
   findAll(): Promise<Recipe[]> {
-    return this.recipeRepo.find(/*{ relations: ["associatedAllergen"] }*/);
+    return this.recipeRepo.find({ relations: ["parents", "listOfSteps"] });
   }
 
   findOne(id: number) {
