@@ -1,1 +1,28 @@
-<p>recipe-list works!</p>
+<section class="container">
+  <h2 class="center-align">
+    Vos Recetes
+  </h2>
+
+  <table class = "striped highlight">
+    <!-- responsive-table -->
+    <thead>
+    <tr>
+      <th>Intitulée</th>
+      <th>Catégorie</th>
+      <th>Responsable</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor = "let recip of (recipes | async)">
+      <th>{{ recip.name }}</th>
+      <th>{{ recip.category}}</th>
+      <th>{{ recip.responsable }}</th>
+      <th>
+        <button class = "waves-effect waves-light btn-small red" (click) = "deleteRecipe(recip)">Supprimer</button>
+      </th>
+    </tr>
+    </tbody>
+  </table>
+  <router-outlet></router-outlet>
+</section>

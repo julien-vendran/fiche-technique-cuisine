@@ -15,7 +15,7 @@ export class RecipeOrStep {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({unique:true})
     name : String;
 
     @OneToMany(()=>RecipeOrStep,recepi=>recepi.parents)
