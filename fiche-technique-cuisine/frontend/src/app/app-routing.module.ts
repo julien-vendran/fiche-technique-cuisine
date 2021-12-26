@@ -8,6 +8,7 @@ import { ListAllergensComponent } from "./component/allergen/list-allergens/list
 import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.component';
 import { CreateRecipeComponent } from './component/recipe/create-recipe/create-recipe.component';
 import {CreateStepComponent} from "./component/step/create-step/create-step.component";
+import {RecipeInfoComponent} from "./component/recipe/recipe-info/recipe-info.component";
 
 const routes: Routes = [
   { path: 'ingredients/add', component: CreateIngredientComponent },
@@ -16,7 +17,9 @@ const routes: Routes = [
   { path: 'allergens', component: ListAllergensComponent },
   { path: 'recipe', component: RecipeListComponent },
   { path: 'recipe/add', component: CreateRecipeComponent },
+  { path: 'recipe/:id', component: RecipeInfoComponent },
   { path: 'step/add', component: CreateStepComponent },
+
 
 ];
 
