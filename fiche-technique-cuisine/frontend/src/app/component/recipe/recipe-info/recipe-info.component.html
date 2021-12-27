@@ -4,21 +4,22 @@
 
     <div class="col s12 m6">
       <div class="card-panel">
-         <span class="white-text">
+         <span class="">
            Responsable : {{recipe.responsable}}
          </span>
       </div>
     </div>
     <div class="col s12 m6">
       <div class="card-panel">
-         <span class="white-text">
+         <span class="">
            Nombre de couverts : {{recipe.nbOfCover}}
          </span>
       </div>
     </div>
-    <div *ngFor = "let step of (steps)"class="card-panel ">
+    <div  *ngFor = "let step of (steps)" class="col s12">
+    <div >
       <div class="col s12 m6">
-        <div class="card-panel teal">
+        <div class="card-panel ">
           <table>
             <thead>
             <tr>
@@ -29,9 +30,9 @@
             </thead>
 
             <tbody>
-            <tr *ngFor ="let ingre of (step | async)?.getSteps()">
-              <td>{{(step | async)?.id}}</td>
+            <tr *ngFor ="let ingre of (step | async)?.listIngredient">
               <td>{{ingre.name}}</td>
+             <td>{{ingre.unit}}</td>
               <td>not implemented yet</td>
             </tr>
             </tbody>
@@ -40,7 +41,7 @@
       </div>
 
       <div class="col s12 m6">
-        <div class="card-panel teal">
+        <div class="card-panel">
           <table>
             <thead>
             <tr>
@@ -51,16 +52,15 @@
 
             <tbody>
             <tr>
-              <td> <span class="white-text">I am a very simple card. I am good at containing small bits of information.
-        I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
-        </span></td>
-              <td>7 minutes</td>
+              <td> <span class="">{{(step|async)?.description}}</span></td>
+              <td>7 min</td>
             </tr>
             </tbody>
           </table>
 
         </div>
       </div>
+    </div>
     </div>
   </div>
 
