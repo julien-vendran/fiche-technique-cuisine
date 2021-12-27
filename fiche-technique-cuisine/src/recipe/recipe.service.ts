@@ -27,8 +27,13 @@ export class RecipeService {
     return this.recipeRepo.find({ relations: ["parents", "listOfSteps"] });
   }
 
+<<<<<<< HEAD
   findOne(id: number) {
     return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps"] });
+=======
+  findOne(id: number) :Promise<Recipe> {
+    return this.recipeRepo.findOne(id,{ relations: ["parents", "listOfSteps"]});
+>>>>>>> main
   }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {

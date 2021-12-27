@@ -23,6 +23,7 @@ export class Recipe extends RecipeOrStep {
   }
 
   getSteps(): RecipeOrStep[] {
+    console.log("On appel getsteps");
     let out:RecipeOrStep[]=[];
     this.listOfSteps.forEach(function (steps:RecipeOrStep) {
       out.concat(steps.getSteps());

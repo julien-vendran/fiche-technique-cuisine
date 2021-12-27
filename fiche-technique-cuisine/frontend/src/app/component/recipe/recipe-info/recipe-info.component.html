@@ -1,0 +1,68 @@
+<section *ngIf="recipe" class="container">
+  <h1 class="center-align"> {{recipe.name}}</h1>
+  <div class="row ">
+
+    <div class="col s12 m6">
+      <div class="card-panel">
+         <span class="">
+           Responsable : {{recipe.responsable}}
+         </span>
+      </div>
+    </div>
+    <div class="col s12 m6">
+      <div class="card-panel">
+         <span class="">
+           Nombre de couverts : {{recipe.nbOfCover}}
+         </span>
+      </div>
+    </div>
+    <div  *ngFor = "let step of (steps)" class="col s12">
+    <div >
+      <div class="col s12 m6">
+        <div class="card-panel ">
+          <table>
+            <thead>
+            <tr>
+              <th>Denrées</th>
+              <th>Unités</th>
+              <th>Quantités</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr *ngFor ="let ingre of (step | async)?.listIngredient">
+              <td>{{ingre.name}}</td>
+             <td>{{ingre.unit}}</td>
+              <td>not implemented yet</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col s12 m6">
+        <div class="card-panel">
+          <table>
+            <thead>
+            <tr>
+              <th></th>
+              <th>Durée</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+              <td> <span class="">{{(step|async)?.description}}</span></td>
+              <td>7 min</td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</section>

@@ -24,4 +24,8 @@ export class Step extends RecipeOrStep{
     return [this];
   }
 
+  getListIngredients():Ingredient[]{
+    return this.listIngredient;
+  }
+
 }
