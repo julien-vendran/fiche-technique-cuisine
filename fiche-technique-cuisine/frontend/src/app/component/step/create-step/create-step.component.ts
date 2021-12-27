@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
 import {Router} from "@angular/router"
 
 import { Step } from '../../../model/step'
@@ -18,8 +17,7 @@ import { IngredientService } from '../../../service/ingredient.service';
 })
 export class CreateStepComponent implements OnInit,AfterViewInit {
 
-
-  public stepGroup : FormGroup | null = null;
+  @Input() public stepGroup : FormGroup | null = null;
   public step: Step = new Step();
   public ingredients_list : Ingredient[] = [];
 
@@ -34,6 +32,8 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
 
 
     if (this.stepGroup) {
+      console.log("On est la !!!!");
+            
 
       let arr_ingredient: number[] = this.stepGroup.get('ingredients')?.value;
 
@@ -45,26 +45,31 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
       console.log("id selected",arr_ingredient);
       console.log("ingredent push",tab_ingredients);
 
-        this.step = new Step(
-          this.stepGroup.get('name')?.value,
-          this.stepGroup.get('description')?.value,
+      this.step = new Step(
+        this.stepGroup.get('name')?.value,
+        this.stepGroup.get('description')?.value,
         this.stepGroup.get('duration')?.value,
         tab_ingredients
       );
-      //Envoie des données
-      this.stepService.createStep(this.step).subscribe(
+
+      /* this.stepService.createStep(this.step).subscribe(
         () => this.router.navigate(['/steps'])
-      );
+      ); */
     }
   }
 
   ngOnInit (): void {
-    this.stepGroup = this.fb.group({
-      name: [this.step?.name],
-      description: [this.step?.description],
-      duration: [this.step?.duration],
-      ingredients: [this.step?.listIngredient]
-    });
+    /* if (this.step) {
+      this.stepGroup = this.fb.group({
+        name: [this.step?.name],
+        description: [this.step?.description],
+        duration: [this.step?.duration],
+        ingredients: [this.step?.listIngredient]
+      });
+    } */
+
+    console.log(this.stepGroup);
+    
 
     this.ingredientService.getAllIngredients().subscribe(data => {
       this.ingredients_list = data;
@@ -72,6 +77,7 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
     });
   }
 
+  //Gestion de materialize
   ngAfterViewInit (): void {
     this.initSelectMaterialize();
   }

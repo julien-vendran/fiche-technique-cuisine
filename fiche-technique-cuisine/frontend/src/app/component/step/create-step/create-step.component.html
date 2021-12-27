@@ -1,7 +1,7 @@
-<section class = "container">
-  <h2 class = "center-align">
+<section>
+  <h3 class = "center-align">
     Ajouter une étape
-  </h2>
+  </h3>
   <div *ngIf = "this.stepGroup" class = "row">
     <form [formGroup]="stepGroup" (ngSubmit) = "validate()" class = "col s12">
       <div class="input-field col s6">
@@ -19,9 +19,9 @@
         <label for="duration">duree </label>
       </div>
 
-      <div class="input-field col s12">
+      <div class="input-field col s6">
         <select multiple formControlName = "ingredients" (ngModelChange)="change($event)">
-          <option value="" disabled selected>Choisissez vos ingredients</option>
+          <option value = "" disabled selected>Choisissez vos ingredients</option>
 
           <option *ngFor="let al of ingredients_list" [value]="al.id">
             {{al.name}}
@@ -30,11 +30,11 @@
         <label>Les ingredients associés a l'etape</label>
       </div>
 
-      <div class="col s12 center-align">
+      <!-- <div class="col s12 center-align">
         <button type="submit" class="waves-effect waves-light btn">
-          Valider
+          Valider l'étape
         </button>
-      </div>
+      </div> -->
     </form>
   </div>
 </section>

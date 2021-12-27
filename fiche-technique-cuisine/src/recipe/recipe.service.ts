@@ -17,8 +17,8 @@ export class RecipeService {
   create(createRecipeDto: CreateRecipeDto) {
 
     console.log("Log : recipeDTO ",createRecipeDto);
-    let temp=this.recipeRepo.create(createRecipeDto);
-    console.log("temp",temp);
+    let temp = this.recipeRepo.create(createRecipeDto);
+    console.log("temp", temp);
   //  temp.parents=null;
     return this.recipeRepo.manager.save(temp);
   }
@@ -28,7 +28,7 @@ export class RecipeService {
   }
 
   findOne(id: number) {
-    return this.recipeRepo.findOne(id/*, { relations: ["associatedAllergen"] }*/);
+    return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps"] });
   }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {

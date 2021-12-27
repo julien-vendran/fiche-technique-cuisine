@@ -24,29 +24,45 @@
         <label for="category">Catégorie </label>
       </div>
 
+      <div class="input-field col s12"> <!-- Div où on va ajouter les nouvelles étapes -->
+        <div *ngFor="let el of stepOrRecipeToShow; let i = index">
 
-      <div class="input-field col s12">
-        <select multiple formControlName="recipeOrSteps" (ngModelChange)="change($event)">
-          <option value="" disabled selected>Choisissez vos étapes</option>
-          <optgroup label="Recettes">
+          <!-- Template ajout ingrédient -->
+          <div *ngIf = "isStep(el); else elseBlock">
+            <app-create-step [stepGroup] = "getStepGroup(i)">
 
-            <option *ngFor="let al of recipe_list" [value]="al.id">
-              {{al.name}}
-            </option>
-          </optgroup>
-          <optgroup label="Etapes">
-            <option *ngFor="let al of step_list" [value]="al.id">
-              {{al.name}}
-            </option>
-          </optgroup>
-        </select>
-        <label>Les étapes</label>
+            </app-create-step>
+          </div>
+
+          <ng-template #elseBlock>
+            {{ el.name }}
+            <br>
+            C'est une recette
+          </ng-template>
+          <!-- The repeated alias template -->
+          <!-- <label for="alias-{{ i }}">Alias:</label>
+          <input id="alias-{{ i }}" type="text" [formControlName]="i"> -->
+        </div>
       </div>
 
       <div class="col s12 center-align">
         <button type="submit" class="waves-effect waves-light btn">
           Valider
         </button>
+
+        <button type = "button" class="btn purple darken-1" (click) = "addStep()">
+          Ajouter une étape
+        </button>
+        <br>
+        <div class="input-field col s8 offset-s2">
+          <select (ngModelChange)="change($event)" #selectedRecipe (change) = "changeSelect($event, selectedRecipe.value)">
+            <option value="" disabled selected></option>
+            <option *ngFor="let al of recipe_list" [value]="al.id">
+              {{al.name}}
+            </option>
+          </select>
+          <label>Recettes associées</label>
+        </div>
       </div>
     </form>
   </div>
