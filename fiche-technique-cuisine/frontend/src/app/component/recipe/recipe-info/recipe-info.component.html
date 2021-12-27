@@ -1,22 +1,22 @@
-<section class="container">
-  <h1 class="center-align">Titre</h1>
+<section *ngIf="recipe" class="container">
+  <h1 class="center-align"> {{recipe.name}}</h1>
   <div class="row ">
 
-      <div class="col s12 m6">
-        <div class="card-panel">
+    <div class="col s12 m6">
+      <div class="card-panel">
          <span class="white-text">
-           Responsable : toto
+           Responsable : {{recipe.responsable}}
          </span>
-        </div>
       </div>
-      <div class="col s12 m6">
-        <div class="card-panel">
+    </div>
+    <div class="col s12 m6">
+      <div class="card-panel">
          <span class="white-text">
-           Nombre de couverts : 9
+           Nombre de couverts : {{recipe.nbOfCover}}
          </span>
-        </div>
       </div>
-      <div class="card-panel ">
+    </div>
+    <div *ngFor = "let step of (steps)"class="card-panel ">
       <div class="col s12 m6">
         <div class="card-panel teal">
           <table>
@@ -29,20 +29,10 @@
             </thead>
 
             <tbody>
-            <tr>
-              <td>Alvin</td>
-              <td>Eclair</td>
-              <td>$0.87</td>
-            </tr>
-            <tr>
-              <td>Alan</td>
-              <td>Jellybean</td>
-              <td>$3.76</td>
-            </tr>
-            <tr>
-              <td>Jonathan</td>
-              <td>Lollipop</td>
-              <td>$7.00</td>
+            <tr *ngFor ="let ingre of (step | async)?.getSteps()">
+              <td>{{(step | async)?.id}}</td>
+              <td>{{ingre.name}}</td>
+              <td>not implemented yet</td>
             </tr>
             </tbody>
           </table>

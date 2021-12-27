@@ -29,11 +29,6 @@ export class ListIngredientsComponent implements OnInit {
     return this.ingredientService.getAllIngredients();
   }
 
-  //TODO vire moi ça
-  test(): void {
-    console.log("mlkjfdqlkfjslkdjflksdj");
-
-  }
 
   deleteIngredient(ingre: Ingredient): void {
     if (! ingre.id) {

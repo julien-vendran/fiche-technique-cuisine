@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Step} from "../model/step";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,13 @@ export class StepService {
         (json: any) => this.jsonToStep(json)
       ))
     );
+  }
+
+  getStep(id: number): Observable<Step> {
+    return this.http.get<Step>(this.step_url + "/" + id).pipe(
+      tap(result => {//au lieu de map quand on a qu'un objet
+        return this.jsonToStep(result);
+      }));
   }
 
   deleteStep (id: number) {

@@ -1,33 +1,42 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Recipe} from "../model/recipe";
-import {map} from "rxjs/operators";
-import { Observable } from 'rxjs';
+import {map, tap} from "rxjs/operators";
+import {Observable} from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  private recipe_url : string = "http://localhost:3000/recipe";
+  private recipe_url: string = "http://localhost:3000/recipe";
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) {
+  }
 
-  createRecipe (recipe: Recipe) {
+  createRecipe(recipe: Recipe) {
     console.log("Création de notre ingrédient initiée", recipe);
     return this.http.post<Recipe>(this.recipe_url, recipe);
   }
 
-  getAllRecipes (): Observable<Recipe[]> {
+  getAllRecipes(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>(this.recipe_url).pipe(
-      map((arr : any) => arr.map(
+      map((arr: any) => arr.map(
         (json: any) => this.jsonToRecipe(json)
       ))
     );
   }
 
-  deleteRecipe (id: number) {
+  getRecipe(id: Number): Observable<Recipe> {
+    return this.http.get<Recipe>(this.recipe_url + "/" + id).pipe(
+      tap(result => {//au lieu de map quand on a qu'un objet
+        return this.jsonToRecipe(result);
+      }));
+  }
+
+  deleteRecipe(id: number) {
     console.log("------------ Delete Recipe Service Angular ---------------");
     console.log("url : " + this.recipe_url + '/' + id);
 

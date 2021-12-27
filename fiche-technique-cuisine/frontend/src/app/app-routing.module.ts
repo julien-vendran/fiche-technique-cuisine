@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'allergens', component: ListAllergensComponent },
   { path: 'recipe', component: RecipeListComponent },
   { path: 'recipe/add', component: CreateRecipeComponent },
-  { path: 'recipe/:id', component: RecipeInfoComponent },
+  { path: 'recipe/info/:id', component: RecipeInfoComponent },
   { path: 'step/add', component: CreateStepComponent },
 
 
