@@ -18,6 +18,7 @@ export class RecipeService {
 
     console.log("Log : recipeDTO ",createRecipeDto);
     let temp = this.recipeRepo.create(createRecipeDto);
+    console.log("#####################################");
     console.log("temp", temp);
   //  temp.parents=null;
     return this.recipeRepo.manager.save(temp);
@@ -27,13 +28,8 @@ export class RecipeService {
     return this.recipeRepo.find({ relations: ["parents", "listOfSteps"] });
   }
 
-<<<<<<< HEAD
-  findOne(id: number) {
-    return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps"] });
-=======
   findOne(id: number) :Promise<Recipe> {
     return this.recipeRepo.findOne(id,{ relations: ["parents", "listOfSteps"]});
->>>>>>> main
   }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {

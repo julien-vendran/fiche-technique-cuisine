@@ -18,6 +18,7 @@ import { IngredientService } from '../../../service/ingredient.service';
 export class CreateStepComponent implements OnInit,AfterViewInit {
 
   @Input() public stepGroup : FormGroup | null = null;
+  @Input() public formIdEnd : number | null = null; 
   public step: Step = new Step();
   public ingredients_list : Ingredient[] = [];
 
@@ -66,10 +67,7 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
         duration: [this.step?.duration],
         ingredients: [this.step?.listIngredient]
       });
-    } */
-
-    console.log(this.stepGroup);
-    
+    } */    
 
     this.ingredientService.getAllIngredients().subscribe(data => {
       this.ingredients_list = data;

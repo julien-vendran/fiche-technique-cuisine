@@ -29,7 +29,7 @@
 
           <!-- Template ajout ingrédient -->
           <div *ngIf = "isStep(el); else elseBlock">
-            <app-create-step [stepGroup] = "getStepGroup(i)">
+            <app-create-step [stepGroup] = "getStepGroup(i)" [formIdEnd] = "i">
 
             </app-create-step>
           </div>

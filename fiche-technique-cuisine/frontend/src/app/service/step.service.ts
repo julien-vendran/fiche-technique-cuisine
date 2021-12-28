@@ -15,7 +15,7 @@ export class StepService {
     private http: HttpClient
   ) {}
 
-  createStep (step: Step) {
+  createStep (step: Step): Observable<Step> {
     console.log("Création de notre ingrédient initiée");
     return this.http.post<Step>(this.step_url, step);
   }

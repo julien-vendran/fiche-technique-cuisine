@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 
 import {FormGroup, FormBuilder, FormArray} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {forkJoin, Observable} from 'rxjs';
 import {Router} from "@angular/router"
 
 import {Recipe} from '../../../model/recipe'
@@ -11,6 +11,8 @@ import * as M from 'materialize-css';
 import {RecipeService} from '../../../service/recipe.service';
 import {Step} from "../../../model/step";
 import {StepService} from "../../../service/step.service";
+import { Ingredient } from '../../../model/ingredient';
+import { IngredientService } from '../../../service/ingredient.service';
 
 @Component({
   selector: 'app-create-recipe',
@@ -26,10 +28,13 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
   public step_list: Step[] = [];
   public stepOrRecipeToShow: RecipeOrStep[] = [];
 
+  public ingredients_list: Ingredient[] = []; 
+
   constructor(
     private fb: FormBuilder,
     private recipeService: RecipeService,
     private stepService: StepService,
+    private ingredientService: IngredientService,
     private router: Router) {
   }
 
@@ -37,7 +42,7 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     return this.recipeGroup?.get('steps') as FormArray;
   }
 
-  validate(): void {   
+  async validate() {   
     /*let tab_recipeOrSteps: RecipeOrStep[] = [];
     let recipeOrSteps_list: RecipeOrStep[] = [];
     for(let step of this.step_list){
@@ -56,20 +61,31 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
 
     //On met à jour toutes les étapes de notre recette 
     let count: number = 0; 
+    let obsStep_arr: Observable<Step>[] = []; 
     for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
       if (this.stepOrRecipeToShow[i] instanceof Step) { //Si on rencontre une étape
+        let tab_ingredients: Ingredient[] = [];
+        let arr_ingredient: number[] = this.steps.at(count).get('ingredients')?.value;
+
+        if (this.steps.at(count).get('ingredients')) {
+          tab_ingredients = this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
+        }
+
         this.stepOrRecipeToShow[i] = new Step(
           this.steps.at(count).get('name')?.value, 
           this.steps.at(count).get('description')?.value, 
           this.steps.at(count).get('duration')?.value, 
-          this.steps.at(count).get('ingredients')?.value
+          tab_ingredients
         );
-        this.stepService.createStep(this.stepOrRecipeToShow[i] as Step).subscribe();
-        count ++; 
+        /* this.stepService.createStep(this.stepOrRecipeToShow[i] as Step).subscribe(
+          el => this.stepOrRecipeToShow[i].id = el.id
+        ); */
+        obsStep_arr.push(this.stepService.createStep(this.stepOrRecipeToShow[i] as Step));
+        count ++;
       }
     }
     
-    if (this.recipeGroup) {      
+    if (this.recipeGroup) {
 
       console.log("------------------------");
       console.log("stepOrRecipeToShow : ", this.stepOrRecipeToShow);
@@ -85,9 +101,32 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
         this.recipeGroup.get('category')?.value,
         this.stepOrRecipeToShow
       );
+
+      console.log("-----------------------------");
+      console.log("Notre recette : ", this.recipe);
+      console.log("-----------------------------");
       //Envoie des données
-      this.recipeService.createRecipe(this.recipe).subscribe(
-        () => this.router.navigate(['/recipe'])
+      /* this.recipeService.createRecipe(this.recipe).subscribe(
+        //() => this.router.navigate(['/recipe'])
+        recipe => console.log(recipe)
+      ); */
+      count = 0; 
+      forkJoin(obsStep_arr).subscribe(
+        arr_step => {
+          console.log("Une élément est par là", arr_step); 
+          
+          for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
+            if (this.stepOrRecipeToShow[i] instanceof Step) {
+              this.stepOrRecipeToShow[i].id = arr_step[count].id; 
+              count ++;
+            }
+          }
+
+          this.recipeService.createRecipe(this.recipe).subscribe(
+            //() => this.router.navigate(['/recipe'])
+            recipe => console.log(recipe)
+          );
+        }
       );
     }
   }
@@ -135,6 +174,10 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
 
     this.recipeService.getAllRecipes().subscribe(data => {
       this.recipe_list = data;
+      setTimeout(this.initSelectMaterialize, 100);
+    });
+    this.ingredientService.getAllIngredients().subscribe(data => {
+      this.ingredients_list = data;
       setTimeout(this.initSelectMaterialize, 100);
     });
   }

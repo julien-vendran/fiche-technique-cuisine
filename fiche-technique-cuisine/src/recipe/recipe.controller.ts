@@ -10,6 +10,8 @@ export class RecipeController {
   @Post()
   create(@Body() createRecipeDto: CreateRecipeDto) {
     console.log("Create recipe in progress ...");
+    console.log("Recipe Controller : ", createRecipeDto);
+    console.log("------------");
     return this.recipeService.create(createRecipeDto);
   }
 
