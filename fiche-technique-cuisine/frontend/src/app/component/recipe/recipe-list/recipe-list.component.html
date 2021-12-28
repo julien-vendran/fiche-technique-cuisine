@@ -15,7 +15,7 @@
     </thead>
     <tbody>
     <tr *ngFor = "let recip of (recipes | async)">
-      <th>{{ recip.name }}</th>
+      <th><a href="recipe/info/{{recip.id}}">{{ recip.name }}</a></th>
       <th>{{ recip.category}}</th>
       <th>{{ recip.responsable }}</th>
       <th>

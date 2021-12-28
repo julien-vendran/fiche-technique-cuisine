@@ -13,8 +13,9 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class RecipeInfoComponent implements OnInit {
 
-  public recipe : Recipe | undefined;
-  public steps: Observable<Step>[]=[];
+  @Input() id : number | null=null;
+  public recipe : Recipe | null=null;
+  public steps: Step[]=[];
 
   constructor(
     private route: ActivatedRoute,
@@ -26,19 +27,38 @@ export class RecipeInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRecipe();
+
   }
 
   getRecipe():void{
-    const id= Number(this.route.snapshot.paramMap.get('id'));
+
+    const id= this.id ? this.id: Number(this.route.snapshot.paramMap.get('id'));
     //console.log("Recette id: "+id);
-    this.recipeService.getRecipe(id).subscribe(recipe=>{this.recipe=recipe; this.getSteps();});//TODO pas bo
+    this.getRecipeById(id).subscribe(recipe=>{this.recipe=recipe; this.getSteps();});//TODO pas bo
+  }
+
+  getRecipeById(id:number):Observable<Recipe>{
+    console.log("recette demandé :",id);
+    return this.recipeService.getRecipe(id);
   }
 
   getSteps():void{
-    console.log("pre-boucle", this.recipe);
+
     for(let step of this.recipe!.listOfSteps){
-      this.steps.push(this.stepService.getStep(step.id!))
+      if(this.isRecipe(step)){
+       //C'est une recette
+      console.log("c'est recette");
+      }else {
+        this.stepService.getStep(step.id!).subscribe(ste=>this.steps.push(ste));
+      }
     }
+  }
+  isRecipe(elem:any){
+    return (<Recipe>elem).responsable;
+  }
+
+  contain(id:any):Step{
+    return this.steps.filter(el=> el.id==id)[0];
   }
 
 }
