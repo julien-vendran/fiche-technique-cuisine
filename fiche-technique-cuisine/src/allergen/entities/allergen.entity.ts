@@ -10,7 +10,7 @@ export class Allergen {
     @PrimaryGeneratedColumn()
     id_Allergen: number; 
 
-    @Column()
+    @Column({unique:true})
     allergen_name: string;
 
     /* @ManyToMany(type => Ingredient, ing => ing.associatedAllergen)
