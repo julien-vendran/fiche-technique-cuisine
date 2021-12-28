@@ -45,7 +45,7 @@
           <table>
             <thead>
             <tr>
-              <th></th>
+              <th>{{(step | async)?.name}}</th>
               <th>Durée</th>
             </tr>
             </thead>
@@ -53,7 +53,7 @@
             <tbody>
             <tr>
               <td> <span class="">{{(step|async)?.description}}</span></td>
-              <td>7 min</td>
+              <td><span>{{(step | async)?.duration}}</span></td>
             </tr>
             </tbody>
           </table>
