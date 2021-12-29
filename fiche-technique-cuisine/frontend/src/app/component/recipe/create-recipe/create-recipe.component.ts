@@ -8,9 +8,9 @@ import {Recipe} from '../../../model/recipe'
 import {RecipeOrStep} from "../../../model/recipe-or-step";
 
 import * as M from 'materialize-css';
-import {RecipeService} from '../../../service/recipe.service';
-import {Step} from "../../../model/step";
-import {StepService} from "../../../service/step.service";
+import { RecipeService } from '../../../service/recipe.service';
+import { Step } from "../../../model/step";
+import { StepService } from "../../../service/step.service";
 import { Ingredient } from '../../../model/ingredient';
 import { IngredientService } from '../../../service/ingredient.service';
 
@@ -42,32 +42,17 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     return this.recipeGroup?.get('steps') as FormArray;
   }
 
-  async validate() {   
-    /*let tab_recipeOrSteps: RecipeOrStep[] = [];
-    let recipeOrSteps_list: RecipeOrStep[] = [];
-    for(let step of this.step_list){
-      recipeOrSteps_list.push(step);
-    }
-    for (let recipe of this.recipe_list){
-      recipeOrSteps_list.push(recipe);
-    }
-    recipeOrSteps_list.sort((a,b)=>{
-       return a.id!-b.id!;
-     });
-     */
-    /* console.log("listStep",this.step_list);
-    console.log("listRecipe",this.recipe_list);
-    console.log("concat", recipeOrSteps_list); */
-
-    //On met à jour toutes les étapes de notre recette 
+  validate() {   
     let count: number = 0; 
     let obsStep_arr: Observable<Step>[] = []; 
+    let tab_ingredients: Ingredient[] = [];
+    let arr_ingredient: number[] = []; 
+
     for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
       if (this.stepOrRecipeToShow[i] instanceof Step) { //Si on rencontre une étape
-        let tab_ingredients: Ingredient[] = [];
-        let arr_ingredient: number[] = this.steps.at(count).get('ingredients')?.value;
 
-        if (this.steps.at(count).get('ingredients')) {
+        if (this.steps.at(count).get('ingredients')) { //Si notre recette à des ingrédients
+          arr_ingredient = this.steps.at(count).get('ingredients')?.value;
           tab_ingredients = this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
         }
 
@@ -77,9 +62,6 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
           this.steps.at(count).get('duration')?.value, 
           tab_ingredients
         );
-        /* this.stepService.createStep(this.stepOrRecipeToShow[i] as Step).subscribe(
-          el => this.stepOrRecipeToShow[i].id = el.id
-        ); */
         obsStep_arr.push(this.stepService.createStep(this.stepOrRecipeToShow[i] as Step));
         count ++;
       }
@@ -90,9 +72,6 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
       console.log("------------------------");
       console.log("stepOrRecipeToShow : ", this.stepOrRecipeToShow);
       console.log("------------------------");
-      
-      
-      //console.log("idSteps",tab_recipeOrSteps);
       
       this.recipe = new Recipe(
         this.recipeGroup.get('name')?.value,
@@ -105,26 +84,20 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
       console.log("-----------------------------");
       console.log("Notre recette : ", this.recipe);
       console.log("-----------------------------");
-      //Envoie des données
-      /* this.recipeService.createRecipe(this.recipe).subscribe(
-        //() => this.router.navigate(['/recipe'])
-        recipe => console.log(recipe)
-      ); */
+
       count = 0; 
       forkJoin(obsStep_arr).subscribe(
-        arr_step => {
-          console.log("Une élément est par là", arr_step); 
-          
+        arr_step => {          
           for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
             if (this.stepOrRecipeToShow[i] instanceof Step) {
-              this.stepOrRecipeToShow[i].id = arr_step[count].id; 
+              this.stepOrRecipeToShow[i].id = arr_step[count].id; //On met à jour les id de notre tableau
               count ++;
             }
           }
 
           this.recipeService.createRecipe(this.recipe).subscribe(
-            //() => this.router.navigate(['/recipe'])
-            recipe => console.log(recipe)
+            () => this.router.navigate(['/recipe'])
+            //recipe => console.log(recipe)
           );
         }
       );
