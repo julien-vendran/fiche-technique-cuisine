@@ -5,6 +5,7 @@ import {StepService} from "../../../service/step.service";
 import {Observable} from "rxjs";
 import {Step} from "../../../model/step";
 import {ActivatedRoute} from "@angular/router";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-recipe-info',
@@ -37,21 +38,24 @@ export class RecipeInfoComponent implements OnInit {
     this.getRecipeById(id).subscribe(recipe=>{this.recipe=recipe; this.getSteps();});//TODO pas bo
   }
 
-  getRecipeById(id:number):Observable<Recipe>{
-    console.log("recette demandé :",id);
-    return this.recipeService.getRecipe(id);
+  getRecipeById(nombre:number):Observable<Recipe>{
+    console.log("La recette ",this.id, " demandé :",nombre);
+    return this.recipeService.getRecipe(nombre);
   }
 
   getSteps():void{
 
+    let observer_arr:Observable<Step>[]= [];
     for(let step of this.recipe!.listOfSteps){
       if(this.isRecipe(step)){
        //C'est une recette
       console.log("c'est recette");
       }else {
-        this.stepService.getStep(step.id!).subscribe(ste=>this.steps.push(ste));
+        observer_arr.push(this.stepService.getStep(step.id!));
+       // .subscribe(ste=>this.steps.push(ste));
       }
     }
+    forkJoin(observer_arr).subscribe(arr=> this.steps=arr)
   }
   isRecipe(elem:any){
     return (<Recipe>elem).responsable;
