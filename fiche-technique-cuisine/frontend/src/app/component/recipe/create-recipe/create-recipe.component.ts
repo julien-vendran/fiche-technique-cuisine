@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 
-import {FormGroup, FormBuilder, FormArray} from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray, AbstractControl} from '@angular/forms';
 import {forkJoin, Observable} from 'rxjs';
 import {Router} from "@angular/router"
 
@@ -43,27 +43,14 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
   }
 
   validate() {   
-    let count: number = 0; 
+    
     let obsStep_arr: Observable<Step>[] = []; 
-    let tab_ingredients: Ingredient[] = [];
-    let arr_ingredient: number[] = []; 
+    
 
+    this.updateStepFromstepOrRecipeToShow();
     for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
       if (this.stepOrRecipeToShow[i] instanceof Step) { //Si on rencontre une étape
-
-        if (this.steps.at(count).get('ingredients')) { //Si notre recette à des ingrédients
-          arr_ingredient = this.steps.at(count).get('ingredients')?.value;
-          tab_ingredients = this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
-        }
-
-        this.stepOrRecipeToShow[i] = new Step(
-          this.steps.at(count).get('name')?.value, 
-          this.steps.at(count).get('description')?.value, 
-          this.steps.at(count).get('duration')?.value, 
-          tab_ingredients
-        );
         obsStep_arr.push(this.stepService.createStep(this.stepOrRecipeToShow[i] as Step));
-        count ++;
       }
     }
     
@@ -85,7 +72,7 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
       console.log("Notre recette : ", this.recipe);
       console.log("-----------------------------");
 
-      count = 0; 
+      let count: number = 0; 
       forkJoin(obsStep_arr).subscribe(
         arr_step => {          
           for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
@@ -104,44 +91,34 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /* validateStep(): void {
+  updateStepFromstepOrRecipeToShow () {
     let tab_ingredients: Ingredient[] = [];
+    let arr_ingredient: number[] = []; 
+    let count: number = 0; 
+    for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
+      if (this.stepOrRecipeToShow[i] instanceof Step) {
+        if (this.steps.at(count).get('ingredients')) { //Si notre recette à des ingrédients
+          arr_ingredient = this.steps.at(count).get('ingredients')?.value;
+          tab_ingredients = this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
+        }
 
-
-    if (this.stepGroup) {
-      console.log("On est la !!!!");
-            
-
-      let arr_ingredient: number[] = this.stepGroup.get('ingredients')?.value;
-
-
-      if (this.stepGroup.get('ingredients')) {
-        tab_ingredients=this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
+        this.stepOrRecipeToShow[i] = new Step( //Création de notre étape et mise à jour dans le tableau
+          this.steps.at(count).get('name')?.value, 
+          this.steps.at(count).get('description')?.value, 
+          this.steps.at(count).get('duration')?.value, 
+          tab_ingredients
+        );
+        count ++;
       }
-      console.log("ingredient list",this.ingredients_list);
-      console.log("id selected",arr_ingredient);
-      console.log("ingredent push",tab_ingredients);
-
-      this.step = new Step(
-        this.stepGroup.get('name')?.value,
-        this.stepGroup.get('description')?.value,
-        this.stepGroup.get('duration')?.value,
-        tab_ingredients
-      );
-
-      this.stepService.createStep(this.step).subscribe(
-        () => this.router.navigate(['/steps'])
-      ); 
-    } */
+    }
+  }
 
   ngOnInit(): void {
     this.recipeGroup = this.fb.group({
       name: [this.recipe?.name],
       responsable: [this.recipe?.responsable],
       nbOfCover: [this.recipe?.nbOfCover],
-      category: [this.recipe?.category],
-/*    recipeOrSteps: [this.recipe?.listOfSteps]
-      recipe: [''], //A voir comment faire */      
+      category: [this.recipe?.category],     
       steps: this.fb.array([]) 
     });
 
@@ -169,9 +146,6 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
         ingredients: [s.listIngredient]
       })
     );
-
-    /* this.stepOrRecipeToShow.push(new Recipe()); //TODO/ Supprimer ça (Que pour les tests)
-    console.log(this.stepOrRecipeToShow[this.stepOrRecipeToShow.length - 1] instanceof Step); */
   }
 
   isStep(r: RecipeOrStep): boolean {
@@ -205,6 +179,31 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     return r; 
   }
 
+  deleteStepOrRecipe(index: number): void {
+    this.stepOrRecipeToShow.splice(index, 1);
+  }
+
+  adjustPosition(i: number, way: number): void {
+    //Pour déplacer une étape, il faut la mettre à jour dans le tableau (Elles sont toutes vides)
+    this.updateStepFromstepOrRecipeToShow();
+
+    console.log("Notre tableau : ", this.stepOrRecipeToShow);
+    console.log("i : ", i);
+    
+    let toReplaceWith: number = i + way;
+    console.log("toReplaceWith", toReplaceWith);
+    
+    //On le met à jour dans le tableau 
+    let recipeOrStep_arr: RecipeOrStep = this.stepOrRecipeToShow[i]; 
+    this.stepOrRecipeToShow[i] = this.stepOrRecipeToShow[toReplaceWith]; 
+    this.stepOrRecipeToShow[toReplaceWith] = recipeOrStep_arr;
+
+    //On le met à jour dans le FormBuilder
+    let recipeOrStep_fa: AbstractControl = this.steps.at(i); 
+    this.steps.removeAt(i); 
+    this.steps.insert(toReplaceWith, recipeOrStep_fa); 
+  }
+
   //Materialize
   ngAfterViewInit(): void {
     this.initSelectMaterialize();
@@ -225,6 +224,5 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     let r: Recipe | null = this.getRecipeById(value as number); 
     if (r) //Si on trouve bien notre recette
       this.stepOrRecipeToShow.push(r); 
-    value = null; 
   }
 }

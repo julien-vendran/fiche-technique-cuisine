@@ -3,9 +3,9 @@
     Ajouter une étape
   </h3>
   <div *ngIf = "this.stepGroup" class = "row">
-    <form [formGroup]="stepGroup" (ngSubmit) = "validate()" class = "col s12">
+    <form [formGroup]="stepGroup" class = "col s12">
       <div class="input-field col s6">
-        <input id="name-{{this.formIdEnd}}" type="text" class="validate" formControlName = "name">
+        <input id="name-{{this.formIdEnd}}" type="text" class="validate" formControlName = "name" value = "KIKOU ^^">
         <label for="name-{{this.formIdEnd}}">Nom de l'étape</label>
       </div>
 
