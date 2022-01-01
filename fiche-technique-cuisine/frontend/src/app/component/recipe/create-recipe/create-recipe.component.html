@@ -25,23 +25,37 @@
       </div>
 
       <div class="input-field col s12"> <!-- Div où on va ajouter les nouvelles étapes -->
-        <div *ngFor="let el of stepOrRecipeToShow; let i = index">
-
+        <div *ngFor="let el of stepOrRecipeToShow; let i = index" style = "display: block;">
           <!-- Template ajout ingrédient -->
-          <div *ngIf = "isStep(el); else elseBlock">
-            <app-create-step [stepGroup] = "getStepGroup(i)" [formIdEnd] = "i">
+          <div class = "col s12">
+            <button type = "button" class = "btn" (click) = "deleteStepOrRecipe(i)">
+              Suppr
+            </button>
+            <button class="btn-floating" 
+              *ngIf = "(i > 0) && (this.stepOrRecipeToShow.length > 1)"
+              (click) = "adjustPosition(i, -1)"
+              >
+              monter
+            </button>
+            <button class="btn-floating" 
+              *ngIf = "(i + 1 != this.stepOrRecipeToShow.length) && (this.stepOrRecipeToShow.length > 1)"
+              (click) = "adjustPosition(i, 1)" 
+            >
+              descendre
+            </button>
+            <div *ngIf = "isStep(el); else elseBlock">
+              <app-create-step [stepGroup] = "getStepGroup(i)" [formIdEnd] = "i">
 
-            </app-create-step>
+              </app-create-step>
+            </div>
+
+            <ng-template #elseBlock>
+              {{ el.name }}
+              <br>
+              C'est une recette
+            </ng-template>
+            <hr />
           </div>
-
-          <ng-template #elseBlock>
-            {{ el.name }}
-            <br>
-            C'est une recette
-          </ng-template>
-          <!-- The repeated alias template -->
-          <!-- <label for="alias-{{ i }}">Alias:</label>
-          <input id="alias-{{ i }}" type="text" [formControlName]="i"> -->
         </div>
       </div>
 

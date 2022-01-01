@@ -1,13 +1,10 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
-import { FormGroup, FormBuilder } from '@angular/forms';
-import {Router} from "@angular/router"
+import { FormGroup } from '@angular/forms';
 
-import { Step } from '../../../model/step'
 import { Ingredient } from '../../../model/ingredient';
 
 import * as M from 'materialize-css';
-import { StepService } from '../../../service/step.service';
 import { IngredientService } from '../../../service/ingredient.service';
 
 @Component({
@@ -19,16 +16,13 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
 
   @Input() public stepGroup : FormGroup | null = null;
   @Input() public formIdEnd : number | null = null; 
-  public step: Step = new Step();
   public ingredients_list : Ingredient[] = [];
 
   constructor (
-    private fb: FormBuilder,
-    private stepService: StepService,
-    private ingredientService: IngredientService,
-    private router: Router) {}
+    private ingredientService: IngredientService
+  ) {}
 
-  validate(): void {
+ /*  validate(): void {
     let tab_ingredients: Ingredient[] = [];
 
 
@@ -55,19 +49,11 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
 
       /* this.stepService.createStep(this.step).subscribe(
         () => this.router.navigate(['/steps'])
-      ); */
+      ); 
     }
-  }
+  } */
 
   ngOnInit (): void {
-    /* if (this.step) {
-      this.stepGroup = this.fb.group({
-        name: [this.step?.name],
-        description: [this.step?.description],
-        duration: [this.step?.duration],
-        ingredients: [this.step?.listIngredient]
-      });
-    } */    
 
     this.ingredientService.getAllIngredients().subscribe(data => {
       this.ingredients_list = data;
@@ -88,5 +74,4 @@ export class CreateStepComponent implements OnInit,AfterViewInit {
   change($event: any): void {
     this.initSelectMaterialize();
   }
-
 }
