@@ -37,6 +37,10 @@ export class IngredientService {
     return this.http.delete(this.ingredient_url + '/' + id); 
   }
 
+  getIngredientById(id: number) {
+    return this.http.get<Ingredient>(this.ingredient_url + '/' + id);
+  }
+
   jsonToIngredient(json: any): Ingredient {
     return new Ingredient(
       json.name, 
