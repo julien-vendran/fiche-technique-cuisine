@@ -5,6 +5,9 @@ import { interval, Observable } from 'rxjs';
 import { IngredientService } from '../../../service/ingredient.service';
 import { Ingredient } from '../../../model/ingredient';
 
+import {Router} from "@angular/router"
+
+
 @Component({
   selector: 'app-list-ingredients',
   templateUrl: './list-ingredients.component.html',
@@ -14,7 +17,8 @@ export class ListIngredientsComponent implements OnInit {
 
   public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>();
   constructor(
-    private ingredientService: IngredientService
+    private ingredientService: IngredientService, 
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +43,10 @@ export class ListIngredientsComponent implements OnInit {
     this.ingredientService.deleteIngredient(ingre.id).subscribe(
       () => this.ingredients = this.getIngredients()
     );
+  }
+
+  updateIngredient(id: number): void {
+    this.router.navigate(["/ingredients/update/", id]);
   }
 
 }
