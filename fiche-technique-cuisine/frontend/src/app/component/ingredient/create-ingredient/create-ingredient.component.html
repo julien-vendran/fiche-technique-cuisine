@@ -1,6 +1,9 @@
 <section class = "container">
-    <h2 class = "center-align">
+    <h2 class = "center-align" *ngIf = "!isUpdate">
         Ajouter un ingrédient
+    </h2>
+    <h2 class = "center-align" *ngIf = "isUpdate">
+        Mise à jour de {{ this.ingredient.name }}
     </h2>
     <div *ngIf = "this.ingredientGroup" class = "row">
         <form [formGroup]="ingredientGroup" (ngSubmit) = "validate()" class = "col s12">
@@ -37,9 +40,14 @@
               </div>
               
             <div class="col s12 center-align">
-                <button type="submit" class="waves-effect waves-light btn">
+                <button *ngIf = "!isUpdate; else updateCase" type="submit" class="waves-effect waves-light btn">
                     Valider
                 </button>
+                <ng-template #updateCase>
+                    <button type = "button" class="waves-effect waves-light btn" (click) = "updateIngredient()">
+                        Mettre à jour
+                    </button>
+                </ng-template>
             </div>
         </form>
     </div>
