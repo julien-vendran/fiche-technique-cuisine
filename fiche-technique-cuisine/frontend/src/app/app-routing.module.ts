@@ -12,6 +12,7 @@ import {RecipeInfoComponent} from "./component/recipe/recipe-info/recipe-info.co
 
 const routes: Routes = [
   { path: 'ingredients/add', component: CreateIngredientComponent },
+  { path: 'ingredients/update/:id', component: CreateIngredientComponent },
   { path: 'ingredients', component: ListIngredientsComponent },
   { path: 'allergens/add', component: CreateAllergenComponent },
   { path: 'allergens', component: ListAllergensComponent },
