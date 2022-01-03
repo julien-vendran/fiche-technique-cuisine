@@ -31,25 +31,13 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
     private route: ActivatedRoute) {}
 
   validate(): void {
-    let tab_allergens: Allergen[] = [];
-
     //On va créer un ingrédient avec les éléments qu'on a eu
     if (this.ingredientGroup) {
 
-      let arr_allergen: number[] = this.ingredientGroup.get('allergens')?.value;
-
-      if (this.ingredientGroup.get('allergens')) {
-       tab_allergens=this.allergens_list.filter(el => arr_allergen.includes(el.id_Allergen))
-      }
-      console.log("ids",arr_allergen);
-      console.log("tab",tab_allergens);
-      this.ingredient = new Ingredient(
-        this.ingredientGroup.get('name')?.value,
-        this.ingredientGroup.get('unit')?.value,
-        this.ingredientGroup.get('availableQuantity')?.value,
-        this.ingredientGroup.get('unitPrice')?.value,
-        tab_allergens
-      );
+      
+      //console.log("ids",arr_allergen);
+      //console.log("tab",tab_allergens);
+      this.setNewInfosForIngredient();
       //Envoie des données
       this.ingredientService.createIngredient(this.ingredient).subscribe(
         () => this.router.navigate(['/ingredients'])
@@ -64,7 +52,11 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
       this.isUpdate = true; 
       this.ingredientService.getIngredientById(Number(id)).subscribe(
         ingredient => {
+          console.log("Ingrédient trouvé : ", ingredient);
+          console.log("Voici l'identifiant de notre ingredients : ", ingredient.id);
           this.ingredient = ingredient; 
+          console.log("Identifiant de notre ingrédient après passage : ", this.ingredient.id);
+          //this.ingredient.id = Number(id);
           this.ingredientGroup?.patchValue({
             name: this.ingredient.name,
             unit: this.ingredient.unit,
@@ -88,6 +80,41 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
       this.allergens_list = data;
       setTimeout(this.initSelectMaterialize, 100);
     });
+  }
+
+  updateIngredient(): void {
+    console.log("Identifiant de notre PUTAIN d'ingrédient : ", this.ingredient.id);
+    console.log("Mise à jour de notre ingrédient ...");
+    this.setNewInfosForIngredient();
+    console.log("Identifiant de notre PUTAIN d'ingrédient : ", this.ingredient.id);
+    this.ingredientService.updateIngredient(this.ingredient?.id!, this.ingredient).subscribe(
+      () => this.router.navigate(['/ingredients'])
+      //() => console.log("FIN DE LA MAJ DE L INGREDIENT LA")
+    );
+  }
+
+  setNewInfosForIngredient (): void {
+    if (this.ingredientGroup) {
+      let tab_allergens: Allergen[] = [];
+      let arr_allergen: number[] = this.ingredientGroup.get('allergens')?.value;
+
+      if (this.ingredientGroup.get('allergens')) {
+       tab_allergens = this.allergens_list.filter(el => arr_allergen.includes(el.id_Allergen))
+      }
+
+      let id: number | undefined; 
+      if (this.ingredient.id)
+        id = this.ingredient.id; 
+
+      this.ingredient = new Ingredient(
+        this.ingredientGroup.get('name')?.value,
+        this.ingredientGroup.get('unit')?.value,
+        this.ingredientGroup.get('availableQuantity')?.value,
+        this.ingredientGroup.get('unitPrice')?.value,
+        tab_allergens, 
+        id
+      );
+    }
   }
 
   ngAfterViewInit (): void {

@@ -40,7 +40,9 @@ export class IngredientsService {
   }
 
   update(id: number, updateIngredientDto: UpdateIngredientDto) {
-    return this.ingredientRepo.update(id, updateIngredientDto);
+    console.log("Modification de l'ingrédient " + id + " : " , updateIngredientDto);
+    //return this.ingredientRepo.update(id, updateIngredientDto);
+    return this.ingredientRepo.save(updateIngredientDto);
   }
 
   remove(id: number) {
