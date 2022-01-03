@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
-import {Router} from "@angular/router"
+import {ActivatedRoute, Router} from "@angular/router"
 
 import { Ingredient } from '../../../model/ingredient'
 import { Allergen } from '../../../model/allergen';
@@ -18,6 +18,7 @@ import { AllergenService } from '../../../service/allergen.service';
 })
 export class CreateIngredientComponent implements OnInit, AfterViewInit{
 
+  public isUpdate: boolean = false; //Pas défaut c'est en insert 
   public ingredientGroup : FormGroup | null = null;
   public ingredient: Ingredient = new Ingredient();
   public allergens_list : Allergen[] = [];
@@ -26,7 +27,8 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
     private fb: FormBuilder,
     private ingredientService: IngredientService,
     private allergenService: AllergenService,
-    private router: Router) {}
+    private router: Router, 
+    private route: ActivatedRoute) {}
 
   validate(): void {
     let tab_allergens: Allergen[] = [];
@@ -56,6 +58,23 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit (): void {
+
+    let id: string | null = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isUpdate = true; 
+      this.ingredientService.getIngredientById(Number(id)).subscribe(
+        ingredient => {
+          this.ingredient = ingredient; 
+          this.ingredientGroup?.patchValue({
+            name: this.ingredient.name,
+            unit: this.ingredient.unit,
+            availableQuantity: this.ingredient.availableQuantity,
+            unitPrice: this.ingredient.unitPrice,
+            allergens: this.ingredient.associatedAllergen
+          }); 
+        } 
+      ); 
+    }
     this.ingredientGroup = this.fb.group({
       name: [this.ingredient?.name],
       unit: [this.ingredient?.unit],
@@ -63,6 +82,7 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit{
       unitPrice: [this.ingredient?.unitPrice],
       allergens: [this.ingredient?.associatedAllergen]
     });
+    console.log(this.ingredient);
 
     this.allergenService.getAllAllergens().subscribe(data => {
       this.allergens_list = data;

@@ -6,22 +6,22 @@
         <form [formGroup]="ingredientGroup" (ngSubmit) = "validate()" class = "col s12">
             <div class="input-field col s6">
                 <input id="name" type="text" class="validate" formControlName = "name">
-                <label for="name">Nom </label>
+                <label for="name" [class.active] = "this.isUpdate">Nom </label>
             </div>
 
             <div class="input-field col s6">
                 <input id="unit" type="text" class="validate" formControlName = "unit">
-                <label for="unit">Unité </label>
+                <label for="unit" [class.active] = "this.isUpdate">Unité </label>
             </div>
 
             <div class="input-field col s6">
                 <input id="availableQuantity" type="number" class="validate" formControlName = "availableQuantity">
-                <label for="availableQuantity">Quantité disponible </label>
+                <label for="availableQuantity" [class.active] = "this.isUpdate">Quantité disponible </label>
             </div>
 
             <div class="input-field col s6">
-                <input id="unitPrice" type="text" class="validate" formControlName = "unitPrice">
-                <label for="unitPrice">Prix unitaire </label> 
+                <input id="unitPrice" type="number" class="validate" formControlName = "unitPrice">
+                <label for="unitPrice" [class.active] = "this.isUpdate">Prix unitaire </label> 
             </div>
 
 
