@@ -199,9 +199,15 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     this.stepOrRecipeToShow[toReplaceWith] = recipeOrStep_arr;
 
     //On le met à jour dans le FormBuilder
-    let recipeOrStep_fa: AbstractControl = this.steps.at(i); 
-    this.steps.removeAt(i); 
-    this.steps.insert(toReplaceWith, recipeOrStep_fa); 
+    if (this.stepOrRecipeToShow[i] instanceof Step && this.stepOrRecipeToShow[toReplaceWith] instanceof Step) {
+      let recipeOrStep_fa: AbstractControl = this.steps.at(i); 
+      this.steps.removeAt(i); 
+      this.steps.insert(toReplaceWith, recipeOrStep_fa); 
+    }
+  }
+
+  moveToRecipeById(id: number): void {
+    this.router.navigate(['/recipe/info/' + id])
   }
 
   //Materialize

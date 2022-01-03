@@ -50,9 +50,12 @@
             </div>
 
             <ng-template #elseBlock>
-              {{ el.name }}
-              <br>
-              C'est une recette
+              <h3>
+                {{ el.name }}
+              </h3>
+              <button *ngIf = "el.id" class = "btn" type = "button" (click) = "moveToRecipeById(el.id)">
+                Voir la recette
+              </button>
             </ng-template>
             <hr />
           </div>
