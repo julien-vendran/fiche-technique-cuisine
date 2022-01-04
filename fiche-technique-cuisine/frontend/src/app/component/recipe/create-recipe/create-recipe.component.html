@@ -6,7 +6,7 @@
     <form [formGroup]="recipeGroup" (ngSubmit)="validate()" class="col s12">
       <div class="input-field col s6">
         <input id="name" type="text" class="validate" formControlName="name">
-        <label for="name">Nom </label>
+        <label for="name" [ngClass]="{'active': recipeGroup.get('name')?.value != ''}">Nom </label>
       </div>
 
       <div class="input-field col s6">
@@ -16,7 +16,7 @@
 
       <div class="input-field col s6">
         <input id="nbOfCover" type="number" class="validate" formControlName="nbOfCover">
-        <label for="nbOfCover">Nombre de couvert </label>
+        <label for="nbOfCover" [ngClass]="{'active': recipeGroup.get('nbOfCover')?.value != null}">Nombre de couvert </label>
       </div>
 
       <div class="input-field col s6">
@@ -50,9 +50,12 @@
             </div>
 
             <ng-template #elseBlock>
-              {{ el.name }}
-              <br>
-              C'est une recette
+              <h3>
+                {{ el.name }}
+              </h3>
+              <button *ngIf = "el.id" class = "btn" type = "button" (click) = "moveToRecipeById(el.id)">
+                Voir la recette
+              </button>
             </ng-template>
             <hr />
           </div>

@@ -37,6 +37,14 @@ export class IngredientService {
     return this.http.delete(this.ingredient_url + '/' + id); 
   }
 
+  getIngredientById(id: number) {
+    return this.http.get<Ingredient>(this.ingredient_url + '/' + id);
+  }
+
+  updateIngredient (id: number, newIngredient: Ingredient) {
+    return this.http.patch<Ingredient>(this.ingredient_url + '/' + id, newIngredient);
+  }
+
   jsonToIngredient(json: any): Ingredient {
     return new Ingredient(
       json.name, 

@@ -7,7 +7,7 @@ export class Ingredient {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique:true})
+    @Column(/*{unique:true}*/)
     name: String;
 
     //A voir si on fait pas une table qui sert d'enum ici
