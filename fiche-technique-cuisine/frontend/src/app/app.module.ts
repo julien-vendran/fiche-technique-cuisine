@@ -17,6 +17,7 @@ import { CreateRecipeComponent } from './component/recipe/create-recipe/create-r
 import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.component';
 import { CreateStepComponent } from './component/step/create-step/create-step.component';
 import { RecipeInfoComponent } from './component/recipe/recipe-info/recipe-info.component';
+import { HomeComponent } from './component/utile/home/home.component';
 
 
 
@@ -33,6 +34,7 @@ import { RecipeInfoComponent } from './component/recipe/recipe-info/recipe-info.
     RecipeListComponent,
     CreateStepComponent,
     RecipeInfoComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

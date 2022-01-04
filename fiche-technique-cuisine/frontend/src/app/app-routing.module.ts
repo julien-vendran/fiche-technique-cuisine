@@ -7,10 +7,12 @@ import { ListAllergensComponent } from "./component/allergen/list-allergens/list
 
 import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.component';
 import { CreateRecipeComponent } from './component/recipe/create-recipe/create-recipe.component';
-import {CreateStepComponent} from "./component/step/create-step/create-step.component";
-import {RecipeInfoComponent} from "./component/recipe/recipe-info/recipe-info.component";
+import { CreateStepComponent } from "./component/step/create-step/create-step.component";
+import { RecipeInfoComponent } from "./component/recipe/recipe-info/recipe-info.component";
+import { HomeComponent } from './component/utile/home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent},
   { path: 'ingredients/add', component: CreateIngredientComponent },
   { path: 'ingredients/update/:id', component: CreateIngredientComponent },
   { path: 'ingredients', component: ListIngredientsComponent },
