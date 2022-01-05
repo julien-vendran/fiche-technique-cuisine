@@ -10,6 +10,7 @@ import { CreateRecipeComponent } from './component/recipe/create-recipe/create-r
 import { CreateStepComponent } from "./component/step/create-step/create-step.component";
 import { RecipeInfoComponent } from "./component/recipe/recipe-info/recipe-info.component";
 import { HomeComponent } from './component/utile/home/home.component';
+import {CreateDenreeComponent} from "./component/denree/create-denree/create-denree.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'recipe/add', component: CreateRecipeComponent },
   { path: 'recipe/info/:id', component: RecipeInfoComponent },
   { path: 'step/add', component: CreateStepComponent },
+  {path: 'denree/add',component:CreateDenreeComponent},
 
 
 ];

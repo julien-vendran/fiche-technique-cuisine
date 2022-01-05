@@ -9,6 +9,7 @@ export class DenreeController {
 
   @Post()
   create(@Body() createDenreeDto: CreateDenreeDto) {
+    console.log("Create denree in progress ....");
     return this.denreeService.create(createDenreeDto);
   }
 

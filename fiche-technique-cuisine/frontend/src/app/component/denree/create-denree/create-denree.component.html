@@ -1,1 +1,30 @@
-<p>create-denree works!</p>
+<section class = "container">
+  <h2 class = "center-align">
+    Ajouter un denrée
+  </h2>
+  <div  class = "row">
+    <form [formGroup]="denreeGroup" (ngSubmit) = "validate()" class = "col s12">
+      <div class="input-field col s12">
+        <select formControlName = "ingredient" (ngModelChange)="change($event)">
+          <option value="" disabled selected>Choisissez votre ingrédient</option>
+
+          <option *ngFor="let al of ingredient_list" [value]="al.id">
+            {{al.name}}
+          </option>
+        </select>
+        <label>L'ingredient au produit</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="quantity" type="text" class="validate" formControlName = "quantity">
+        <label for="quantity">Quantité </label>
+      </div>
+
+      <div class="col s12 center-align">
+        <button  type="submit" class="waves-effect waves-light btn">
+          Valider
+        </button>
+
+      </div>
+    </form>
+  </div>
+</section>

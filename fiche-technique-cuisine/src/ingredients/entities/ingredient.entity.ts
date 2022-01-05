@@ -1,6 +1,7 @@
 import { IngredientsCategorie } from 'src/ingredients-categorie/entities/ingredients-categorie.entity';
-import { Allergen } from 'src/allergen/entities/allergen.entity';
+
 import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Unique} from 'typeorm';
+import {Allergen} from "../../allergen/entities/allergen.entity";
 
 @Entity()
 export class Ingredient {
