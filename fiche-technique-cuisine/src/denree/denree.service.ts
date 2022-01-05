@@ -17,6 +17,7 @@ export class DenreeService {
   ){}
 
   create(createDenreeDto: CreateDenreeDto) {
+    console.log("Création denrée dans bd")
     return this.denreeRepo.save(this.denreeRepo.create(createDenreeDto));
   }
 

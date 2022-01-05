@@ -1,4 +1,4 @@
-import {Ingredient} from "../../../../src/ingredients/entities/ingredient.entity";
+import {Ingredient} from "./ingredient";
 
 export class Denree {
   id:number | undefined;

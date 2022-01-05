@@ -32,7 +32,7 @@ export class CreateDenreeComponent implements OnInit {
         this.denreeGroup.get('ingredient')?.value,
       );
       //Envoie des données
-      this.denreeService.createDenree(this.denree);
+      this.denreeService.createDenree(this.denree).subscribe();
     }
     //On remet à zéro notre denree
     this.denree = new Denree();

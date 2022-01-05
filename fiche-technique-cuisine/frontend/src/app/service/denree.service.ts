@@ -10,14 +10,14 @@ import {Observable} from "rxjs";
 export class DenreeService {
 
 
-  private denree_url : string = "http://localhost:3000/denrees";
+  private denree_url : string = "http://localhost:3000/denree";
 
   constructor(
     private http: HttpClient
   ) {}
 
   createDenree (denree: Denree) {
-    console.log("Création de notre ingrédient initiée");
+    console.log("Création de notre denrée initiée");
     return this.http.post<Denree>(this.denree_url, denree);
   }
 
