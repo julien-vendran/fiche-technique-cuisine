@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {DenreeService} from "../../../service/denree.service";
-import {IngredientService} from "../../../service/ingredient.service";
-import {Denree} from "../../../model/denree";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { DenreeService } from "../../../service/denree.service";
+import { IngredientService } from "../../../service/ingredient.service";
+import { Denree } from "../../../model/denree";
 import * as M from "materialize-css";
-import {Ingredient} from "../../../model/ingredient";
+import { Ingredient } from "../../../model/ingredient";
 
 @Component({
   selector: 'app-create-denree',
@@ -12,19 +12,16 @@ import {Ingredient} from "../../../model/ingredient";
   styleUrls: ['./create-denree.component.css']
 })
 export class CreateDenreeComponent implements OnInit {
-  public denreeGroup : FormGroup | null = null;
-  public denree: Denree = new Denree();
-  public ingredient_list:Ingredient[]=[];
-
+  @Input() public denreeGroup: FormGroup | null = null;
+  @Input() public formIdEnd: number | null = null; 
+  @Input() public ingredient_list: Ingredient[] | null = null; //On le met en INPUT pour éviter de faire 4000 requêtes à la BD
 
   constructor(
-    private fb:FormBuilder,
-    private denreeService:DenreeService,
+    private fb: FormBuilder,
     private ingredientService: IngredientService,
+  ) {} //private denreeService: DenreeService
 
-  ) { }
-
-  validate(): void {
+  /* validate(): void {
     //On va créer un denree avec les éléments qu'on a eu
     if (this.denreeGroup) {
       this.denree = new Denree(
@@ -36,26 +33,32 @@ export class CreateDenreeComponent implements OnInit {
     }
     //On remet à zéro notre denree
     this.denree = new Denree();
-  }
+  } */
 
-  ngOnInit (): void {
-    this.denreeGroup = this.fb.group({
-      quantity: [this.denree?.quantity],
-      ingredient:[this.denree?.ingredient]
-    });
+  ngOnInit(): void {
+    if (this.denreeGroup == null) {
+      this.denreeGroup = this.fb.group({
+        quantity: [1],
+        ingredient: []
+      });
+    }
 
-    this.ingredientService.getAllIngredients().subscribe(data=>{
-      this.ingredient_list=data;
+    if (this.ingredient_list == null) {
+      this.ingredientService.getAllIngredients().subscribe(data => {
+        this.ingredient_list = data;
+        setTimeout(this.initSelectMaterialize, 100);
+      }); 
+    } /* else {
       setTimeout(this.initSelectMaterialize, 100);
-    })
+    } */
   }
 
-  ngAfterViewInit (): void {
+  ngAfterViewInit(): void {
     this.initSelectMaterialize();
   }
 
-  initSelectMaterialize (): void {
-    let options:any = {isMultiple: true};
+  initSelectMaterialize(): void {
+    let options: any = { isMultiple: true };
     M.FormSelect.init(document.querySelectorAll('select'), options);
   }
 

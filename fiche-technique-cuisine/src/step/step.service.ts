@@ -14,16 +14,16 @@ export class StepService {
   ){}
 
   create(createStepDto: CreateStepDto) {
-    console.log("On crée une étape");
+    console.log("On crée une étape (LES DENREES SIVOUPLé)", createStepDto);
     return this.stepRepo.save(this.stepRepo.create(createStepDto));
   }
 
   findAll(): Promise<Step[]> {
-    return this.stepRepo.find({ relations: ["listIngredient"] });
+    return this.stepRepo.find({ relations: ["denreeUsed"] });
   }
 
   findOne(id: number) {
-    return this.stepRepo.findOne(id, { relations: ["listIngredient"] });
+    return this.stepRepo.findOne(id, { relations: ["denreeUsed"] });
   }
 
   update(id: number, updateStepDto: UpdateStepDto) {

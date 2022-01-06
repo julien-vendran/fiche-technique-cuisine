@@ -44,7 +44,7 @@
               descendre
             </button>
             <div *ngIf = "isStep(el); else elseBlock">
-              <app-create-step [stepGroup] = "getStepGroup(i)" [formIdEnd] = "i">
+              <app-create-step [stepGroup] = "getStepGroup(i)" [formIdEnd] = "i" [step] = "getStep(i)">
 
               </app-create-step>
             </div>
