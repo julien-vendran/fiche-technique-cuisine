@@ -47,7 +47,7 @@ export class StepService {
       json.name,
       json.description,
       json.duration,
-      json.listIngredient,
+      json.denreeUsed, 
       json.id
     );
   }

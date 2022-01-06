@@ -48,6 +48,7 @@ export class DenreeService {
     return new Denree(
       json.quantity,
       json.ingredient,
+      json.step, 
       json.id
     );
   }

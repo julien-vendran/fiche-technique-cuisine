@@ -51,7 +51,8 @@ export class IngredientService {
       json.unit, 
       json.availableQuantity,
       json.unitPrice,
-      json.associatedAllergen, 
+      json.associatedAllergen,
+      json.denreeUsed,  
       json.id
     );
   }
