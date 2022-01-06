@@ -18,15 +18,7 @@ export class IngredientsService {
     @InjectRepository(Ingredient)
     private ingredientRepo: Repository<Ingredient>
   ) {}
-
-  /** Insert an ingedient to the database
-   * @param createIngredientDto
-      name: String;
-      unit: String; 
-      availableQuantity: number; 
-      unitPrice: number; 
-      isAllergenic: boolean; 
-   */
+  
   create(createIngredientDto: CreateIngredientDto) {
     return this.ingredientRepo.save(this.ingredientRepo.create(createIngredientDto));
   }

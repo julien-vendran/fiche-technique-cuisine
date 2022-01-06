@@ -1,6 +1,7 @@
+import { Denree } from '../../denree/entities/denree.entity';
 import { IngredientsCategorie } from 'src/ingredients-categorie/entities/ingredients-categorie.entity';
 
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Unique} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Unique, OneToMany} from 'typeorm';
 import {Allergen} from "../../allergen/entities/allergen.entity";
 
 @Entity()
@@ -27,4 +28,7 @@ export class Ingredient {
     @ManyToMany(type => Allergen)
     @JoinTable()
     associatedAllergen: Allergen[];
+
+    @OneToMany(() => Denree, d => d.ingredient)
+    denreeUsed: Denree[]; 
 }

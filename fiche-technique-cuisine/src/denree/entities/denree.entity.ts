@@ -1,3 +1,4 @@
+import { Step } from "src/step/entities/step.entity";
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Ingredient} from "../../ingredients/entities/ingredient.entity";
 
@@ -9,7 +10,9 @@ export class Denree {
     @Column()
     quantity:number;
 
-    @ManyToOne(() =>Ingredient)
+    @ManyToOne(() => Ingredient, ig => ig.denreeUsed)
     ingredient:Ingredient;
 
+    @ManyToOne(() => Step, s => s.denreeUsed)
+    step: Step;
 }
