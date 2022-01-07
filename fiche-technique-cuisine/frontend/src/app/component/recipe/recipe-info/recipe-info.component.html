@@ -1,4 +1,4 @@
-<section *ngIf="!id; else RecipInRecip" class="container">
+<section class="container">
   <div *ngIf="recipe" class="row ">
     <div>
       <h1 class="center-align"> {{recipe.name}}</h1>
@@ -17,8 +17,8 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let stepOrRecip of (recipe!.listOfSteps)" class="col s12">
-      <div *ngIf="contain(stepOrRecip.id) as step; else recipComponent">
+    <div *ngFor="let step of (steps)" class="col s12">
+      <div>
         <div class="col s12 m6">
           <div class="card-panel ">
             <table>
@@ -30,11 +30,11 @@
               </tr>
               </thead>
               <tbody>
-<!--               <tr *ngFor="let ingre of (step).listIngredient">
-                <td>{{ingre.name}}</td>
-                <td>{{ingre.unit}}</td>
-                <td>not implemented yet</td>
-              </tr> -->
+              <tr *ngFor="let denree of (step).denreeUsed">
+                <td>{{denree.ingredient!.name}}</td>
+                <td>{{denree.ingredient!.unit}}</td>
+                <td>{{denree.quantity}}</td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -61,9 +61,6 @@
           </div>
         </div>
       </div>
-      <ng-template #recipComponent>
-        <app-recipe-info  [id]="stepOrRecip.id!"></app-recipe-info>
-      </ng-template>
     </div>
 
   </div>
@@ -71,53 +68,3 @@
   <router-outlet></router-outlet>
 </section>
 
-<ng-template #RecipInRecip >
-  <div *ngFor="let stepOrRecip of (recipe!.listOfSteps)" class="col s12">
-    <div *ngIf="contain(stepOrRecip.id) as step; else recipComponent">
-      <div class="col s12 m6">
-        <div class="card-panel ">
-          <table>
-            <thead>
-            <tr>
-              <th>Denrées</th>
-              <th>Unités</th>
-              <th>Quantités</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- <tr *ngFor="let ingre of (step).listIngredient">
-              <td>{{ingre.name}}</td>
-              <td>{{ingre.unit}}</td>
-              <td>not implemented yet</td>
-            </tr> -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="col s12 m6">
-        <div class="card-panel">
-          <table>
-            <thead>
-            <tr>
-              <th>{{step.name}}</th>
-              <th>Durée</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr>
-              <td><span class="">{{step.description}}</span></td>
-              <td><span>{{step.duration}}</span></td>
-            </tr>
-            </tbody>
-          </table>
-
-        </div>
-      </div>
-    </div>
-    <ng-template #recipComponent>
-      <app-recipe-info  [id]="stepOrRecip.id!"></app-recipe-info>
-    </ng-template>
-  </div>
-</ng-template>
