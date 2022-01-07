@@ -94,8 +94,9 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
               count ++;
             }
           }
-          forkJoin(obsStep_arr).subscribe(
+          /* forkJoin(obsStep_arr).subscribe(
             arr_step => {
+              console.log("JE SUIS TROOOOOOOOOOOOOOOP CON");
               count = 0; 
               for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
                 if (this.stepOrRecipeToShow[i] instanceof Step) {
@@ -104,6 +105,26 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
                 }
               }
     
+              this.recipeService.createRecipe(this.recipe).subscribe(
+                () => this.router.navigate(['/recipe'])
+                //recipe => console.log(recipe)
+              );
+              console.log("fini");
+            }
+          ); */
+        }, null, () => { 
+          forkJoin(obsStep_arr).subscribe(
+            arr_step => {
+              console.log("JE SUIS TROOOOOOOOOOOOOOOP CON");
+              count = 0; 
+              for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
+                if (this.stepOrRecipeToShow[i] instanceof Step) {
+                  this.stepOrRecipeToShow[i].id = arr_step[count].id; //On met à jour les id de notre tableau
+                  count ++;
+                }
+              }
+            }, null, () => {
+              console.log("On valide notre recette");
               this.recipeService.createRecipe(this.recipe).subscribe(
                 () => this.router.navigate(['/recipe'])
                 //recipe => console.log(recipe)
