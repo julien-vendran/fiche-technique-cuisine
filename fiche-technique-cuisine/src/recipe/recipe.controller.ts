@@ -20,6 +20,11 @@ export class RecipeController {
     return this.recipeService.findAll();
   }
 
+  @Get('/cost/:id')
+  getCostForRecipeById(@Param('id') id: string) {
+    return this.recipeService.getCostForRecipeById(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.recipeService.findOne(+id);

@@ -40,4 +40,12 @@ export class RecipeService {
     //return `Supression de la données #${id}`;
     return this.recipeRepo.delete(id);
   }
+
+  getCostForRecipeById(id: number) {
+    
+    
+    return {
+      "test": 12
+    };
+  }
 }
