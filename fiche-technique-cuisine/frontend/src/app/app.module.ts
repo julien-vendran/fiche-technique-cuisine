@@ -20,6 +20,7 @@ import { RecipeInfoComponent } from './component/recipe/recipe-info/recipe-info.
 import { HomeComponent } from './component/utile/home/home.component';
 import { CreateDenreeComponent } from './component/denree/create-denree/create-denree.component';
 import { CostComponent } from './component/recipe/cost/cost.component';
+import { DenreeInfoComponent } from './component/denree/denree-info/denree-info.component';
 
 
 
@@ -39,6 +40,7 @@ import { CostComponent } from './component/recipe/cost/cost.component';
     HomeComponent,
     CreateDenreeComponent,
     CostComponent,
+    DenreeInfoComponent,
   ],
   imports: [
     BrowserModule,
