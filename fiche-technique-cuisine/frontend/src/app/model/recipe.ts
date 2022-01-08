@@ -1,4 +1,5 @@
 import {RecipeOrStep} from "./recipe-or-step";
+import {Step} from "./step";
 
 export class Recipe extends RecipeOrStep {
 
@@ -22,11 +23,11 @@ export class Recipe extends RecipeOrStep {
     this.listOfSteps= listOfSteps ? listOfSteps : [];
   }
 
-  getSteps(): RecipeOrStep[] {
+  getSteps(): Step[] {
     console.log("On appel getsteps");
-    let out:RecipeOrStep[]=[];
-    this.listOfSteps.forEach(function (steps:RecipeOrStep) {
-      out.concat(steps.getSteps());
+    let out:Step[]=[];
+    this.listOfSteps.forEach(el=>{
+      out.push(...el.getSteps())
     });
     return out;
   }

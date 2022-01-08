@@ -3,6 +3,7 @@ export abstract class RecipeOrStep {
   id: number | undefined;
   name: String = "";
 
+
   constructor(
     name?: String, id?: number //Il n'est pas forcément nécessaire donc on le met en dernier
   ) {
@@ -10,6 +11,6 @@ export abstract class RecipeOrStep {
     this.name = name ? name : "";
   }
 
-  abstract getSteps(): RecipeOrStep[];
+  abstract getSteps(): any[];
 
 }

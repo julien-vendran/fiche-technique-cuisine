@@ -6,9 +6,8 @@ import {Observable} from "rxjs";
 import {Step} from "../../../model/step";
 import {ActivatedRoute} from "@angular/router";
 import {forkJoin} from "rxjs";
-import {Ingredient} from "../../../model/ingredient";
 import {DenreeService} from "../../../service/denree.service";
-import {Denree} from "../../../model/denree";
+import {RecipeOrStep} from "../../../model/recipe-or-step";
 
 @Component({
   selector: 'app-recipe-info',
@@ -17,16 +16,20 @@ import {Denree} from "../../../model/denree";
 })
 export class RecipeInfoComponent implements OnInit {
 
-  public recipe : Recipe | null=null;
-  public steps: Step[]=[];
+  public recipe: Recipe | null = null;
+  public steps: Step[] = [];
+  public temps: Observable<Step>[] = [];
+  public recipeOrStep:(RecipeOrStep)[]=[];
+
 
   constructor(
     private route: ActivatedRoute,
-   // private location: Location,
+    // private location: Location,
     private recipeService: RecipeService,
-    private stepService:StepService,
-    private denreeService:DenreeService
-  ) {}
+    private stepService: StepService,
+    private denreeService: DenreeService
+  ) {
+  }
 
 
   ngOnInit(): void {
@@ -34,59 +37,80 @@ export class RecipeInfoComponent implements OnInit {
 
   }
 
-  getRecipe():void{
+  getRecipe(): void {
 
-    const id= Number(this.route.snapshot.paramMap.get('id'));
-    //console.log("Recette id: "+id);
-    this.getRecipeById(id).subscribe(recipe=>{this.recipe=recipe; this.getSteps();});//TODO pas bo
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.getRecipeById(id).subscribe(recipe => {
+      this.recipe = recipe;
+      this.getSteps();
+    });
   }
 
-  getRecipeById(nombre:number):Observable<Recipe>{
+  getRecipeById(nombre: number): Observable<Recipe> {
     return this.recipeService.getRecipe(nombre);
   }
 
-  getSteps():void{
-
-    let observer_arr:Observable<Step>[]= this.recursif(this.recipe);
-    console.log("ON regarde les observer",observer_arr);
-    forkJoin(observer_arr).subscribe(arr=>{ this.steps=arr; this.getAllDenree();});
+  getSteps(): void {
+    this.recursifBis(this.recipe!,0);
   }
 
-  getAllDenree(){
-    for (let step of this.steps){
-     // step.denreeUsed.map(denree=> this.getDenree(denree).subscribe())
-      for(let derenrefor of step.denreeUsed){
-       this.denreeService.getDenreeById(derenrefor.id!).subscribe(data=> derenrefor.ingredient=data.ingredient);
+  getAllDenree() {
+    for (let step of this.steps) {
+      for (let derenrefor of step.denreeUsed) {
+        this.denreeService.getDenreeById(derenrefor.id!).subscribe(data => derenrefor.ingredient = data.ingredient);
       }
     }
   }
 
 
-  recursif(elem:any):Observable<Step>[]{
-    let observer_arr:Observable<Step>[]= [];
-    if (this.isRecipe(elem)){
-      let r:Recipe = elem;
-      for (let next of r.listOfSteps){
-        if (this.isRecipe(next)){
-          //this.getRecipeById(next.id).subscribe()
-          observer_arr.push(...this.recursif(next)); //TODO pense pas que ça marche
+  recursifBis(recip:Recipe,index:number){
+    forkJoin(this.getStepFromRecipe(recip)).subscribe(rORs=>{
+
+      this.recipeOrStep.splice(index,1,...rORs);
+      let i=index;
+      let keepGoing=true;
+      while (keepGoing && i<this.recipeOrStep.length){
+        let elem=this.recipeOrStep[i];
+        if(this.isRecipe(elem)){
+          const idsend=i;
+          this.recipeService.getRecipe(elem.id!).subscribe(data=>this.recursifBis(data,idsend));
+          keepGoing=false
         }else {
-          observer_arr.push(...this.recursif(next));
+          i++;
         }
       }
-    }else {
-      observer_arr.push(this.stepService.getStep(elem.id));
+      if(i==this.recipeOrStep.length){
+       this.end()
+      }
+
+    })
+  }
+
+  end(){
+    this.steps=this.recipeOrStep as Array<Step>;
+    this.getAllDenree();
+  }
+
+  getStepFromRecipe(recip: Recipe): Observable<Step| Recipe>[] {
+    let observer_arr: Observable<Step | Recipe>[] = [];
+    let r: Recipe = recip;
+    for (let next of r.listOfSteps) {
+      if (this.isRecipe(next)){
+        observer_arr.push(this.recipeService.getRecipe(next.id!));
+      }else {
+          observer_arr.push(this.stepService.getStep(next.id!));
+      }
     }
-    return observer_arr;
+      return  observer_arr;
+    }
+
+
+  isRecipe(elem: any) {
+    return elem.hasOwnProperty("responsable");
   }
 
-
-  isRecipe(elem:any){
-    return (<Recipe>elem).responsable;
-  }
-
-  contain(id:any):Step{
-    return this.steps.filter(el=> el.id==id)[0];
+  contain(id: any): Step {
+    return this.steps.filter(el => el.id == id)[0];
   }
 
 }
