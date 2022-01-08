@@ -10,10 +10,11 @@ import { CreateRecipeComponent } from './component/recipe/create-recipe/create-r
 import { CreateStepComponent } from "./component/step/create-step/create-step.component";
 import { RecipeInfoComponent } from "./component/recipe/recipe-info/recipe-info.component";
 import { HomeComponent } from './component/utile/home/home.component';
-import {CreateDenreeComponent} from "./component/denree/create-denree/create-denree.component";
+import { CreateDenreeComponent } from "./component/denree/create-denree/create-denree.component";
+import { CostComponent } from './component/recipe/cost/cost.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent},
+  { path: '', component: HomeComponent },
   { path: 'ingredients/add', component: CreateIngredientComponent },
   { path: 'ingredients/update/:id', component: CreateIngredientComponent },
   { path: 'ingredients', component: ListIngredientsComponent },
@@ -23,8 +24,8 @@ const routes: Routes = [
   { path: 'recipe/add', component: CreateRecipeComponent },
   { path: 'recipe/info/:id', component: RecipeInfoComponent },
   { path: 'step/add', component: CreateStepComponent },
-  {path: 'denree/add',component:CreateDenreeComponent},
-
+  { path: 'denree/add', component: CreateDenreeComponent },
+  { path: 'cost', component: CostComponent }
 
 ];
 
@@ -32,4 +33,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

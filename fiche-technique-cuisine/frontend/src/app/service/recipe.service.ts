@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Recipe} from "../model/recipe";
 import {map, tap} from "rxjs/operators";
 import {Observable} from 'rxjs';
+import { Cost } from '../model/cost';
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +43,10 @@ export class RecipeService {
 
     return this.http.delete(this.recipe_url + '/' + id);
   }
-
-  jsonToRecipe(json: any): Recipe {
+  getCostByRecipeId (id: number) {
+    return this.http.get<Cost>(this.recipe_url + '/cost/' + id);
+  }
+  jsonToRecipe(json: any): Recipe {   
     return new Recipe(
       json.name,
       json.responsable,
