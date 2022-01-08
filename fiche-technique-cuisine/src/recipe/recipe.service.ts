@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Recipe } from "./entities/recipe.entity";
 import { Step } from 'src/step/entities/step.entity';
 import { Repository } from "typeorm";
+import { StepService } from 'src/step/step.service';
 
 
 
@@ -13,7 +14,8 @@ export class RecipeService {
 
   constructor(
     @InjectRepository(Recipe)
-    private recipeRepo: Repository<Recipe>
+    private readonly recipeRepo: Repository<Recipe>, 
+    private readonly stepService: StepService
   ) { }
 
   create(createRecipeDto: CreateRecipeDto) {
@@ -47,7 +49,6 @@ export class RecipeService {
     let r: Recipe = await this.findOne(id);
     //console.log(this.getCoutMatierePremiere(r));
     let coutMP: any = await this.getCoutRecipe(r);
-
     return coutMP; 
   }
 
@@ -61,9 +62,6 @@ export class RecipeService {
     }
   }
 
-  /*
-   * On va directement retourner le JSON qu'on va remplir au fur et à mesure avec les valeurs qu'on obtient
-   */
   private async getCoutRecipe(recipeToTest: Recipe): Promise<any> {
     let jsonToReturn: any = {
       coutMatiere: 0, 
@@ -107,5 +105,15 @@ export class RecipeService {
     jsonToReturn.coutCharges.personnel = (stepToTest.duration / 60) * 10.75; 
     jsonToReturn.coutCharges.fluides = (stepToTest.duration / 60) * 2; //TODO : Mettre un taux de fluide en fonction de ce qui est dit    
     return jsonToReturn;
+  }
+
+  async consumeRecipe(id: number) {
+    const recipe: Recipe = await this.findOne(id); 
+    recipe.listOfSteps.map(
+      data => {
+        if (data instanceof Recipe) this.consumeRecipe(data.id); 
+        else this.stepService.consumeStep(data.id); //Si c'est pas une recette, c'est une Step
+      }
+    );
   }
 }

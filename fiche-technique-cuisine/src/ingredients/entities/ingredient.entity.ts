@@ -20,15 +20,15 @@ export class Ingredient {
     availableQuantity: number;
 
     @Column("real")
-    unitPrice: number; 
+    unitPrice: number;
 
     @ManyToOne( () => IngredientsCategorie, ig => ig.ingredients)
     categorie: IngredientsCategorie;
 
-    @ManyToMany(type => Allergen)
+    @ManyToMany(() => Allergen)
     @JoinTable()
     associatedAllergen: Allergen[];
 
-    @OneToMany(() => Denree, d => d.ingredient)
-    denreeUsed: Denree[]; 
+    @OneToMany(() => Denree, d => d.ingredient, {cascade: true})
+    denreeUsed: Denree[];
 }

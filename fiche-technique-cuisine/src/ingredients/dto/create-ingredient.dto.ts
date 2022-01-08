@@ -9,5 +9,5 @@ export class CreateIngredientDto {
     unitPrice: number; 
     categorie: IngredientsCategorie;
     associatedAllergen: Allergen[];  
-    //denreeUsed: Denree;
+    denreeUsed: Denree[];
 }

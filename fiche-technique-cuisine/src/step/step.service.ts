@@ -1,17 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStepDto } from './dto/create-step.dto';
 import { UpdateStepDto } from './dto/update-step.dto';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {Step} from "./entities/step.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Step } from "./entities/step.entity";
+import { DenreeService } from 'src/denree/denree.service';
 
 @Injectable()
 export class StepService {
 
   constructor(
-      @InjectRepository(Step)
-      private stepRepo:Repository<Step>
-  ){}
+    @InjectRepository(Step)
+    private readonly stepRepo: Repository<Step>,
+    private readonly denreeService: DenreeService
+  ) { }
 
   create(createStepDto: CreateStepDto) {
     console.log("On crée une étape (LES DENREES SIVOUPLé)", createStepDto);
@@ -33,5 +35,12 @@ export class StepService {
   remove(id: number) {
     //return `Supression de la données #${id}`;
     return this.stepRepo.delete(id);
+  }
+
+  async consumeStep(id: number) {
+    const step: Step = await this.findOne(id);
+    step.denreeUsed.map(
+      data => this.denreeService.consumeDenree(data.id)
+    );
   }
 }
