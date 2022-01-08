@@ -46,7 +46,7 @@ export class RecipeService {
   async getCostForRecipeById(id: number) {
     let r: Recipe = await this.findOne(id);
     //console.log(this.getCoutMatierePremiere(r));
-    let coutMP: any = await this.getCoutMatierePremiere(r);
+    let coutMP: any = await this.getCoutRecipe(r);
 
     return coutMP; 
   }
@@ -64,7 +64,7 @@ export class RecipeService {
   /*
    * On va directement retourner le JSON qu'on va remplir au fur et à mesure avec les valeurs qu'on obtient
    */
-  private async getCoutMatierePremiere(recipeToTest: Recipe): Promise<any> {
+  private async getCoutRecipe(recipeToTest: Recipe): Promise<any> {
     let jsonToReturn: any = {
       coutMatiere: 0, 
       coutCharges: {
@@ -75,31 +75,18 @@ export class RecipeService {
     if (! recipeToTest) return jsonToReturn; //On vérifie que notre Recette n'est pas null ou undefined 
     if (!recipeToTest.listOfSteps) return jsonToReturn; //Notre recette n'a pas d'étape et donc pas de coût
 
-    console.log("-- Début du calcul de coût de " + recipeToTest.name + " -- ");
-
     for (let index = 0; index < recipeToTest.listOfSteps.length; index++) {
 
       if (recipeToTest.listOfSteps[index] instanceof Recipe) { //Si c'est une recette, on va chercher son prix 
-        jsonToReturn = this.combineCout(jsonToReturn, await this.getCoutMatierePremiere(await this.findOne(recipeToTest.listOfSteps[index].id) as Recipe));
+        jsonToReturn = this.combineCout(jsonToReturn, await this.getCoutRecipe(await this.findOne(recipeToTest.listOfSteps[index].id) as Recipe));
       } else {
-        console.log("truc qu'on reçoit depuis une STEP ", this.getCoutMPStep(recipeToTest.listOfSteps[index] as Step));
-        
-        jsonToReturn = this.combineCout(jsonToReturn, this.getCoutMPStep(recipeToTest.listOfSteps[index] as Step));
+        jsonToReturn = this.combineCout(jsonToReturn, this.getCoutStep(recipeToTest.listOfSteps[index] as Step));
       }
-      console.log("-_-_-_");
-      console.log("Etat actuel (" + recipeToTest.listOfSteps[index].name + "): ", jsonToReturn);
-      console.log("-_-_-_");
     }
-    console.log("-- Fin du calcul de coût --");
     return jsonToReturn;
   }
 
-  /*
-   * Ici on ne prends en compte que les coûts des matières premières
-   * Cout d'une étape :Somme(prix ingrédient * Qte utilisée)  
-  ( (temps * Taux horaire) + )
-   */
-  private getCoutMPStep (stepToTest: Step): number {
+  private getCoutStep (stepToTest: Step): number {
     let jsonToReturn: any = {
       coutMatiere: 0, 
       coutCharges: {
@@ -110,21 +97,15 @@ export class RecipeService {
 
     if (! stepToTest.denreeUsed) return jsonToReturn; //Cette étape n'utilise pas d'ingrédient
     let res: number = 0; 
-    console.log("## " + stepToTest.name + " ##");
     for (let index = 0; index < stepToTest.denreeUsed.length; index++) { //Ajout des prix des ingrédients utilisés
       const element = stepToTest.denreeUsed[index];
       res += element.quantity * element.ingredient.unitPrice;
     }
 
     //res += (stepToTest.duration / 60) * 10.75; //On prends comme taux horaire le smic
-    jsonToReturn.coutMatiere = res; 
-    console.log("res : " + res);
-    
+    jsonToReturn.coutMatiere = res;     
     jsonToReturn.coutCharges.personnel = (stepToTest.duration / 60) * 10.75; 
-    console.log("temps de l'étape : ", stepToTest.duration);
-    console.log("Charges de personnel", (stepToTest.duration / 60) * 10.75);
     jsonToReturn.coutCharges.fluides = (stepToTest.duration / 60) * 2; //TODO : Mettre un taux de fluide en fonction de ce qui est dit    
-    console.log("##");
     return jsonToReturn;
   }
 }
