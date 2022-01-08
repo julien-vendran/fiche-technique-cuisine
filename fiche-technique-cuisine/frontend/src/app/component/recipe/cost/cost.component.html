@@ -1,0 +1,101 @@
+<section *ngIf="this.cost">
+  <div class="row center-align">
+    <h4>
+      <i class="material-icons">euro_symbol</i>
+      Coûts
+      <i class="material-icons">euro_symbol</i>
+    </h4>
+    <div class="col s2 offset-s3">
+      <div class="hoverable card grey lighten-5">
+        <div class="card-content black-text">
+          <span class="card-title">
+            <h6>
+              Coût des charges
+            </h6>
+          </span>
+          <span>
+            {{cost.coutDesCharges}} €
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col s2">
+      <div class="hoverable card grey lighten-5">
+        <div class="card-content black-text">
+          <span class="card-title">
+            <h6>
+              Coût des matières
+            </h6>
+          </span>
+          <span>
+            {{cost.coutDesMatiere}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col s2">
+      <div class="hoverable card grey lighten-5">
+        <div class="card-content black-text">
+          <span class="card-title">
+            <h6>
+              Coût de production
+            </h6>
+          </span>
+          <span>
+            {{cost.coutDeProduction}} €
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row center-align">
+    <h4>
+      <i class="material-icons">euro_symbol</i>
+      Bénéfice
+      <i class="material-icons">euro_symbol</i>
+    </h4>
+    <div class="col s2 offset-s3">
+      <div class="hoverable card grey lighten-5">
+        <div class="card-content black-text">
+          <span class="card-title">
+            <h6>
+              Prix de vente
+            </h6>
+          </span>
+          <span>
+            {{cost.prixDeVente}} €
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col s2">
+      <div class="hoverable card grey lighten-5">
+        <div class="card-content black-text">
+          <span class="card-title">
+            <h6>
+              Bénéfice par portion
+            </h6>
+          </span>
+          <span>
+            {{cost.beneficeParPortion}} €
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col s2">
+      <div class="hoverable card grey lighten-5">
+        <div class="card-content black-text">
+          <span class="card-title">
+            <h6>
+              Seuil de rentabilité
+            </h6>
+          </span>
+          <span>
+            {{cost.seuilDeRentabilite}} portions
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

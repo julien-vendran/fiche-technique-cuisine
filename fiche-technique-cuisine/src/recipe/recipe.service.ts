@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Recipe} from "./entities/recipe.entity";
-import {Repository} from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Recipe } from "./entities/recipe.entity";
+import { Step } from 'src/step/entities/step.entity';
+import { Repository } from "typeorm";
+
 
 
 @Injectable()
 export class RecipeService {
 
   constructor(
-      @InjectRepository(Recipe)
-      private recipeRepo:Repository<Recipe>
-  ){}
+    @InjectRepository(Recipe)
+    private recipeRepo: Repository<Recipe>
+  ) { }
 
   create(createRecipeDto: CreateRecipeDto) {
 
-    console.log("Log : recipeDTO ",createRecipeDto);
+    console.log("Log : recipeDTO ", createRecipeDto);
     let temp = this.recipeRepo.create(createRecipeDto);
     console.log("#####################################");
     console.log("temp", temp);
-  //  temp.parents=null;
+    //  temp.parents=null;
     return this.recipeRepo.manager.save(temp);
   }
 
@@ -28,8 +30,8 @@ export class RecipeService {
     return this.recipeRepo.find({ relations: ["parents", "listOfSteps"] });
   }
 
-  findOne(id: number) :Promise<Recipe> {
-    return this.recipeRepo.findOne(id,{ relations: ["parents", "listOfSteps"]});
+  findOne(id: number): Promise<Recipe> {
+    return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps", "listOfSteps.denreeUsed", "listOfSteps.denreeUsed.ingredient"] });
   }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
@@ -41,11 +43,69 @@ export class RecipeService {
     return this.recipeRepo.delete(id);
   }
 
-  getCostForRecipeById(id: number) {
-    
-    
+  async getCostForRecipeById(id: number) {
+    let r: Recipe = await this.findOne(id);
+    //console.log(this.getCoutMatierePremiere(r));
+    let coutMP: any = await this.getCoutRecipe(r);
+
+    return coutMP; 
+  }
+
+  combineCout(receive: any, other: any): any {
     return {
-      "test": 12
-    };
+      coutMatiere: receive.coutMatiere + other.coutMatiere, 
+      coutCharges: {
+        personnel: receive.coutCharges.personnel + other.coutCharges.personnel, 
+        fluides: receive.coutCharges.fluides + other.coutCharges.fluides
+      }
+    }
+  }
+
+  /*
+   * On va directement retourner le JSON qu'on va remplir au fur et à mesure avec les valeurs qu'on obtient
+   */
+  private async getCoutRecipe(recipeToTest: Recipe): Promise<any> {
+    let jsonToReturn: any = {
+      coutMatiere: 0, 
+      coutCharges: {
+        personnel: 0, 
+        fluides: 0
+      }
+    }
+    if (! recipeToTest) return jsonToReturn; //On vérifie que notre Recette n'est pas null ou undefined 
+    if (!recipeToTest.listOfSteps) return jsonToReturn; //Notre recette n'a pas d'étape et donc pas de coût
+
+    for (let index = 0; index < recipeToTest.listOfSteps.length; index++) {
+
+      if (recipeToTest.listOfSteps[index] instanceof Recipe) { //Si c'est une recette, on va chercher son prix 
+        jsonToReturn = this.combineCout(jsonToReturn, await this.getCoutRecipe(await this.findOne(recipeToTest.listOfSteps[index].id) as Recipe));
+      } else {
+        jsonToReturn = this.combineCout(jsonToReturn, this.getCoutStep(recipeToTest.listOfSteps[index] as Step));
+      }
+    }
+    return jsonToReturn;
+  }
+
+  private getCoutStep (stepToTest: Step): number {
+    let jsonToReturn: any = {
+      coutMatiere: 0, 
+      coutCharges: {
+        personnel: 0, 
+        fluides: 0
+      }
+    }
+
+    if (! stepToTest.denreeUsed) return jsonToReturn; //Cette étape n'utilise pas d'ingrédient
+    let res: number = 0; 
+    for (let index = 0; index < stepToTest.denreeUsed.length; index++) { //Ajout des prix des ingrédients utilisés
+      const element = stepToTest.denreeUsed[index];
+      res += element.quantity * element.ingredient.unitPrice;
+    }
+
+    //res += (stepToTest.duration / 60) * 10.75; //On prends comme taux horaire le smic
+    jsonToReturn.coutMatiere = res;     
+    jsonToReturn.coutCharges.personnel = (stepToTest.duration / 60) * 10.75; 
+    jsonToReturn.coutCharges.fluides = (stepToTest.duration / 60) * 2; //TODO : Mettre un taux de fluide en fonction de ce qui est dit    
+    return jsonToReturn;
   }
 }
