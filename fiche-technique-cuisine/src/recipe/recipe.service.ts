@@ -34,6 +34,10 @@ export class RecipeService {
     return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps", "listOfSteps.denreeUsed", "listOfSteps.denreeUsed.ingredient"] });
   }
 
+  finOneWithOutDenree(id:number): Promise<Recipe> {
+    return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps"] });
+  }
+
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
     return this.recipeRepo.update(id, updateRecipeDto);
   }

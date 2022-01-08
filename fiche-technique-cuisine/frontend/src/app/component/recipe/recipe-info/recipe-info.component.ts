@@ -18,7 +18,7 @@ export class RecipeInfoComponent implements OnInit {
 
   public recipe: Recipe | null = null;
   public steps: Step[] = [];
-  public temps: Observable<Step>[] = [];
+ // public temps: Observable<Step>[] = [];
   public recipeOrStep:(RecipeOrStep)[]=[];
 
 
@@ -47,7 +47,7 @@ export class RecipeInfoComponent implements OnInit {
   }
 
   getRecipeById(nombre: number): Observable<Recipe> {
-    return this.recipeService.getRecipe(nombre);
+    return this.recipeService.getRecipeWithOut(nombre);
   }
 
   getSteps(): void {
@@ -73,7 +73,7 @@ export class RecipeInfoComponent implements OnInit {
         let elem=this.recipeOrStep[i];
         if(this.isRecipe(elem)){
           const idsend=i;
-          this.recipeService.getRecipe(elem.id!).subscribe(data=>this.recursifBis(data,idsend));
+          this.getRecipeById(elem.id!).subscribe(data=>this.recursifBis(data,idsend));
           keepGoing=false
         }else {
           i++;
@@ -95,8 +95,8 @@ export class RecipeInfoComponent implements OnInit {
     let observer_arr: Observable<Step | Recipe>[] = [];
     let r: Recipe = recip;
     for (let next of r.listOfSteps) {
-      if (this.isRecipe(next)){
-        observer_arr.push(this.recipeService.getRecipe(next.id!));
+     if (this.isRecipe(next)){
+        observer_arr.push(this.getRecipeById(next.id!));
       }else {
           observer_arr.push(this.stepService.getStep(next.id!));
       }

@@ -37,6 +37,14 @@ export class RecipeService {
       }));
   }
 
+  getRecipeWithOut(id: Number): Observable<Recipe> {
+    return this.http.get<Recipe>(this.recipe_url + "/withoutdenree/" + id).pipe(
+      tap(result => {//au lieu de map quand on a qu'un objet
+        return this.jsonToRecipe(result);
+      }));
+  }
+
+
   deleteRecipe(id: number) {
     console.log("------------ Delete Recipe Service Angular ---------------");
     console.log("url : " + this.recipe_url + '/' + id);
@@ -46,7 +54,7 @@ export class RecipeService {
   getCostByRecipeId (id: number) {
     return this.http.get<Cost>(this.recipe_url + '/cost/' + id);
   }
-  jsonToRecipe(json: any): Recipe {   
+  jsonToRecipe(json: any): Recipe {
     return new Recipe(
       json.name,
       json.responsable,
