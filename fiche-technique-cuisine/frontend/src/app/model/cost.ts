@@ -18,7 +18,6 @@ export class Cost {
     ) {
         this.coutDesMatiere = coutDesMatiere; 
         this.coutAssaisonnement = coutAssaisonnement ? coutAssaisonnement : coutDesMatiere * 0.05; //C'est soit un cout défini, soit 
-        console.log("Assaisonnement : ", this.coutAssaisonnement);
         
         this.coutDesFluides = coutDesFluides; 
         this.coutDePersonnel = coutDePersonnel; 

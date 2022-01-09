@@ -25,7 +25,7 @@ export class RecipeInfoComponent implements OnInit {
   public steps: Step[] = [];
   public recipeOrStep:(RecipeOrStep)[]=[];
   public denrees:Denree[]=[];
-
+  public showCost: boolean = true; 
 
   constructor(
     private route: ActivatedRoute,
@@ -119,6 +119,10 @@ export class RecipeInfoComponent implements OnInit {
 
   contain(id: any): Step {
     return this.steps.filter(el => el.id == id)[0];
+  }
+
+  toggleShowCost() {
+    this.showCost = ! this.showCost; 
   }
 
   @ViewChild('content') content!:ElementRef;
