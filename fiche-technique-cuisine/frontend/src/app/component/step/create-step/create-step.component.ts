@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Ingredient } from '../../../model/ingredient';
 
@@ -81,8 +81,8 @@ export class CreateStepComponent implements OnInit, AfterViewInit {
   addDenree(): void {
     this.denree_list.push(new Denree());
     this.denrees.push(this.fb.group({
-      quantity: [],
-      ingredient: []
+      quantity: ['', [Validators.required, Validators.min(0)]],
+      ingredient: ['', [Validators.required]]
     }));
   }
 

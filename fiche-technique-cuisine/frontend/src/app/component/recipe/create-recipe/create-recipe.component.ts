@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 
-import {FormGroup, FormBuilder, FormArray, AbstractControl} from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray, AbstractControl, Validators} from '@angular/forms';
 import {forkJoin, Observable} from 'rxjs';
 import {Router} from "@angular/router"
 
@@ -159,10 +159,10 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.recipeGroup = this.fb.group({
-      name: [this.recipe?.name],
-      responsable: [this.recipe?.responsable],
-      nbOfCover: [this.recipe?.nbOfCover],
-      category: [this.recipe?.category],     
+      name: [this.recipe?.name, Validators.required],
+      responsable: [this.recipe?.responsable, Validators.required],
+      nbOfCover: [this.recipe?.nbOfCover, [Validators.required, Validators.min(0)]],
+      category: [this.recipe?.category, Validators.required],     
       steps: this.fb.array([]) 
     });
 
@@ -184,9 +184,9 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     let s: Step = this.stepOrRecipeToShow[this.stepOrRecipeToShow.length - 1] as Step; 
     this.steps.push(
       this.fb.group({
-        name: [s.name],
-        description: [s.description],
-        duration: [s.duration],
+        name: [s.name, Validators.required],
+        description: [s.description, Validators.required],
+        duration: [s.duration, [Validators.required, Validators.min(0)]],
         denrees: this.fb.array([])
       })
     );

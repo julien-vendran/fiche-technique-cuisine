@@ -5,18 +5,18 @@
   <div *ngIf = "this.stepGroup" class = "row">
     <form [formGroup]="stepGroup" class = "col s12">
       <div class="input-field col s4">
-        <input id="name-{{this.formIdEnd}}" type="text" class="validate" formControlName = "name">
+        <input id="name-{{this.formIdEnd}}" type="text" class="validate" formControlName = "name" required>
         <label for="name-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('name')?.value != ''}">Nom de l'étape</label>
       </div>
 
       <div class="input-field col s4">
-        <input id="description-{{this.formIdEnd}}" type="text" class="validate" formControlName = "description">
+        <input id="description-{{this.formIdEnd}}" type="text" class="validate" formControlName = "description" required>
         <label for="description-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('description')?.value != ''}"> Description de l'étape </label>
       </div>
 
       <div class="input-field col s4">
-        <input id="duration-{{this.formIdEnd}}" type="number" class="validate" formControlName = "duration">
-        <label for="duration-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('duration')?.value != ''}"> Durée de l'étape</label>
+        <input id="duration-{{this.formIdEnd}}" type="number" class="validate" formControlName = "duration" min = "0" required>
+        <label for="duration-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('duration')?.value != ''}"> Durée de l'étape en minute</label>
       </div>
 
       <div *ngFor = "let d of this.denree_list; let i = index">

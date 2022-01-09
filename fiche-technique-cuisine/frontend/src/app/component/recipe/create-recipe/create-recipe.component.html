@@ -5,22 +5,22 @@
   <div *ngIf="this.recipeGroup" class="row">
     <form [formGroup]="recipeGroup" (ngSubmit)="validate()" class="col s12">
       <div class="input-field col s6">
-        <input id="name" type="text" class="validate" formControlName="name">
+        <input id="name" type="text" class="validate" formControlName="name" required>
         <label for="name" [ngClass]="{'active': recipeGroup.get('name')?.value != ''}">Nom </label>
       </div>
 
       <div class="input-field col s6">
-        <input id="responsable" type="text" class="validate" formControlName="responsable">
+        <input id="responsable" type="text" class="validate" formControlName="responsable" required>
         <label for="responsable">Responsable </label>
       </div>
 
       <div class="input-field col s6">
-        <input id="nbOfCover" type="number" class="validate" formControlName="nbOfCover">
+        <input id="nbOfCover" type="number" class="validate" formControlName="nbOfCover" required min = "0">
         <label for="nbOfCover" [ngClass]="{'active': recipeGroup.get('nbOfCover')?.value != null}">Nombre de couvert </label>
       </div>
 
       <div class="input-field col s6">
-        <input id="category" type="text" class="validate" formControlName="category">
+        <input id="category" type="text" class="validate" formControlName="category" required>
         <label for="category">Catégorie </label>
       </div>
 
@@ -63,7 +63,7 @@
       </div>
 
       <div class="col s12 center-align">
-        <button type="submit" class="waves-effect waves-light btn">
+        <button type="submit" class="waves-effect waves-light btn" [disabled] = "! this.recipeGroup.valid">
           Valider
         </button>
 

@@ -2,7 +2,7 @@
   <div *ngIf="this.denreeGroup" class="row">
     <form [formGroup]="denreeGroup" class="col s10 offset-s1">
       <div class="input-field col s6">
-        <select id = "selectDenree-{{formIdEnd}}" formControlName="ingredient" (ngModelChange)="change($event)">
+        <select id = "selectDenree-{{formIdEnd}}" formControlName="ingredient" (ngModelChange)="change($event)" required>
           <option value="" disabled selected>Choisissez un ingrédient</option>
 
           <option *ngFor="let ingredient of ingredient_list" [value]="ingredient.id">
@@ -14,7 +14,7 @@
       </div>
 
       <div class="input-field col s6">
-        <input id="quantity-{{formIdEnd}}" type="number" class="validate" formControlName="quantity">
+        <input id="quantity-{{formIdEnd}}" type="number" class="validate" formControlName="quantity" min = "0" required>
         <label for="quantity-{{formIdEnd}}" [ngClass]="{'active': denreeGroup.get('quantity')?.value != ''}">Quantité </label>
       </div>
       <!-- <h2>
