@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class IngredientService {
 
-  private ingredient_url : string = "http://localhost:3000/ingredients"; 
+  private ingredient_url : string = process.env['BACKEND_URL'] + "ingredients"; 
 
   constructor(
     private http: HttpClient

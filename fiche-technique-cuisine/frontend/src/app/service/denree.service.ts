@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 export class DenreeService {
 
 
-  private denree_url : string = "http://localhost:3000/denree";
+  private denree_url : string = process.env['BACKEND_URL'] + "denree";
 
   constructor(
     private http: HttpClient
