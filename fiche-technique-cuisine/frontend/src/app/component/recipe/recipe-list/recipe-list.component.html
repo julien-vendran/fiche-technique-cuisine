@@ -24,7 +24,7 @@
       <th>{{ recip.responsable }}</th>
       <th *ngIf = "recip.id">
         <button class = "waves-effect waves-light btn-small red" (click) = "deleteRecipe(recip)" title = "Supprimer cette recette">Supprimer</button>
-        <button id = "sellRecipe" class = "waves-effect waves-light btn-small green" (click) = "sellRecipe(recip.id)" title = "Vendre une recette">
+        <button id = "sellRecipe" class = "waves-effect waves-light btn-small green" (click) = "sellRecipe(recip)" title = "Vendre une recette">
           <i class="material-icons">euro_symbol</i>
         </button>
       </th>

@@ -34,15 +34,16 @@ export class RecipeListComponent implements OnInit {
       return;
     }
     console.log("Mon identifiant : " + recipe.id);
+    M.toast( { html: recipe.name + ' vient d\'être supprimée !' } )
     this.recipeService.deleteRecipe(recipe.id).subscribe(
       () => this.recipes = this.getRecipes()
     );
   }
 
-  sellRecipe (recipeId: number) {
-    this.recipeService.sellRecipe(recipeId).subscribe();
+  sellRecipe (recipe: Recipe) {
+    this.recipeService.sellRecipe(recipe.id!).subscribe();
     console.log("Mise à jour des ingrédients fait ");
-    //TODO : Prévenir l'utilisateur de façon propre
+    M.toast( { html: recipe.name + ' vient d\'être vendu !' } )
   }
 
 }
