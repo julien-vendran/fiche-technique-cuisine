@@ -10,7 +10,7 @@ import { Cost } from '../model/cost';
 })
 export class RecipeService {
 
-  private recipe_url: string = "http://localhost:3000/recipe";
+  private recipe_url: string = process.env['BACKEND_URL'] + "recipe";
 
   constructor(
     private http: HttpClient
