@@ -1,6 +1,8 @@
+import { Denree } from '../../denree/entities/denree.entity';
 import { IngredientsCategorie } from 'src/ingredients-categorie/entities/ingredients-categorie.entity';
-import { Allergen } from 'src/allergen/entities/allergen.entity';
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Unique} from 'typeorm';
+
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Unique, OneToMany} from 'typeorm';
+import {Allergen} from "../../allergen/entities/allergen.entity";
 
 @Entity()
 export class Ingredient {
@@ -18,12 +20,15 @@ export class Ingredient {
     availableQuantity: number;
 
     @Column("real")
-    unitPrice: number; 
+    unitPrice: number;
 
     @ManyToOne( () => IngredientsCategorie, ig => ig.ingredients)
     categorie: IngredientsCategorie;
 
-    @ManyToMany(type => Allergen)
+    @ManyToMany(() => Allergen)
     @JoinTable()
     associatedAllergen: Allergen[];
+
+    @OneToMany(() => Denree, d => d.ingredient, {cascade: true})
+    denreeUsed: Denree[];
 }

@@ -1,0 +1,20 @@
+
+  <div class="card-panel ">
+    <table>
+      <thead>
+      <tr>
+        <th>Denrées</th>
+        <th>Unités</th>
+        <th>Quantités</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let denree of this.denrees">
+        <td>{{denree.ingredient ? denree.ingredient!.name: ""}}</td>
+        <td>{{denree.ingredient ? denree.ingredient!.unit: ""}}</td>
+        <td>{{denree.quantity}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+

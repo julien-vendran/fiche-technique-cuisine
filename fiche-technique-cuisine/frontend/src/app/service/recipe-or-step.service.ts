@@ -9,7 +9,7 @@ import {RecipeOrStep} from "../model/recipe-or-step";
 })
 export class RecipeOrStepService {
 
-  private recipeOrStep_url : string = "http://localhost:3000/recipeOrStep";
+  private recipeOrStep_url : string = process.env['BACKEND_URL'] + "recipeOrStep";
 
   constructor(
     private http: HttpClient

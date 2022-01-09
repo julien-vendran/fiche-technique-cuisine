@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AllergenService {
 
-  private backend_url: string = "http://localhost:3000/allergen"
+  private backend_url: string = process.env['BACKEND_URL'] + "allergen"
 
   constructor(
     private http: HttpClient

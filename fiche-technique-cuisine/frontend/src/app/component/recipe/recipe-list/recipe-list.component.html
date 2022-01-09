@@ -1,27 +1,64 @@
+<div class="tn-box tn-box-color-1">
+  <p>Your settings have been saved successfully!</p>
+  <div class="tn-progress"></div>
+</div>
 <section class="container">
   <h2 class="center-align">
-    Vos Recetes
+    Vos Recettes
   </h2>
 
-  <table class = "striped highlight">
+  <form class="row" *ngIf="this.search_control" [formGroup]="this.search_control">
+
+    <div class="input-field col s4">
+      <input id="name" type="text" class="validate" formControlName="recipe_control" #recipeByName (keyup)="searchRecipe(recipeByName.value)">
+      <label for="name">Nom recette </label>
+    </div>
+
+    <div class="input-field col s4">
+      <label class = "active">Catégorie recette</label>
+      <select class = "browser-default" formControlName="categorie_recipe_control" #categorieSelected (change) = "selectNewCategorie(categorieSelected.value)">
+        <option value = "" selected></option>
+        <option *ngFor = "let cat of this.categorie_list" [value] = "cat">{{ cat }}</option>
+      </select>
+    </div>
+
+    <div class="input-field col s4">
+      <label class = "active">Ingrédient</label>
+      <select class="browser-default" formControlName="ingredient_control">
+        <option value="" disabled selected>Choose your option</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </select>
+    </div>
+  </form>
+
+  <table class="striped highlight">
     <!-- responsive-table -->
     <thead>
-    <tr>
-      <th>Intitulée</th>
-      <th>Catégorie</th>
-      <th>Responsable</th>
-      <th>Actions</th>
-    </tr>
+      <tr>
+        <th>Intitulée</th>
+        <th>Catégorie</th>
+        <th>Responsable</th>
+        <th>Actions</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor = "let recip of (recipes | async)">
-      <th><a href="recipe/info/{{recip.id}}">{{ recip.name }}</a></th>
-      <th>{{ recip.category}}</th>
-      <th>{{ recip.responsable }}</th>
-      <th>
-        <button class = "waves-effect waves-light btn-small red" (click) = "deleteRecipe(recip)">Supprimer</button>
-      </th>
-    </tr>
+      <tr *ngFor="let recip of recipes_filtered">
+        <ng-container *ngIf = "acceptRecipeCategorie(recip.category)">
+          <td><a href="recipe/info/{{recip.id}}">{{ recip.name }}</a></td>
+          <td>{{ recip.category}}</td>
+          <td>{{ recip.responsable }}</td>
+          <td *ngIf="recip.id">
+            <button class="waves-effect waves-light btn-small red" (click)="deleteRecipe(recip)"
+              title="Supprimer cette recette">Supprimer</button>
+            <button id="sellRecipe" class="waves-effect waves-light btn-small green" (click)="sellRecipe(recip)"
+              title="Vendre une recette">
+              <i class="material-icons">euro_symbol</i>
+            </button>
+          </td>
+        </ng-container>
+        </tr>
     </tbody>
   </table>
   <router-outlet></router-outlet>

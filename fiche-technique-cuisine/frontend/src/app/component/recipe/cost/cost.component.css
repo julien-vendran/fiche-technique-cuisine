@@ -1,0 +1,7 @@
+i:hover {
+    transform: rotateY(180deg);
+}
+
+i {
+    transition: 0.8s;
+}

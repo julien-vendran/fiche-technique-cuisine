@@ -1,18 +1,16 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, ChildEntity} from 'typeorm';
-import {Ingredient} from "../../ingredients/entities/ingredient.entity";
+import { Denree } from 'src/denree/entities/denree.entity';
+import {Column, ChildEntity, OneToMany} from 'typeorm';
 import {RecipeOrStep} from "../../recipe-or-step/entities/recipe-or-step.entity";
 
 @ChildEntity()
 export class Step extends RecipeOrStep{
 
-    @ManyToMany(()=>Ingredient)
-    @JoinTable()
-    listIngredient: Ingredient[];
-
     @Column()
     description: String;
 
     @Column()
-    duration: String; //TODO trouver un type mieux
+    duration: number;
 
+    @OneToMany(() => Denree, d => d.step)
+    denreeUsed: Denree[]; 
 }

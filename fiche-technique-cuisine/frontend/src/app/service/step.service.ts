@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class StepService {
 
 
-  private step_url : string = "http://localhost:3000/step";
+  private step_url : string = process.env['BACKEND_URL'] + "step";
 
   constructor(
     private http: HttpClient
@@ -47,7 +47,7 @@ export class StepService {
       json.name,
       json.description,
       json.duration,
-      json.listIngredient,
+      json.denreeUsed, 
       json.id
     );
   }

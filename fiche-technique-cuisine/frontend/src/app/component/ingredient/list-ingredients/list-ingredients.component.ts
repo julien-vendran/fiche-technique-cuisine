@@ -15,7 +15,8 @@ import {Router} from "@angular/router"
 })
 export class ListIngredientsComponent implements OnInit {
 
-  public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>();
+  //public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>();
+  public ingredients_tab: Ingredient[] = []; 
   constructor(
     private ingredientService: IngredientService, 
     private router: Router
@@ -26,13 +27,23 @@ export class ListIngredientsComponent implements OnInit {
   }
 
   majIngredient(): void {
-    this.ingredients = this.getIngredients();
+    this.getIngredients().subscribe(
+      i => {
+        this.ingredients_tab = i; 
+        for (let index = 0; index < this.ingredients_tab.length; index++) {
+          if (this.ingredients_tab[index].availableQuantity! <= 0 ) {//On en a plus
+            const el = this.ingredients_tab[index];
+            this.ingredients_tab.splice(index, 1); 
+            this.ingredients_tab.unshift(el);
+          }
+        }
+      }
+    );
   }
 
   getIngredients (): Observable<Ingredient[]> {
     return this.ingredientService.getAllIngredients();
   }
-
 
   deleteIngredient(ingre: Ingredient): void {
     if (! ingre.id) {
@@ -41,7 +52,7 @@ export class ListIngredientsComponent implements OnInit {
     }
     console.log("Mon identifiant : " + ingre.id);
     this.ingredientService.deleteIngredient(ingre.id).subscribe(
-      () => this.ingredients = this.getIngredients()
+      () => this.majIngredient()
     );
   }
 
@@ -50,7 +61,3 @@ export class ListIngredientsComponent implements OnInit {
   }
 
 }
-
-//import { Router } from '@angular/router';
-//private router: Router
-//this.router.navigate(['/ingredients/add']);

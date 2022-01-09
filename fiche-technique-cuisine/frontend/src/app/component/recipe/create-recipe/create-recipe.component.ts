@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 
-import {FormGroup, FormBuilder, FormArray, AbstractControl} from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray, AbstractControl, Validators} from '@angular/forms';
 import {forkJoin, Observable} from 'rxjs';
 import {Router} from "@angular/router"
 
@@ -13,6 +13,8 @@ import { Step } from "../../../model/step";
 import { StepService } from "../../../service/step.service";
 import { Ingredient } from '../../../model/ingredient';
 import { IngredientService } from '../../../service/ingredient.service';
+import { Denree } from '../../../model/denree';
+import { DenreeService } from '../../../service/denree.service';
 
 @Component({
   selector: 'app-create-recipe',
@@ -35,7 +37,9 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     private recipeService: RecipeService,
     private stepService: StepService,
     private ingredientService: IngredientService,
-    private router: Router) {
+    private denreeService: DenreeService, 
+    private router: Router 
+    ) {
   }
 
   get steps() {
@@ -45,12 +49,17 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
   validate() {   
     
     let obsStep_arr: Observable<Step>[] = []; 
+    let obsDenree_arr: Observable<Denree>[] = []; 
     
 
     this.updateStepFromstepOrRecipeToShow();
     for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
       if (this.stepOrRecipeToShow[i] instanceof Step) { //Si on rencontre une étape
         obsStep_arr.push(this.stepService.createStep(this.stepOrRecipeToShow[i] as Step));
+        //Pour chaque étape, on veut aussi mettre à jour ses denrées 
+        (this.stepOrRecipeToShow[i] as Step).denreeUsed.forEach(
+          newDenree => obsDenree_arr.push(this.denreeService.createDenree(newDenree))
+        );
       }
     }
     
@@ -73,18 +82,36 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
       console.log("-----------------------------");
 
       let count: number = 0; 
-      forkJoin(obsStep_arr).subscribe(
-        arr_step => {          
+      forkJoin(obsDenree_arr).subscribe(
+        arr_denree => {
+          let compteD = 0; 
           for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
             if (this.stepOrRecipeToShow[i] instanceof Step) {
-              this.stepOrRecipeToShow[i].id = arr_step[count].id; //On met à jour les id de notre tableau
+              (this.stepOrRecipeToShow[i] as Step).denreeUsed.forEach(element => {
+                element.id = arr_denree[compteD].id; //On met à jour les id de notre tableau
+                compteD++; 
+              });
               count ++;
             }
           }
-
-          this.recipeService.createRecipe(this.recipe).subscribe(
-            () => this.router.navigate(['/recipe'])
-            //recipe => console.log(recipe)
+        }, null, () => { 
+          forkJoin(obsStep_arr).subscribe(
+            arr_step => {
+              count = 0; 
+              for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
+                if (this.stepOrRecipeToShow[i] instanceof Step) {
+                  this.stepOrRecipeToShow[i].id = arr_step[count].id; //On met à jour les id de notre tableau
+                  count ++;
+                }
+              }
+            }, null, () => {
+              console.log("On valide notre recette");
+              this.recipeService.createRecipe(this.recipe).subscribe(
+                () => this.router.navigate(['/recipe'])
+                //recipe => console.log(recipe)
+              );
+              console.log("fini");
+            }
           );
         }
       );
@@ -92,33 +119,50 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
   }
 
   updateStepFromstepOrRecipeToShow () {
-    let tab_ingredients: Ingredient[] = [];
-    let arr_ingredient: number[] = []; 
-    let count: number = 0; 
+    console.log("---------- Mise à jour éléments ----------");
+    
+    let tab_denree: Denree[];
+    let count: number = 0;
+    let denreeControl: FormArray; 
+    
     for (let i = 0; i < this.stepOrRecipeToShow.length; i ++) {
+      tab_denree = []; //On met le tableau à 0
+
       if (this.stepOrRecipeToShow[i] instanceof Step) {
-        if (this.steps.at(count).get('ingredients')) { //Si notre recette à des ingrédients
-          arr_ingredient = this.steps.at(count).get('ingredients')?.value;
-          tab_ingredients = this.ingredients_list.filter(el => arr_ingredient.includes(el.id!))
+        if (this.steps.at(count).get('denrees')) { //Si notre recette à des ingrédients
+          denreeControl = this.steps.at(count).get('denrees') as FormArray; 
+
+          for (let c of denreeControl.controls) { //On met à jour le tableau de denrée lié à notre élément
+            tab_denree.push( new Denree(
+              (c as FormGroup).get("quantity")?.value,
+              (c as FormGroup).get("ingredient")?.value 
+            ));
+          }
+
+          console.log("Affichage de notre tableau rempli : ", tab_denree);
         }
 
         this.stepOrRecipeToShow[i] = new Step( //Création de notre étape et mise à jour dans le tableau
           this.steps.at(count).get('name')?.value, 
           this.steps.at(count).get('description')?.value, 
           this.steps.at(count).get('duration')?.value, 
-          tab_ingredients
+          tab_denree
         );
+
+        console.log("Notre étape mise à jour : ", this.stepOrRecipeToShow[i]);
+        
         count ++;
       }
     }
+    console.log("---------- Fin mise à jour éléments ----------");
   }
 
   ngOnInit(): void {
     this.recipeGroup = this.fb.group({
-      name: [this.recipe?.name],
-      responsable: [this.recipe?.responsable],
-      nbOfCover: [this.recipe?.nbOfCover],
-      category: [this.recipe?.category],     
+      name: [this.recipe?.name, Validators.required],
+      responsable: [this.recipe?.responsable, Validators.required],
+      nbOfCover: [this.recipe?.nbOfCover, [Validators.required, Validators.min(0)]],
+      category: [this.recipe?.category, Validators.required],     
       steps: this.fb.array([]) 
     });
 
@@ -140,10 +184,10 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
     let s: Step = this.stepOrRecipeToShow[this.stepOrRecipeToShow.length - 1] as Step; 
     this.steps.push(
       this.fb.group({
-        name: [s.name],
-        description: [s.description],
-        duration: [s.duration],
-        ingredients: [s.listIngredient]
+        name: [s.name, Validators.required],
+        description: [s.description, Validators.required],
+        duration: [s.duration, [Validators.required, Validators.min(0)]],
+        denrees: this.fb.array([])
       })
     );
   }
@@ -154,6 +198,10 @@ export class CreateRecipeComponent implements OnInit, AfterViewInit {
 
   getStepGroup(index: number): FormGroup {
     return this.steps.at(this.getFormGroupIndexForStep(index)) as FormGroup;
+  }
+
+  getStep(index: number): Step {
+    return this.stepOrRecipeToShow[index] as Step; 
   }
 
   /** 

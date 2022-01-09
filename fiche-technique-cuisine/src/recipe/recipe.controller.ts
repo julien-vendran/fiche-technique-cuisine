@@ -20,11 +20,20 @@ export class RecipeController {
     return this.recipeService.findAll();
   }
 
+  @Get('/cost/:id')
+  getCostForRecipeById(@Param('id') id: string) {
+    return this.recipeService.getCostForRecipeById(+id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.recipeService.findOne(+id);
   }
 
+  @Get("/withoutdenree/:id")
+  finOneWithOutDenree(@Param('id') id: string) {
+    return this.recipeService.finOneWithOutDenree(+id);
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
     return this.recipeService.update(+id, updateRecipeDto);
@@ -33,5 +42,10 @@ export class RecipeController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.recipeService.remove(+id);
+  }
+
+  @Get('sellRecipe/:id')
+  consumeRecipe(@Param('id') id: number) {
+    this.recipeService.consumeRecipe(id);
   }
 }

@@ -18,6 +18,9 @@ import { RecipeListComponent } from './component/recipe/recipe-list/recipe-list.
 import { CreateStepComponent } from './component/step/create-step/create-step.component';
 import { RecipeInfoComponent } from './component/recipe/recipe-info/recipe-info.component';
 import { HomeComponent } from './component/utile/home/home.component';
+import { CreateDenreeComponent } from './component/denree/create-denree/create-denree.component';
+import { CostComponent } from './component/recipe/cost/cost.component';
+import { DenreeInfoComponent } from './component/denree/denree-info/denree-info.component';
 
 
 
@@ -35,6 +38,9 @@ import { HomeComponent } from './component/utile/home/home.component';
     CreateStepComponent,
     RecipeInfoComponent,
     HomeComponent,
+    CreateDenreeComponent,
+    CostComponent,
+    DenreeInfoComponent,
   ],
   imports: [
     BrowserModule,

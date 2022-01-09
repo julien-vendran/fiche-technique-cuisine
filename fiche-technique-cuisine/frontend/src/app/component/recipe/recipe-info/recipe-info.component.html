@@ -1,5 +1,5 @@
-<section *ngIf="!id; else RecipInRecip" class="container">
-  <div *ngIf="recipe" class="row ">
+<section class="container" >
+  <div *ngIf="recipe" class="row " id="content">
     <div>
       <h1 class="center-align"> {{recipe.name}}</h1>
       <div class="col s12 m6">
@@ -17,84 +17,8 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let stepOrRecip of (recipe!.listOfSteps)" class="col s12">
-      <div *ngIf="contain(stepOrRecip.id) as step; else recipComponent">
-        <div class="col s12 m6">
-          <div class="card-panel ">
-            <table>
-              <thead>
-              <tr>
-                <th>Denrées</th>
-                <th>Unités</th>
-                <th>Quantités</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let ingre of (step).listIngredient">
-                <td>{{ingre.name}}</td>
-                <td>{{ingre.unit}}</td>
-                <td>not implemented yet</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="col s12 m6">
-          <div class="card-panel">
-            <table>
-              <thead>
-              <tr>
-                <th>{{step.name}}</th>
-                <th>Durée</th>
-              </tr>
-              </thead>
-
-              <tbody>
-              <tr>
-                <td><span class="">{{step.description}}</span></td>
-                <td><span>{{step.duration}}</span></td>
-              </tr>
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
-      <ng-template #recipComponent>
-        <app-recipe-info  [id]="stepOrRecip.id!"></app-recipe-info>
-      </ng-template>
-    </div>
-
-  </div>
-
-  <router-outlet></router-outlet>
-</section>
-
-<ng-template #RecipInRecip >
-  <div *ngFor="let stepOrRecip of (recipe!.listOfSteps)" class="col s12">
-    <div *ngIf="contain(stepOrRecip.id) as step; else recipComponent">
-      <div class="col s12 m6">
-        <div class="card-panel ">
-          <table>
-            <thead>
-            <tr>
-              <th>Denrées</th>
-              <th>Unités</th>
-              <th>Quantités</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let ingre of (step).listIngredient">
-              <td>{{ingre.name}}</td>
-              <td>{{ingre.unit}}</td>
-              <td>not implemented yet</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
+    <div *ngFor="let step of (steps)" class="col s12">
+      <app-denree-info [denrees]="(step).denreeUsed" class="col s12 m6"></app-denree-info>
       <div class="col s12 m6">
         <div class="card-panel">
           <table>
@@ -104,7 +28,6 @@
               <th>Durée</th>
             </tr>
             </thead>
-
             <tbody>
             <tr>
               <td><span class="">{{step.description}}</span></td>
@@ -116,8 +39,34 @@
         </div>
       </div>
     </div>
-    <ng-template #recipComponent>
-      <app-recipe-info  [id]="stepOrRecip.id!"></app-recipe-info>
-    </ng-template>
+
+    <div>
+      <div *ngIf = "this.showCost">
+        <h1 class="center-align">Affichage des couts</h1>
+        <app-cost [recipe]="recipe"></app-cost>
+      </div>
+      <div>
+        <h1 class="center-align"> Liste des ingrédients nécessaires</h1>
+        <app-denree-info [denrees]="denrees" class="col s12"></app-denree-info>
+      </div>
+    </div>
   </div>
-</ng-template>
+  <div id = "divBtn" *ngIf = "this.recipe" class = "center-align">
+    <button class="waves-effect waves-light red white-text btn" (click)="generatePDF()">
+      <i class="material-icons left">picture_as_pdf</i>
+      PDF
+    </button>
+
+    <button class="purple darken-2 white-text btn" (click)="toggleShowCost()">
+      <span *ngIf = "this.showCost; else elseBlock">
+        Cacher les coûts
+      </span>
+      <ng-template #elseBlock>
+        Afficher les coûts
+      </ng-template>
+    </button>
+  </div>
+
+  <router-outlet></router-outlet>
+</section>
+
