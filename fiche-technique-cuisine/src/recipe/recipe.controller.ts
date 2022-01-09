@@ -30,6 +30,10 @@ export class RecipeController {
     return this.recipeService.findOne(+id);
   }
 
+  @Get("/withoutdenree/:id")
+  finOneWithOutDenree(@Param('id') id: string) {
+    return this.recipeService.finOneWithOutDenree(+id);
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
     return this.recipeService.update(+id, updateRecipeDto);

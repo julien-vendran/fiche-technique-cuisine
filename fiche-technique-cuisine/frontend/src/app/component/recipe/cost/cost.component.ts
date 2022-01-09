@@ -10,8 +10,8 @@ import { RecipeService } from '../../../service/recipe.service';
 })
 export class CostComponent implements OnInit {
 
-  @Input() protected recipe: Recipe | null = null;  
-  public cost: Cost | null = null; 
+  @Input() public recipe: Recipe | null = null;
+  public cost: Cost | null = null;
 
   constructor(
     private serviceRecipe: RecipeService
@@ -27,7 +27,7 @@ export class CostComponent implements OnInit {
       data => {
         this.cost = this.jsonToCost(data);
         this.cost.beneficeParPortion = this.cost.prixDeVente / this.recipe?.nbOfCover!;
-        this.cost.seuilDeRentabilite = 1; // TODO: A vérifier, on a pas les coûts fixes de la cuisine donc c'est con  
+        this.cost.seuilDeRentabilite = 1; // TODO: A vérifier, on a pas les coûts fixes de la cuisine donc c'est con
       }
     );
     console.log(this.cost);

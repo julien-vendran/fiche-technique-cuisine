@@ -8,6 +8,7 @@ import {ActivatedRoute} from "@angular/router";
 import {forkJoin} from "rxjs";
 import {DenreeService} from "../../../service/denree.service";
 import {RecipeOrStep} from "../../../model/recipe-or-step";
+import {Denree} from "../../../model/denree";
 
 @Component({
   selector: 'app-recipe-info',
@@ -18,13 +19,12 @@ export class RecipeInfoComponent implements OnInit {
 
   public recipe: Recipe | null = null;
   public steps: Step[] = [];
-  public temps: Observable<Step>[] = [];
   public recipeOrStep:(RecipeOrStep)[]=[];
+  public denrees:Denree[]=[];
 
 
   constructor(
     private route: ActivatedRoute,
-    // private location: Location,
     private recipeService: RecipeService,
     private stepService: StepService,
     private denreeService: DenreeService
@@ -47,23 +47,27 @@ export class RecipeInfoComponent implements OnInit {
   }
 
   getRecipeById(nombre: number): Observable<Recipe> {
-    return this.recipeService.getRecipe(nombre);
+    return this.recipeService.getRecipeWithOut(nombre);
   }
 
   getSteps(): void {
-    this.recursifBis(this.recipe!,0);
+    this.recursif(this.recipe!,0);
   }
 
   getAllDenree() {
     for (let step of this.steps) {
       for (let derenrefor of step.denreeUsed) {
-        this.denreeService.getDenreeById(derenrefor.id!).subscribe(data => derenrefor.ingredient = data.ingredient);
+        this.denreeService.getDenreeById(derenrefor.id!).subscribe(data =>{
+          derenrefor.ingredient = data.ingredient;
+          this.denrees.push(data);
+        });
       }
     }
+
   }
 
 
-  recursifBis(recip:Recipe,index:number){
+  recursif(recip:Recipe,index:number){
     forkJoin(this.getStepFromRecipe(recip)).subscribe(rORs=>{
 
       this.recipeOrStep.splice(index,1,...rORs);
@@ -73,7 +77,7 @@ export class RecipeInfoComponent implements OnInit {
         let elem=this.recipeOrStep[i];
         if(this.isRecipe(elem)){
           const idsend=i;
-          this.recipeService.getRecipe(elem.id!).subscribe(data=>this.recursifBis(data,idsend));
+          this.getRecipeById(elem.id!).subscribe(data=>this.recursif(data,idsend));
           keepGoing=false
         }else {
           i++;
@@ -95,8 +99,8 @@ export class RecipeInfoComponent implements OnInit {
     let observer_arr: Observable<Step | Recipe>[] = [];
     let r: Recipe = recip;
     for (let next of r.listOfSteps) {
-      if (this.isRecipe(next)){
-        observer_arr.push(this.recipeService.getRecipe(next.id!));
+     if (this.isRecipe(next)){
+        observer_arr.push(this.getRecipeById(next.id!));
       }else {
           observer_arr.push(this.stepService.getStep(next.id!));
       }

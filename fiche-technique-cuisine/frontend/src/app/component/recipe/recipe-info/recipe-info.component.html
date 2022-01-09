@@ -18,52 +18,37 @@
       </div>
     </div>
     <div *ngFor="let step of (steps)" class="col s12">
-      <div>
-        <div class="col s12 m6">
-          <div class="card-panel ">
-            <table>
-              <thead>
-              <tr>
-                <th>Denrées</th>
-                <th>Unités</th>
-                <th>Quantités</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let denree of (step).denreeUsed">
-                <td>{{denree.ingredient ? denree.ingredient!.name: ""}}</td>
-                <td>{{denree.ingredient ? denree.ingredient!.unit: ""}}</td>
-                <td>{{denree.quantity}}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <app-denree-info [denrees]="(step).denreeUsed"></app-denree-info>
+      <div class="col s12 m6">
+        <div class="card-panel">
+          <table>
+            <thead>
+            <tr>
+              <th>{{step.name}}</th>
+              <th>Durée</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><span class="">{{step.description}}</span></td>
+              <td><span>{{step.duration}}</span></td>
+            </tr>
+            </tbody>
+          </table>
 
-        <div class="col s12 m6">
-          <div class="card-panel">
-            <table>
-              <thead>
-              <tr>
-                <th>{{step.name}}</th>
-                <th>Durée</th>
-              </tr>
-              </thead>
-
-              <tbody>
-              <tr>
-                <td><span class="">{{step.description}}</span></td>
-                <td><span>{{step.duration}}</span></td>
-              </tr>
-              </tbody>
-            </table>
-
-          </div>
         </div>
       </div>
     </div>
 
+    <div>
+      <h1 class="center-align">Affichage des couts</h1>
+      <app-cost [recipe]="recipe"></app-cost>
+      <h1 class="center-align"> Liste des ingrédients nécessaires</h1>
+        <app-denree-info [denrees]="denrees"></app-denree-info>
+
+    </div>
   </div>
+
 
   <router-outlet></router-outlet>
 </section>
