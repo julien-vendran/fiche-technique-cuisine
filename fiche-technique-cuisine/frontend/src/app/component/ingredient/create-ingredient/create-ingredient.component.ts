@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router"
 
 import { Ingredient } from '../../../model/ingredient'
@@ -32,15 +32,14 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit {
   validate(): void {
     //On va créer un ingrédient avec les éléments qu'on a eu
     if (this.ingredientGroup) {
-
-
-      //console.log("ids",arr_allergen);
-      //console.log("tab",tab_allergens);
       this.setNewInfosForIngredient();
+
       //Envoie des données
-      this.ingredientService.createIngredient(this.ingredient).subscribe(
-        () => this.router.navigate(['/ingredients'])
-      );
+      if (this.ingredientGroup.valid) { //On ne lui laisse envoyer des données que si le formulaire est valide
+        this.ingredientService.createIngredient(this.ingredient).subscribe(
+          () => this.router.navigate(['/ingredients'])
+        );
+      }
     }
   }
 
@@ -67,10 +66,10 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit {
       );
     }
     this.ingredientGroup = this.fb.group({
-      name: [this.ingredient?.name],
-      unit: [this.ingredient?.unit],
-      availableQuantity: [this.ingredient?.availableQuantity],
-      unitPrice: [this.ingredient?.unitPrice],
+      name: [this.ingredient?.name, Validators.required],
+      unit: [this.ingredient?.unit, Validators.required],
+      availableQuantity: [this.ingredient?.availableQuantity, [Validators.required, Validators.min(0)]],
+      unitPrice: [this.ingredient?.unitPrice, [Validators.required, Validators.min(0)]],
       allergens: [this.ingredient?.associatedAllergen]
     });
     console.log(this.ingredient);
@@ -114,6 +113,8 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit {
         undefined,
         id
       ); //On ne définit pas de lien avec Denrée à la création de notre Ingrédient
+      console.log("Affichage de notre ingrédient, ", this.ingredient);
+      
     }
   }
 

@@ -8,22 +8,22 @@
     <div *ngIf = "this.ingredientGroup" class = "row">
         <form [formGroup]="ingredientGroup" (ngSubmit) = "validate()" class = "col s12">
             <div class="input-field col s6">
-                <input id="name" type="text" class="validate" formControlName = "name">
+                <input id="name" type="text" class="validate" formControlName = "name" required>
                 <label for="name" [class.active] = "this.isUpdate">Nom </label>
             </div>
 
             <div class="input-field col s6">
-                <input id="unit" type="text" class="validate" formControlName = "unit">
+                <input id="unit" type="text" class="validate" formControlName = "unit" required>
                 <label for="unit" [class.active] = "this.isUpdate">Unité </label>
             </div>
 
             <div class="input-field col s6">
-                <input id="availableQuantity" type="number" class="validate" formControlName = "availableQuantity">
+                <input id="availableQuantity" type="number" class="validate" formControlName = "availableQuantity" min  = "0" required>
                 <label for="availableQuantity" [class.active] = "this.isUpdate">Quantité disponible </label>
             </div>
 
             <div class="input-field col s6">
-                <input id="unitPrice" type="number" class="validate" formControlName = "unitPrice">
+                <input id="unitPrice" type="number" class="validate" formControlName = "unitPrice" min = "0" required>
                 <label for="unitPrice" [class.active] = "this.isUpdate">Prix unitaire </label> 
             </div>
 
@@ -37,10 +37,10 @@
                     </option>
                 </select>
                 <label>Les allergènes associés au produit</label>
-              </div>
+            </div>
               
             <div class="col s12 center-align">
-                <button *ngIf = "!isUpdate; else updateCase" type="submit" class="waves-effect waves-light btn">
+                <button *ngIf = "!isUpdate; else updateCase" type="submit" class="waves-effect waves-light btn" [disabled]="! this.ingredientGroup.valid">
                     Valider
                 </button>
                 <ng-template #updateCase>
