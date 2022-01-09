@@ -4,13 +4,15 @@ import {Denree} from "../model/denree";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DenreeService {
 
 
-  private denree_url : string = process.env['BACKEND_URL'] + "denree";
+  private denree_url : string = environment.apiUrl + "denree";
 
   constructor(
     private http: HttpClient

@@ -3,13 +3,16 @@ import {HttpClient} from "@angular/common/http";
 import {Step} from "../model/step";
 import {map, tap} from "rxjs/operators";
 import { Observable } from 'rxjs';
+
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class StepService {
 
 
-  private step_url : string = process.env['BACKEND_URL'] + "step";
+  private step_url : string = environment.apiUrl + "step";
 
   constructor(
     private http: HttpClient
