@@ -1,5 +1,5 @@
-<section class="container">
-  <div *ngIf="recipe" class="row ">
+<section class="container" >
+  <div *ngIf="recipe" class="row " id="content">
     <div>
       <h1 class="center-align"> {{recipe.name}}</h1>
       <div class="col s12 m6">
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div *ngFor="let step of (steps)" class="col s12">
-      <app-denree-info [denrees]="(step).denreeUsed"></app-denree-info>
+      <app-denree-info [denrees]="(step).denreeUsed" class="col s12 m6"></app-denree-info>
       <div class="col s12 m6">
         <div class="card-panel">
           <table>
@@ -44,11 +44,11 @@
       <h1 class="center-align">Affichage des couts</h1>
       <app-cost [recipe]="recipe"></app-cost>
       <h1 class="center-align"> Liste des ingrédients nécessaires</h1>
-        <app-denree-info [denrees]="denrees"></app-denree-info>
+        <app-denree-info [denrees]="denrees" class="col s12"></app-denree-info>
 
     </div>
   </div>
-
+  <button class="waves-effect waves-light red white-text btn-large right" (click)="generatePDF()"><i class="material-icons left">picture_as_pdf</i>PDF</button>
 
   <router-outlet></router-outlet>
 </section>

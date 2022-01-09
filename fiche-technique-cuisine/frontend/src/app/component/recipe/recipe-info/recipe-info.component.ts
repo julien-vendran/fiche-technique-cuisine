@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Recipe} from "../../../model/recipe";
 import {RecipeService} from "../../../service/recipe.service";
 import {StepService} from "../../../service/step.service";
@@ -9,6 +9,10 @@ import {forkJoin} from "rxjs";
 import {DenreeService} from "../../../service/denree.service";
 import {RecipeOrStep} from "../../../model/recipe-or-step";
 import {Denree} from "../../../model/denree";
+
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import {doc} from "prettier";
 
 @Component({
   selector: 'app-recipe-info',
@@ -116,5 +120,45 @@ export class RecipeInfoComponent implements OnInit {
   contain(id: any): Step {
     return this.steps.filter(el => el.id == id)[0];
   }
+
+  @ViewChild('content') content!:ElementRef;
+  generatePDF(){
+
+    const div = document.getElementById('content');
+    const options = {
+      background: 'white',
+      scale: 1
+    };
+
+
+    if(div !=null){
+    html2canvas(div).then((canvas) => {
+
+      var img = canvas.toDataURL("image/PNG");//.replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+      var doc = new jsPDF('l', 'mm', 'a1', false);
+
+      //window.location.href=img; // it will save locally
+
+
+      // Add image Canvas to PDF
+      const bufferX = 5;
+      const bufferY = 5;
+      const imgProps = (<any>doc).getImageProperties(img);
+      doc.internal.pageSize.width=imgProps.width;
+      doc.internal.pageSize.height=imgProps.height;
+      const pdfWidth = imgProps.width; //doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight =  imgProps.height;//(imgProps.height * pdfWidth) / imgProps.width;
+      //doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      console.log("properties",bufferX, bufferY, pdfWidth, pdfHeight,canvas,img);
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight);
+      return doc;
+    }).then((doc) => {
+      doc.save('postres.pdf');
+    });
+
+    }
+
+  }
+
 
 }
