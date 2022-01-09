@@ -4,7 +4,7 @@
   </h2>
   <div *ngIf = "this.allergenGroup" class = "row">
     <form [formGroup]="allergenGroup" (ngSubmit) = "validate()" class = "col s12">
-      <div class="input-field col s6">
+      <div class="input-field col s6 offset-s3">
         <input id="allergen_name" type="text" class="validate" formControlName = "allergen_name">
         <label for="allergen_name">Nom </label>
       </div>
