@@ -34,7 +34,9 @@ export class IngredientsService {
 
   async update(id: number, updateIngredientDto: UpdateIngredientDto) {
     console.log("Modification de l'ingrédient " + id + " : " , updateIngredientDto);
-    updateIngredientDto.denreeUsed = await (await this.findOne(id)).denreeUsed;
+    const ingre: Ingredient = await this.findOne(id);
+    updateIngredientDto.denreeUsed = ingre.denreeUsed
+    updateIngredientDto.associatedAllergen = ingre.associatedAllergen; 
     this.ingredientRepo.save(updateIngredientDto);
   }
 

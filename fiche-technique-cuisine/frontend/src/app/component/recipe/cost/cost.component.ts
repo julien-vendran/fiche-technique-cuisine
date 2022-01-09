@@ -23,7 +23,7 @@ export class CostComponent implements OnInit {
         //data => console.log("Voilà ce qu'on recoit", this.jsonToCost(data))
         data => {
           this.cost = this.jsonToCost(data);
-          this.cost.beneficeParPortion = this.cost.prixDeVente / this.recipe?.nbOfCover!;
+          this.cost.beneficeParPortion = (this.cost.prixDeVente - this.cost.coutDeProduction) / this.recipe?.nbOfCover!;
           this.cost.seuilDeRentabilite = 1; // TODO: A vérifier, on a pas les coûts fixes de la cuisine donc c'est con
         }
       );
