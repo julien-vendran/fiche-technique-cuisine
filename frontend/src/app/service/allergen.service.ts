@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { Allergen } from '../model/allergen';
 import { map } from 'rxjs/operators';
 
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class AllergenService {
 
-  private backend_url: string = process.env['BACKEND_URL'] + "allergen"
+  private backend_url: string = environment.apiUrl + "allergen"
 
   constructor(
     private http: HttpClient

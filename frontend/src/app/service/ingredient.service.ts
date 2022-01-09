@@ -6,12 +6,14 @@ import { Ingredient } from '../model/ingredient';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'; 
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class IngredientService {
 
-  private ingredient_url : string = process.env['BACKEND_URL'] + "ingredients"; 
+  private ingredient_url : string = environment.apiUrl + "ingredients"; 
 
   constructor(
     private http: HttpClient

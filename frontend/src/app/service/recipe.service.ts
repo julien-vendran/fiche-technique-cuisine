@@ -5,12 +5,14 @@ import {map, tap} from "rxjs/operators";
 import {Observable} from 'rxjs';
 import { Cost } from '../model/cost';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  private recipe_url: string = process.env['BACKEND_URL'] + "recipe";
+  private recipe_url: string = environment.apiUrl + "recipe";
 
   constructor(
     private http: HttpClient
