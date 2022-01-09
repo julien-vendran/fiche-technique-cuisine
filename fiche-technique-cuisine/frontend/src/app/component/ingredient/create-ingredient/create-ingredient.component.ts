@@ -82,14 +82,15 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit {
   }
 
   updateIngredient(): void {
-    console.log("Identifiant de notre PUTAIN d'ingrédient : ", this.ingredient.id);
-    console.log("Mise à jour de notre ingrédient ...");
     this.setNewInfosForIngredient();
-    console.log("Identifiant de notre PUTAIN d'ingrédient : ", this.ingredient.id);
+    
     this.ingredientService.updateIngredient(this.ingredient?.id!, this.ingredient).subscribe(
-      () => this.router.navigate(['/ingredients'])
-      //() => console.log("FIN DE LA MAJ DE L INGREDIENT LA")
+      () => setTimeout(this.redirect, 200, this)
     );
+  }
+
+  redirect (self: any) {
+    self.router.navigate(['/ingredients']); 
   }
 
   setNewInfosForIngredient(): void {
