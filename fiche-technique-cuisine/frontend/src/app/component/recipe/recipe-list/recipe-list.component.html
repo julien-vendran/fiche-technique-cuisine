@@ -1,3 +1,7 @@
+<div class="tn-box tn-box-color-1">
+	<p>Your settings have been saved successfully!</p>
+	<div class="tn-progress"></div>
+</div>
 <section class="container">
   <h2 class="center-align">
     Vos Recettes
@@ -18,8 +22,11 @@
       <th><a href="recipe/info/{{recip.id}}">{{ recip.name }}</a></th>
       <th>{{ recip.category}}</th>
       <th>{{ recip.responsable }}</th>
-      <th>
-        <button class = "waves-effect waves-light btn-small red" (click) = "deleteRecipe(recip)">Supprimer</button>
+      <th *ngIf = "recip.id">
+        <button class = "waves-effect waves-light btn-small red" (click) = "deleteRecipe(recip)" title = "Supprimer cette recette">Supprimer</button>
+        <button id = "sellRecipe" class = "waves-effect waves-light btn-small green" (click) = "sellRecipe(recip.id)" title = "Vendre une recette">
+          <i class="material-icons">euro_symbol</i>
+        </button>
       </th>
     </tr>
     </tbody>

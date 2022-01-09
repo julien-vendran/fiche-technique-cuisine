@@ -51,9 +51,15 @@ export class RecipeService {
 
     return this.http.delete(this.recipe_url + '/' + id);
   }
+  
   getCostByRecipeId (id: number) {
     return this.http.get<Cost>(this.recipe_url + '/cost/' + id);
   }
+
+  sellRecipe (id: number) {
+    return this.http.get(this.recipe_url + '/sellRecipe/' + id)
+  }
+
   jsonToRecipe(json: any): Recipe {
     return new Recipe(
       json.name,

@@ -39,4 +39,10 @@ export class RecipeListComponent implements OnInit {
     );
   }
 
+  sellRecipe (recipeId: number) {
+    this.recipeService.sellRecipe(recipeId).subscribe();
+    console.log("Mise à jour des ingrédients fait ");
+    //TODO : Prévenir l'utilisateur de façon propre
+  }
+
 }

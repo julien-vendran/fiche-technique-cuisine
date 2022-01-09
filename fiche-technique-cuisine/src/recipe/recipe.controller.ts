@@ -44,7 +44,7 @@ export class RecipeController {
     return this.recipeService.remove(+id);
   }
 
-  @Patch('sellRecipe/:id')
+  @Get('sellRecipe/:id')
   consumeRecipe(@Param('id') id: number) {
     this.recipeService.consumeRecipe(id);
   }
