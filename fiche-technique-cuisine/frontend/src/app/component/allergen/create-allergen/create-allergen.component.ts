@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Allergen } from "../../../model/allergen";
 import { AllergenService } from "../../../service/allergen.service";
 import * as M from "materialize-css";
@@ -29,14 +29,16 @@ export class CreateAllergenComponent implements OnInit, AfterViewInit {
         this.allergenGroup.get('allergen_name')?.value,
       );
       //Envoie des données
-      this.allergenService.createAllergen(this.allergen);
-      this.route.navigate(['/allergens'])
+      if (this.allergenGroup.valid) {
+        this.allergenService.createAllergen(this.allergen);
+        this.route.navigate(['/allergens'])
+      }
     }
   }
 
   ngOnInit(): void {
     this.allergenGroup = this.fb.group({
-      allergen_name: [this.allergen?.allergen_name],
+      allergen_name: [this.allergen?.allergen_name, Validators.required],
     });
   }
 
