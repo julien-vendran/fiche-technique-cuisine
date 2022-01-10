@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class AllergenService {
 
-  private backend_url: string = environment.apiUrl + "allergen"
+  private backend_url: string = "http://localhost:3000/allergen"
 
   constructor(
     private http: HttpClient

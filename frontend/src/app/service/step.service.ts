@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 export class StepService {
 
 
-  private step_url : string = environment.apiUrl + "step";
+  private step_url : string = "http://localhost:3000/step";
 
   constructor(
     private http: HttpClient

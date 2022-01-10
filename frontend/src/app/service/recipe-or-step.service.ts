@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 })
 export class RecipeOrStepService {
 
-  private recipeOrStep_url : string = environment.apiUrl + "recipeOrStep";
+  private recipeOrStep_url : string = "http://localhost:3000/recipeOrStep";
 
   constructor(
     private http: HttpClient

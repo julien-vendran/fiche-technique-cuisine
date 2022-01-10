@@ -5,9 +5,6 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "engines": {
-    "node": "16.13.0"
-  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "node --max_old_space_size=2560 node_modules/.bin/react-scripts build",
