@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Step} from "../model/step";
-import {map, tap} from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { Step } from "../model/step";
+import { map, tap } from "rxjs/operators";
 import { Observable } from 'rxjs';
-
-import { environment } from '../../environments/environment';
+import { General } from './general.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StepService {
+export class StepService extends General {
 
 
-  private step_url : string = "http://localhost:3000/step";
+  private step_url: string = this.backend_general_url + "step";
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) { super(); }
 
-  createStep (step: Step): Observable<Step> {
+  createStep(step: Step): Observable<Step> {
     console.log("Création de notre ingrédient initiée");
     return this.http.post<Step>(this.step_url, step);
   }
 
-  getAllSteps (): Observable<Step[]> {
+  getAllSteps(): Observable<Step[]> {
     return this.http.get<Step[]>(this.step_url).pipe(
-      map((arr : any) => arr.map(
+      map((arr: any) => arr.map(
         (json: any) => this.jsonToStep(json)
       ))
     );
@@ -38,7 +37,7 @@ export class StepService {
       }));
   }
 
-  deleteStep (id: number) {
+  deleteStep(id: number) {
     console.log("------------ Delete Step Service Angular ---------------");
     console.log("url : " + this.step_url + '/' + id);
 
@@ -50,7 +49,7 @@ export class StepService {
       json.name,
       json.description,
       json.duration,
-      json.denreeUsed, 
+      json.denreeUsed,
       json.id
     );
   }
