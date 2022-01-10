@@ -13,6 +13,6 @@ export class Denree {
     @ManyToOne(() => Ingredient, ig => ig.denreeUsed)
     ingredient:Ingredient;
 
-    @ManyToOne(() => Step, s => s.denreeUsed)
+    @ManyToOne(() => Step, s => s.denreeUsed,{onDelete:"CASCADE"})
     step: Step;
 }

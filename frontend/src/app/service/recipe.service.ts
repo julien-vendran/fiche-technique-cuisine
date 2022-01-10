@@ -50,10 +50,11 @@ export class RecipeService {
   deleteRecipe(id: number) {
     console.log("------------ Delete Recipe Service Angular ---------------");
     console.log("url : " + this.recipe_url + '/' + id);
-
+    let temp_url="http://localhost:3000/recipe-or-step/"+id;
+   // return this.http.delete(temp_url);
     return this.http.delete(this.recipe_url + '/' + id);
   }
-  
+
   getCostByRecipeId (id: number) {
     return this.http.get<Cost>(this.recipe_url + '/cost/' + id);
   }
