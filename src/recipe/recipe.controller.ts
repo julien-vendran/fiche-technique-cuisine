@@ -5,13 +5,11 @@ import { UpdateRecipeDto } from './dto/update-recipe.dto';
 
 @Controller('recipe')
 export class RecipeController {
-  constructor(private readonly recipeService: RecipeService) {}
+  constructor(private readonly recipeService: RecipeService) { }
 
   @Post()
   create(@Body() createRecipeDto: CreateRecipeDto) {
     console.log("Create recipe in progress ...");
-    console.log("Recipe Controller : ", createRecipeDto);
-    console.log("------------");
     return this.recipeService.create(createRecipeDto);
   }
 

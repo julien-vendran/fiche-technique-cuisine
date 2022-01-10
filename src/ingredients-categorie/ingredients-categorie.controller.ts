@@ -5,7 +5,7 @@ import { UpdateIngredientsCategorieDto } from './dto/update-ingredients-categori
 
 @Controller('ingredients-categorie')
 export class IngredientsCategorieController {
-  constructor(private readonly ingredientsCategorieService: IngredientsCategorieService) {}
+  constructor(private readonly ingredientsCategorieService: IngredientsCategorieService) { }
 
   @Post()
   create(@Body() createIngredientsCategorieDto: CreateIngredientsCategorieDto) {
