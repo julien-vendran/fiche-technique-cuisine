@@ -5,7 +5,7 @@ import { UpdateDenreeDto } from './dto/update-denree.dto';
 
 @Controller('denree')
 export class DenreeController {
-  constructor(private readonly denreeService: DenreeService) {}
+  constructor(private readonly denreeService: DenreeService) { }
 
   @Post()
   create(@Body() createDenreeDto: CreateDenreeDto) {

@@ -5,10 +5,10 @@ import { UpdateAllergenDto } from './dto/update-allergen.dto';
 
 @Controller('allergen')
 export class AllergenController {
-  constructor(private readonly allergenService: AllergenService) {}
+  constructor(private readonly allergenService: AllergenService) { }
 
   @Post()
-   async create(@Body() createAllergenDto: CreateAllergenDto) {
+  async create(@Body() createAllergenDto: CreateAllergenDto) {
     console.log("Create allergen in progress ...");
     return this.allergenService.create(createAllergenDto);
   }

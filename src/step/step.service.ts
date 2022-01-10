@@ -16,7 +16,7 @@ export class StepService {
   ) { }
 
   create(createStepDto: CreateStepDto) {
-    console.log("On crée une étape (LES DENREES SIVOUPLé)", createStepDto);
+    console.log("On crée une étape : ", createStepDto);
     return this.stepRepo.save(this.stepRepo.create(createStepDto));
   }
 
@@ -33,7 +33,6 @@ export class StepService {
   }
 
   remove(id: number) {
-    //return `Supression de la données #${id}`;
     return this.stepRepo.delete(id);
   }
 

@@ -14,7 +14,7 @@ export class RecipeService {
 
   constructor(
     @InjectRepository(Recipe)
-    private readonly recipeRepo: Repository<Recipe>, 
+    private readonly recipeRepo: Repository<Recipe>,
     private readonly stepService: StepService
   ) { }
 
@@ -22,9 +22,6 @@ export class RecipeService {
 
     console.log("Log : recipeDTO ", createRecipeDto);
     let temp = this.recipeRepo.create(createRecipeDto);
-    console.log("#####################################");
-    console.log("temp", temp);
-    //  temp.parents=null;
     return this.recipeRepo.manager.save(temp);
   }
 
@@ -36,7 +33,7 @@ export class RecipeService {
     return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps", "listOfSteps.denreeUsed", "listOfSteps.denreeUsed.ingredient"] });
   }
 
-  finOneWithOutDenree(id:number): Promise<Recipe> {
+  finOneWithOutDenree(id: number): Promise<Recipe> {
     return this.recipeRepo.findOne(id, { relations: ["parents", "listOfSteps"] });
   }
 
@@ -45,24 +42,22 @@ export class RecipeService {
   }
 
   remove(id: number) {
-    //return `Supression de la données #${id}`;
-   this.recipeRepo.delete(id).then(res=>console.log("donnée supprimer : ",res));
+    this.recipeRepo.delete(id).then(res => console.log("donnée supprimer : ", res));
 
-    return ;
+    return;
   }
 
   async getCostForRecipeById(id: number) {
     let r: Recipe = await this.findOne(id);
-    //console.log(this.getCoutMatierePremiere(r));
     let coutMP: any = await this.getCoutRecipe(r);
-    return coutMP; 
+    return coutMP;
   }
 
   combineCout(receive: any, other: any): any {
     return {
-      coutMatiere: receive.coutMatiere + other.coutMatiere, 
+      coutMatiere: receive.coutMatiere + other.coutMatiere,
       coutCharges: {
-        personnel: receive.coutCharges.personnel + other.coutCharges.personnel, 
+        personnel: receive.coutCharges.personnel + other.coutCharges.personnel,
         fluides: receive.coutCharges.fluides + other.coutCharges.fluides
       }
     }
@@ -70,13 +65,13 @@ export class RecipeService {
 
   private async getCoutRecipe(recipeToTest: Recipe): Promise<any> {
     let jsonToReturn: any = {
-      coutMatiere: 0, 
+      coutMatiere: 0,
       coutCharges: {
-        personnel: 0, 
+        personnel: 0,
         fluides: 0
       }
     }
-    if (! recipeToTest) return jsonToReturn; //On vérifie que notre Recette n'est pas null ou undefined 
+    if (!recipeToTest) return jsonToReturn; //On vérifie que notre Recette n'est pas null ou undefined 
     if (!recipeToTest.listOfSteps) return jsonToReturn; //Notre recette n'a pas d'étape et donc pas de coût
 
     for (let index = 0; index < recipeToTest.listOfSteps.length; index++) {
@@ -90,34 +85,33 @@ export class RecipeService {
     return jsonToReturn;
   }
 
-  private getCoutStep (stepToTest: Step): number {
+  private getCoutStep(stepToTest: Step): number {
     let jsonToReturn: any = {
-      coutMatiere: 0, 
+      coutMatiere: 0,
       coutCharges: {
-        personnel: 0, 
+        personnel: 0,
         fluides: 0
       }
     }
 
-    if (! stepToTest.denreeUsed) return jsonToReturn; //Cette étape n'utilise pas d'ingrédient
-    let res: number = 0; 
+    if (!stepToTest.denreeUsed) return jsonToReturn; //Cette étape n'utilise pas d'ingrédient
+    let res: number = 0;
     for (let index = 0; index < stepToTest.denreeUsed.length; index++) { //Ajout des prix des ingrédients utilisés
       const element = stepToTest.denreeUsed[index];
       res += element.quantity * element.ingredient.unitPrice;
     }
 
-    //res += (stepToTest.duration / 60) * 10.75; //On prends comme taux horaire le smic
-    jsonToReturn.coutMatiere = res;     
-    jsonToReturn.coutCharges.personnel = (stepToTest.duration / 60) * 10.75; 
-    jsonToReturn.coutCharges.fluides = (stepToTest.duration / 60) * 2; //TODO : Mettre un taux de fluide en fonction de ce qui est dit    
+    jsonToReturn.coutMatiere = res;
+    jsonToReturn.coutCharges.personnel = (stepToTest.duration / 60) * 10.75;
+    jsonToReturn.coutCharges.fluides = (stepToTest.duration / 60) * 2;
     return jsonToReturn;
   }
 
   async consumeRecipe(id: number) {
-    const recipe: Recipe = await this.findOne(id); 
+    const recipe: Recipe = await this.findOne(id);
     recipe.listOfSteps.map(
       data => {
-        if (data instanceof Recipe) this.consumeRecipe(data.id); 
+        if (data instanceof Recipe) this.consumeRecipe(data.id);
         else this.stepService.consumeStep(data.id); //Si c'est pas une recette, c'est une Step
       }
     );

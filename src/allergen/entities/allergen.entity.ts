@@ -8,9 +8,9 @@ import { Ingredient } from 'src/ingredients/entities/ingredient.entity';
 @Entity()
 export class Allergen {
     @PrimaryGeneratedColumn()
-    id_Allergen: number; 
+    id_Allergen: number;
 
-    @Column({/* unique:true */})
+    @Column({})
     allergen_name: string;
 
     @ManyToMany(() => Ingredient, ing => ing.associatedAllergen)

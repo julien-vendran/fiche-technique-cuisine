@@ -24,7 +24,7 @@ import { DenreeModule } from './denree/denree.module';
         rejectUnauthorized: false
       },
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true, // This for development
+      synchronize: true,
       autoLoadEntities: true
     }),
     RecipeModule,

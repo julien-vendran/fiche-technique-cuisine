@@ -1,9 +1,9 @@
 import { Denree } from 'src/denree/entities/denree.entity';
-import {Column, ChildEntity, OneToMany} from 'typeorm';
-import {RecipeOrStep} from "../../recipe-or-step/entities/recipe-or-step.entity";
+import { Column, ChildEntity, OneToMany } from 'typeorm';
+import { RecipeOrStep } from "../../recipe-or-step/entities/recipe-or-step.entity";
 
 @ChildEntity()
-export class Step extends RecipeOrStep{
+export class Step extends RecipeOrStep {
 
     @Column()
     description: String;
@@ -11,6 +11,6 @@ export class Step extends RecipeOrStep{
     @Column()
     duration: number;
 
-    @OneToMany(() => Denree, d => d.step,{onDelete:"CASCADE"})
-    denreeUsed: Denree[]; 
+    @OneToMany(() => Denree, d => d.step, { onDelete: "CASCADE" })
+    denreeUsed: Denree[];
 }

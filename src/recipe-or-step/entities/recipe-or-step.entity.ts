@@ -15,12 +15,12 @@ export abstract class RecipeOrStep {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({/* unique:true */ })
+    @Column({})
     name: String;
 
     @OneToMany(() => RecipeOrStep, recepi => recepi.parents,)
     listOfSteps: RecipeOrStep[];
 
-    @ManyToOne(() => RecipeOrStep, reci => reci.listOfSteps,{onDelete:"CASCADE"})//{onDelete:"CASCADE"}
-    parents: RecipeOrStep=null;
+    @ManyToOne(() => RecipeOrStep, reci => reci.listOfSteps, { onDelete: "CASCADE" })
+    parents: RecipeOrStep = null;
 }

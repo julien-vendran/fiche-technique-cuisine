@@ -19,7 +19,7 @@ export class DenreeService {
   ) { }
 
   create(createDenreeDto: CreateDenreeDto) {
-    console.log("Création denrée dans bd")
+    console.log("Création denrée dans bd"); 
     return this.denreeRepo.save(this.denreeRepo.create(createDenreeDto));
   }
 
@@ -39,8 +39,8 @@ export class DenreeService {
     return this.denreeRepo.delete(id);
   }
 
-  async consumeDenree(idDenree: number) {    
-    const d: Denree = await this.findOne(idDenree); 
+  async consumeDenree(idDenree: number) {
+    const d: Denree = await this.findOne(idDenree);
     console.log("Denrée reçue : ", d);
     this.ingredientService.consumeIngredient(d.ingredient.id, d.quantity);
   }

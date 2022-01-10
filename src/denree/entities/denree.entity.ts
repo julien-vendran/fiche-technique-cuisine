@@ -1,18 +1,18 @@
 import { Step } from "src/step/entities/step.entity";
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Ingredient} from "../../ingredients/entities/ingredient.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Ingredient } from "../../ingredients/entities/ingredient.entity";
 
 @Entity()
 export class Denree {
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
 
     @Column()
-    quantity:number;
+    quantity: number;
 
     @ManyToOne(() => Ingredient, ig => ig.denreeUsed)
-    ingredient:Ingredient;
+    ingredient: Ingredient;
 
-    @ManyToOne(() => Step, s => s.denreeUsed,{onDelete:"CASCADE"})
+    @ManyToOne(() => Step, s => s.denreeUsed, { onDelete: "CASCADE" })
     step: Step;
 }

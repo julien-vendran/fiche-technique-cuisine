@@ -5,7 +5,7 @@ import { UpdateRecipeOrStepDto } from './dto/update-recipe-or-step.dto';
 
 @Controller('recipe-or-step')
 export class RecipeOrStepController {
-  constructor(private readonly recipeOrStepService: RecipeOrStepService) {}
+  constructor(private readonly recipeOrStepService: RecipeOrStepService) { }
 
   @Post()
   create(@Body() createRecipeOrStepDto: CreateRecipeOrStepDto) {

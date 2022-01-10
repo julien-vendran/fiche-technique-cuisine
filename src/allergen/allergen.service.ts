@@ -11,10 +11,10 @@ import { Allergen } from './entities/allergen.entity';
 @Injectable()
 export class AllergenService {
 
-  constructor (
+  constructor(
     @InjectRepository(Allergen)
     private allergenRepo: Repository<Allergen>
-  ) {}
+  ) { }
 
   create(createAllergenDto: CreateAllergenDto) {
     return this.allergenRepo.save(this.allergenRepo.create(createAllergenDto));
@@ -33,7 +33,7 @@ export class AllergenService {
   }
 
   remove(id: number) {
-    this.allergenRepo.delete(id)
     console.log(`This action removes a #${id} allergen`);
+    return this.allergenRepo.delete(id);
   }
 }

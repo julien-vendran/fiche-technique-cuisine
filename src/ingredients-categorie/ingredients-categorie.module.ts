@@ -6,4 +6,4 @@ import { IngredientsCategorieController } from './ingredients-categorie.controll
   controllers: [IngredientsCategorieController],
   providers: [IngredientsCategorieService]
 })
-export class IngredientsCategorieModule {}
+export class IngredientsCategorieModule { }
