@@ -12,7 +12,6 @@ import {Denree} from "../../../model/denree";
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import {doc} from "prettier";
 
 @Component({
   selector: 'app-recipe-info',
