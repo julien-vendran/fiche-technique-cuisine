@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment';
 export class DenreeService {
 
 
-  private denree_url : string = environment.apiUrl + "denree";
+  private denree_url : string = "http://localhost:3000/denree";
 
   constructor(
     private http: HttpClient

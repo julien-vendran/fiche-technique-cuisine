@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
 })
 export class IngredientService {
 
-  private ingredient_url : string = environment.apiUrl + "ingredients"; 
+  private ingredient_url : string = "http://localhost:3000/ingredients"; 
 
   constructor(
     private http: HttpClient
