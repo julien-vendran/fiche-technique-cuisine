@@ -20,11 +20,10 @@ export class CostComponent implements OnInit {
   ngOnInit(): void {
     if (this.recipe && this.recipe.id) {
       this.serviceRecipe.getCostByRecipeId(this.recipe.id).subscribe(
-        //data => console.log("Voilà ce qu'on recoit", this.jsonToCost(data))
         data => {
           this.cost = this.jsonToCost(data);
           this.cost.beneficeParPortion = (this.cost.prixDeVente - this.cost.coutDeProduction) / this.recipe?.nbOfCover!;
-          this.cost.seuilDeRentabilite = 1; // TODO: A vérifier, on a pas les coûts fixes de la cuisine donc c'est con
+          this.cost.seuilDeRentabilite = 1; 
         }
       );
     }

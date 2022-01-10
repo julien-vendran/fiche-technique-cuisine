@@ -1,18 +1,17 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {Recipe} from "../../../model/recipe";
-import {RecipeService} from "../../../service/recipe.service";
-import {StepService} from "../../../service/step.service";
-import {Observable} from "rxjs";
-import {Step} from "../../../model/step";
-import {ActivatedRoute} from "@angular/router";
-import {forkJoin} from "rxjs";
-import {DenreeService} from "../../../service/denree.service";
-import {RecipeOrStep} from "../../../model/recipe-or-step";
-import {Denree} from "../../../model/denree";
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Recipe } from "../../../model/recipe";
+import { RecipeService } from "../../../service/recipe.service";
+import { StepService } from "../../../service/step.service";
+import { Observable } from "rxjs";
+import { Step } from "../../../model/step";
+import { ActivatedRoute } from "@angular/router";
+import { forkJoin } from "rxjs";
+import { DenreeService } from "../../../service/denree.service";
+import { RecipeOrStep } from "../../../model/recipe-or-step";
+import { Denree } from "../../../model/denree";
 
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import {Ingredient} from "../../../model/ingredient";
 
 @Component({
   selector: 'app-recipe-info',
@@ -26,8 +25,8 @@ export class RecipeInfoComponent implements OnInit {
   public recipeOrStep: (RecipeOrStep)[] = [];
   public denrees: Denree[] = [];
   public map: Map<String, Denree> = new Map<String, Denree>();
-  private nombreDenree:number=0;
-  private increment:number=0;
+  private nombreDenree: number = 0;
+  private increment: number = 0;
   public showCost: boolean = true;
 
   constructor(
@@ -68,21 +67,20 @@ export class RecipeInfoComponent implements OnInit {
         this.denreeService.getDenreeById(derenrefor.id!).subscribe(data => {
           let ingredient = data.ingredient;
           if (ingredient) {
-          this.increment++;
+            this.increment++;
             derenrefor.ingredient = ingredient;
             if (this.map.has(ingredient.name)) {
-              this.map.get(ingredient.name)!.quantity +=data.quantity ;
+              this.map.get(ingredient.name)!.quantity += data.quantity;
             } else {
               this.map.set(ingredient.name, new Denree(data.quantity, ingredient));
             }
-            if(this.increment==this.nombreDenree){
-              this.denrees=Array.from(this.map.values());
+            if (this.increment == this.nombreDenree) {
+              this.denrees = Array.from(this.map.values());
             }
           }
         });
       }
     }
-
   }
 
 
@@ -154,31 +152,22 @@ export class RecipeInfoComponent implements OnInit {
     if (div != null) {
       html2canvas(div).then((canvas) => {
 
-        var img = canvas.toDataURL("image/PNG");//.replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+        var img = canvas.toDataURL("image/PNG");
         var doc = new jsPDF('l', 'mm', 'a1', false);
 
-        //window.location.href=img; // it will save locally
-
-
-        // Add image Canvas to PDF
         const bufferX = 5;
         const bufferY = 5;
         const imgProps = (<any>doc).getImageProperties(img);
         doc.internal.pageSize.width = imgProps.width;
         doc.internal.pageSize.height = imgProps.height;
-        const pdfWidth = imgProps.width; //doc.internal.pageSize.getWidth() - 2 * bufferX;
-        const pdfHeight = imgProps.height;//(imgProps.height * pdfWidth) / imgProps.width;
-        //doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-        console.log("properties", bufferX, bufferY, pdfWidth, pdfHeight, canvas, img);
+        const pdfWidth = imgProps.width;
+        const pdfHeight = imgProps.height;
+
         doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight);
         return doc;
       }).then((doc) => {
-        doc.save('postres.pdf');
+        doc.save(this.recipe?.name + '.pdf');
       });
-
     }
-
   }
-
-
 }
