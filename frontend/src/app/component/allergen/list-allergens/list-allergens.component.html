@@ -3,21 +3,21 @@
     Vos allergens
   </h2>
 
-  <table class = "striped highlight">
+  <table class="striped highlight">
     <!-- responsive-table -->
     <thead>
-    <tr>
-      <th>Nom</th>
-    </tr>
+      <tr>
+        <th>Nom</th>
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor = "let aller of (allergens | async)">
-      <th>{{ aller.allergen_name }}</th>
+      <tr *ngFor="let aller of (allergens | async)">
+        <th>{{ aller.allergen_name }}</th>
 
-      <th>
-        <button class = "waves-effect waves-light btn-small red" (click) = "deleteAllergen(aller)">Supprimer</button>
-      </th>
-    </tr>
+        <th>
+          <button class="waves-effect waves-light btn-small red" (click)="deleteAllergen(aller)">Supprimer</button>
+        </th>
+      </tr>
     </tbody>
   </table>
   <router-outlet></router-outlet>

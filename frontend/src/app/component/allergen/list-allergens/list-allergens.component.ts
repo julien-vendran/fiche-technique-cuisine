@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs";
-import {Allergen} from "../../../model/allergen";
-import {AllergenService} from "../../../service/allergen.service";
+import { Observable } from "rxjs";
+import { Allergen } from "../../../model/allergen";
+import { AllergenService } from "../../../service/allergen.service";
 
 @Component({
   selector: 'app-list-allergens',
@@ -13,7 +13,7 @@ export class ListAllergensComponent implements OnInit {
   public allergens: Observable<Allergen[]> = new Observable<Allergen[]>();
   constructor(
     private allergenService: AllergenService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.majAllergen();
@@ -23,12 +23,12 @@ export class ListAllergensComponent implements OnInit {
     this.allergens = this.getAllergens();
   }
 
-  getAllergens (): Observable<Allergen[]> {
+  getAllergens(): Observable<Allergen[]> {
     return this.allergenService.getAllAllergens();
   }
 
   deleteAllergen(all: Allergen): void {
-    if (! all.id_Allergen) {
+    if (!all.id_Allergen) {
       console.log("L'Allergen demandé n'existe pas");
       return;
     }
