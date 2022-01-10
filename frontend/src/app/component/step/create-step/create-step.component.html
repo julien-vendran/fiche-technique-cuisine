@@ -1,48 +1,41 @@
 <section>
-  <h3 class = "center-align">
+  <h3 class="center-align">
     Ajouter une étape
   </h3>
-  <div *ngIf = "this.stepGroup" class = "row">
-    <form [formGroup]="stepGroup" class = "col s12">
+  <div *ngIf="this.stepGroup" class="row">
+    <form [formGroup]="stepGroup" class="col s12">
       <div class="input-field col s4">
-        <input id="name-{{this.formIdEnd}}" type="text" class="validate" formControlName = "name" required>
-        <label for="name-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('name')?.value != ''}">Nom de l'étape</label>
+        <input id="name-{{this.formIdEnd}}" type="text" class="validate" formControlName="name" required>
+        <label for="name-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('name')?.value != ''}">Nom de
+          l'étape</label>
       </div>
 
       <div class="input-field col s4">
-        <input id="description-{{this.formIdEnd}}" type="text" class="validate" formControlName = "description" required>
-        <label for="description-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('description')?.value != ''}"> Description de l'étape </label>
+        <input id="description-{{this.formIdEnd}}" type="text" class="validate" formControlName="description" required>
+        <label for="description-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('description')?.value != ''}">
+          Description de l'étape </label>
       </div>
 
       <div class="input-field col s4">
-        <input id="duration-{{this.formIdEnd}}" type="number" class="validate" formControlName = "duration" min = "0" required>
-        <label for="duration-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('duration')?.value != ''}"> Durée de l'étape en minute</label>
+        <input id="duration-{{this.formIdEnd}}" type="number" class="validate" formControlName="duration" min="0"
+          required>
+        <label for="duration-{{this.formIdEnd}}" [ngClass]="{'active': stepGroup.get('duration')?.value != ''}"> Durée
+          de l'étape en minute</label>
       </div>
 
-      <div *ngFor = "let d of this.denree_list; let i = index">
-        <app-create-denree [denreeGroup] = "getDenreeGroup(i)" [formIdEnd] = "i" [ingredient_list] = "getIngredients_list()">
+      <div *ngFor="let d of this.denree_list; let i = index">
+        <app-create-denree [denreeGroup]="getDenreeGroup(i)" [formIdEnd]="i" [ingredient_list]="getIngredients_list()">
 
         </app-create-denree>
       </div>
-      <div class = "center-align">
-        <button type = "button" class="btn" (click) = "addDenree()">
+      <div class="center-align">
+        <button type="button" class="btn" (click)="addDenree()">
           Ajouter une denrée
         </button>
-      </div> 
+      </div>
       <div class="input-field col s12">
 
       </div>
-
-<!--       <div class="input-field col s6">
-        <select multiple formControlName = "ingredients" (ngModelChange)="change($event)">
-          <option value = "" disabled selected> Ingrédients pour cette étape </option>
-
-          <option *ngFor="let al of ingredients_list" [value]="al.id">
-            {{al.name}}
-          </option>
-        </select>
-        <label>Les ingredients associés a l'étape</label>
-      </div> -->
     </form>
   </div>
 </section>
