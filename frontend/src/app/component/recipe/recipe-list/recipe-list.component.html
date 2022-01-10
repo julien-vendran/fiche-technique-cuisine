@@ -9,7 +9,7 @@
 
   <form class="row" *ngIf="this.search_control" [formGroup]="this.search_control">
 
-    <div class="input-field col s4">
+    <div class="input-field col s4 offset-s2">
       <input id="name" type="text" class="validate" formControlName="recipe_control" #recipeByName (keyup)="searchRecipe(recipeByName.value)">
       <label for="name">Nom recette </label>
     </div>
@@ -19,16 +19,6 @@
       <select class = "browser-default" formControlName="categorie_recipe_control" #categorieSelected (change) = "selectNewCategorie(categorieSelected.value)">
         <option value = "" selected></option>
         <option *ngFor = "let cat of this.categorie_list" [value] = "cat">{{ cat }}</option>
-      </select>
-    </div>
-
-    <div class="input-field col s4">
-      <label class = "active">Ingrédient</label>
-      <select class="browser-default" formControlName="ingredient_control">
-        <option value="" disabled selected>Choose your option</option>
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
       </select>
     </div>
   </form>
