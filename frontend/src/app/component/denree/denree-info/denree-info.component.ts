@@ -7,7 +7,7 @@ import {Denree} from "../../../model/denree";
   styleUrls: ['./denree-info.component.css']
 })
 export class DenreeInfoComponent implements OnInit {
-  @Input() public denrees:Denree[] =[];
+  @Input() public denrees:Denree[]=[];
   constructor() { }
 
   ngOnInit(): void {
