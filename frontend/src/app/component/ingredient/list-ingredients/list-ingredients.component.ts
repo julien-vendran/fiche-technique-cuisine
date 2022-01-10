@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { interval, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { IngredientService } from '../../../service/ingredient.service';
 import { Ingredient } from '../../../model/ingredient';
 
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
 
 
 @Component({
@@ -15,12 +15,11 @@ import {Router} from "@angular/router"
 })
 export class ListIngredientsComponent implements OnInit {
 
-  //public ingredients: Observable<Ingredient[]> = new Observable<Ingredient[]>();
-  public ingredients_tab: Ingredient[] = []; 
+  public ingredients_tab: Ingredient[] = [];
   constructor(
-    private ingredientService: IngredientService, 
+    private ingredientService: IngredientService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.majIngredient();
@@ -29,11 +28,11 @@ export class ListIngredientsComponent implements OnInit {
   majIngredient(): void {
     this.getIngredients().subscribe(
       i => {
-        this.ingredients_tab = i; 
+        this.ingredients_tab = i;
         for (let index = 0; index < this.ingredients_tab.length; index++) {
-          if (this.ingredients_tab[index].availableQuantity! <= 0 ) {//On en a plus
+          if (this.ingredients_tab[index].availableQuantity! <= 0) {//On en a plus
             const el = this.ingredients_tab[index];
-            this.ingredients_tab.splice(index, 1); 
+            this.ingredients_tab.splice(index, 1);
             this.ingredients_tab.unshift(el);
           }
         }
@@ -41,16 +40,14 @@ export class ListIngredientsComponent implements OnInit {
     );
   }
 
-  getIngredients (): Observable<Ingredient[]> {
+  getIngredients(): Observable<Ingredient[]> {
     return this.ingredientService.getAllIngredients();
   }
 
   deleteIngredient(ingre: Ingredient): void {
-    if (! ingre.id) {
-      console.log("L'ingrédient demandé n'existe pas");
+    if (!ingre.id) {
       return;
     }
-    console.log("Mon identifiant : " + ingre.id);
     this.ingredientService.deleteIngredient(ingre.id).subscribe(
       () => this.majIngredient()
     );
@@ -59,5 +56,4 @@ export class ListIngredientsComponent implements OnInit {
   updateIngredient(id: number): void {
     this.router.navigate(["/ingredients/update/", id]);
   }
-
 }

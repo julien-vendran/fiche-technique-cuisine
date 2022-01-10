@@ -17,7 +17,7 @@ export class CreateAllergenComponent implements OnInit, AfterViewInit {
 
   constructor(
     private fb: FormBuilder,
-    private allergenService: AllergenService, 
+    private allergenService: AllergenService,
     private route: Router
   ) { }
 

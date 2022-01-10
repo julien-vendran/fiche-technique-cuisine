@@ -46,7 +46,9 @@ export class RecipeService {
 
   remove(id: number) {
     //return `Supression de la données #${id}`;
-    return this.recipeRepo.delete(id);
+   this.recipeRepo.delete(id).then(res=>console.log("donnée supprimer : ",res));
+
+    return ;
   }
 
   async getCostForRecipeById(id: number) {

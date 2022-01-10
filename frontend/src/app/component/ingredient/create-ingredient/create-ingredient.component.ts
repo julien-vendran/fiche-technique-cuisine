@@ -82,14 +82,14 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit {
 
   updateIngredient(): void {
     this.setNewInfosForIngredient();
-    
+
     this.ingredientService.updateIngredient(this.ingredient?.id!, this.ingredient).subscribe(
       () => setTimeout(this.redirect, 200, this)
     );
   }
 
-  redirect (self: any) {
-    self.router.navigate(['/ingredients']); 
+  redirect(self: any) {
+    self.router.navigate(['/ingredients']);
   }
 
   setNewInfosForIngredient(): void {
@@ -114,7 +114,7 @@ export class CreateIngredientComponent implements OnInit, AfterViewInit {
         id
       ); //On ne définit pas de lien avec Denrée à la création de notre Ingrédient
       console.log("Affichage de notre ingrédient, ", this.ingredient);
-      
+
     }
   }
 

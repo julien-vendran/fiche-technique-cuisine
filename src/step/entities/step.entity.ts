@@ -11,6 +11,6 @@ export class Step extends RecipeOrStep{
     @Column()
     duration: number;
 
-    @OneToMany(() => Denree, d => d.step)
+    @OneToMany(() => Denree, d => d.step,{onDelete:"CASCADE"})
     denreeUsed: Denree[]; 
 }

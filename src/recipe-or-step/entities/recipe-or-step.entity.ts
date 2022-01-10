@@ -11,16 +11,16 @@ import {
 
 @Entity()
 @TableInheritance({ column: { type: "varchar", name: "type" } })
-export class RecipeOrStep {
+export abstract class RecipeOrStep {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({/* unique:true */ })
     name: String;
 
-    @OneToMany(() => RecipeOrStep, recepi => recepi.parents)
+    @OneToMany(() => RecipeOrStep, recepi => recepi.parents,)
     listOfSteps: RecipeOrStep[];
 
-    @ManyToOne(() => RecipeOrStep, reci => reci.listOfSteps)
-    parents: RecipeOrStep;
+    @ManyToOne(() => RecipeOrStep, reci => reci.listOfSteps,{onDelete:"CASCADE"})//{onDelete:"CASCADE"}
+    parents: RecipeOrStep=null;
 }
