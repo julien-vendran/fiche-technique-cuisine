@@ -41,7 +41,7 @@
     "typeorm": "^0.2.40"
   },
   "devDependencies": {
-    "@nestjs/cli": "^8.0.0",
+    "@nestjs/cli": "^8.1.8",
     "@nestjs/testing": "^8.0.0",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.0.0",
