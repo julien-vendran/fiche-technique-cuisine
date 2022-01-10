@@ -1,37 +1,36 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Denree} from "../model/denree";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { Denree } from "../model/denree";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { General } from './general.service';
 
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DenreeService {
+export class DenreeService extends General {
 
-
-  private denree_url : string = "http://localhost:3000/denree";
+  private denree_url: string = this.backend_general_url + "denree";
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) { super(); }
 
-  createDenree (denree: Denree) {
+  createDenree(denree: Denree) {
     console.log("Création de notre denrée initiée");
     return this.http.post<Denree>(this.denree_url, denree);
   }
 
-  getAllDenrees (): Observable<Denree[]> {
+  getAllDenrees(): Observable<Denree[]> {
     return this.http.get<Denree[]>(this.denree_url).pipe(
-      map((arr : any) => arr.map(
+      map((arr: any) => arr.map(
         (json: any) => this.jsonToDenree(json)
       ))
     );
   }
 
-  deleteDenree (id: number) {
+  deleteDenree(id: number) {
     console.log("------------ Delete Denree Service Angular ---------------");
     console.log("url : " + this.denree_url + '/' + id);
 
@@ -42,7 +41,7 @@ export class DenreeService {
     return this.http.get<Denree>(this.denree_url + '/' + id);
   }
 
-  updateDenree (id: number, newDenree: Denree) {
+  updateDenree(id: number, newDenree: Denree) {
     return this.http.patch<Denree>(this.denree_url + '/' + id, newDenree);
   }
 
@@ -50,7 +49,7 @@ export class DenreeService {
     return new Denree(
       json.quantity,
       json.ingredient,
-      json.step, 
+      json.step,
       json.id
     );
   }

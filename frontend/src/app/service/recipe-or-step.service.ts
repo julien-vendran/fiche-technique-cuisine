@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {RecipeOrStep} from "../model/recipe-or-step";
-
-import { environment } from '../../environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { General } from './general.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RecipeOrStepService {
+export class RecipeOrStepService extends General {
 
-  private recipeOrStep_url : string = "http://localhost:3000/recipeOrStep";
+  private recipeOrStep_url: string = this.backend_general_url + "recipeOrStep";
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) { super(); }
 
 }

@@ -3,37 +3,37 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Allergen } from '../model/allergen';
 import { map } from 'rxjs/operators';
+import { General } from './general.service';
 
-import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AllergenService {
+export class AllergenService extends General {
 
-  private backend_url: string = "http://localhost:3000/allergen"
+  private backend_url: string = this.backend_general_url + "allergen"
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) { super(); }
 
-  createAllergen(allergen: Allergen):void{
+  createAllergen(allergen: Allergen): void {
     console.log("Création allergen init");
-    this.http.post<Allergen>(this.backend_url,allergen).subscribe();
+    this.http.post<Allergen>(this.backend_url, allergen).subscribe();
   }
 
   getAllAllergens(): Observable<Allergen[]> {
     return this.http.get<Allergen[]>(this.backend_url).pipe(
-      map((arr : any) => arr.map(
+      map((arr: any) => arr.map(
         (json: any) => this.jsonToAllergen(json)
       ))
     );
   }
 
   getAllergen(id: number): Observable<Allergen> {
-    return this.http.get<Allergen>(this.backend_url + "/" +id);
+    return this.http.get<Allergen>(this.backend_url + "/" + id);
   }
 
-  deleteAllergen (id: number) {
+  deleteAllergen(id: number) {
     console.log("------------ Delete Allergen Service Angular ---------------");
     console.log("url : " + this.backend_url + '/' + id);
 
@@ -41,7 +41,7 @@ export class AllergenService {
   }
 
   jsonToAllergen(json: any): Allergen {
-    let a: Allergen =  new Allergen(
+    let a: Allergen = new Allergen(
       json.id_Allergen,
       json.allergen_name
     );
