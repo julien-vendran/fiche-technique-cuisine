@@ -3,7 +3,7 @@
         Vos ingrédients
     </h2>
 
-    <table class = "striped highlight"> 
+    <table class="striped highlight">
         <thead>
             <tr>
                 <th>Nom</th>
@@ -15,23 +15,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor = "let ingre of ingredients_tab" [ngClass]="{'red-text': ingre.availableQuantity! <= 0}">
+            <tr *ngFor="let ingre of ingredients_tab" [ngClass]="{'red-text': ingre.availableQuantity! <= 0}">
                 <th>{{ ingre.name }}</th>
                 <th>{{ ingre.unit }}</th>
                 <th>{{ ingre.availableQuantity }}</th>
                 <th>{{ ingre.unitPrice }}</th>
                 <th>
-                    <span *ngFor = "let al of ingre.associatedAllergen">
-                        {{ al.allergen_name }} 
+                    <span *ngFor="let al of ingre.associatedAllergen">
+                        {{ al.allergen_name }}
                         <br>
                     </span>
                 </th>
                 <th>
-                    <button class = "waves-effect waves-light btn-small red" (click) = "deleteIngredient(ingre)">
+                    <button class="waves-effect waves-light btn-small red" (click)="deleteIngredient(ingre)">
                         Supprimer
                     </button>
 
-                    <button *ngIf = "ingre.id" class="waves-effect waves-light btn-small yellow" (click) = "updateIngredient(ingre.id)">
+                    <button *ngIf="ingre.id" class="waves-effect waves-light btn-small yellow"
+                        (click)="updateIngredient(ingre.id)">
                         <i class="material-icons">create</i>
                     </button>
                 </th>
